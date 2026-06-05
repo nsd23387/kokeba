@@ -17,7 +17,8 @@ layout: { left_page: "English story only", right_page: "illustration + Amharic v
 style: { rhyme: true, scheme: "AABB couplets", amharic_in_rhyme: false }
 animals: [Anbessa/lion, Zihon/elephant, Zinjero/monkey, Qechne/giraffe, Gimel/camel, Gumare/hippo, Nebir/leopard]
 spreads: 11   # + cover + dedication + end
-status: verified-draft  # source-checked; next: illustration -> layout -> COLLECTIVE review (Gate 1) on the proof
+status: illustration  # characters LOCKED (art/eden_ref.png, art/mama_ref.png); 11 scene prompts final; next: generate scenes -> layout -> COLLECTIVE review (Gate 1)
+characters_locked: [art/eden_ref.png, art/mama_ref.png]
 compliance: { ai_generated: [text, illustrations], cpsia_flag: true, reading_age: "0-3", disclose_at_upload: true }
 notes: "Follows Kokeba house style: left=English rhyme, right=illustration+Amharic vocab; Amharic NOT forced into rhyme; one interaction prompt per animal spread."
-artifacts: { manuscript: ./manuscript.md, pages: ./pages.yaml, art_prompts: ./art-prompts.md, intake: ./intake.filled.md }
+artifacts: { manuscript: ./manuscript.md, pages: ./pages.yaml, scene_prompts: ./scene-prompts.md, intake: ./intake.filled.md }
