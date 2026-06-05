@@ -2,8 +2,10 @@
 Each scene's image prompt is ASSEMBLED, so the look stays locked and country-agnostic.
 
 ```
-[ Style Guide ]      packs/style/illustration-style-guide.md     (brand look — same for every country)
+[ Style Guide ]      packs/style/illustration-style-guide.md     (brand look + Physical & safety realism checklist)
 [ Character Sheet ]  packs/country-packs/<country>/characters/<id>.sheet.md  (the LOCKED visual + ref image)
+[ Setting ]          packs/country-packs/<country>/inventory.yaml -> environment_and_setting
+                        (climate, native trees, architecture, enclosure/barrier rules — so backdrops read true)
 [ Age visual rules ] packs/age-range-packs/<band>/development.yaml (0-3: one subject, high-contrast, big)
 [ House Style ]      docs/kokeba-writing-guidelines.md            (right page = 1 illustration, no text in art)
 [ Scene ]            the spread's art note (from the book's art-prompts)
@@ -12,7 +14,12 @@ Each scene's image prompt is ASSEMBLED, so the look stays locked and country-agn
    1) FIRST generate the character reference sheet -> lock it.
    2) For each spread: prepend the Style Guide block + attach the character sheet as a REFERENCE IMAGE,
       then add the scene. Use the chosen model (default gpt-image-2) with a fixed style seed.
-   3) Output: one image per spread, consistent character + style, NO text baked in.
+   3) REALISM & SAFETY PASS (before generating): run the style guide's "Physical & safety realism" checklist
+      against the scene and pull the Country Pack's environment/setting + barrier rules. For any big/strong animal
+      or hazard, WRITE THE BARRIER + SETBACK EXPLICITLY into the prompt (height of fence, gap/moat, animal set back);
+      verify scale, gravity, eye-lines, and that the child is safely on the visitor side. Don't assume the model
+      infers safe spacing.
+   4) Output: one image per spread, consistent character + style, NO text baked in.
    -> Layout places art + adds the fidel vocab -> COLLECTIVE native review (Gate 1) on the proof.
 ```
 Pick the model/tool per the art-direction intake. Never reuse another country's character.

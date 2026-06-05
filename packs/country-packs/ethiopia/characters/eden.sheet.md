@@ -3,13 +3,22 @@
 > ALWAYS pair this with a sourced reference image (see references/). Generate ORIGINAL art inspired by it.
 
 ## Eden (ኤደን) — toddler girl, ~2–3
+### IDENTITY (LOCKED — never changes, page to page or book to book)
 - Skin: warm medium-brown.
-- Hair: natural dark-brown CURLY hair (soft, voluminous), small gold star clip.
+- Hair: natural dark-brown CURLY hair (soft, voluminous), small **gold star clip** (signature).
 - Eyes: big, round, friendly.
-- Outfit (signature): traditional **habesha kemis** — flowing white/cream cotton dress with woven **tibeb**
-  borders in **sage-green + gold** at neckline, waist, cuffs, hem. Little white shoes.
 - Proportions: baby/toddler (large head, small rounded body), chubby cheeks.
 - Expressions on-model: delighted, curious, sleepy, giggly.
+
+### WARDROBE (VARIES by scene — match clothing to the occasion; identity above stays locked)
+- **Everyday / casual (DEFAULT — zoo, home, market, play):** a simple, comfy short-sleeve **everyday cotton play
+  dress** in a cheerful warm color (e.g., soft coral, sunny yellow, or cream) with a SMALL neutral sage-green +
+  gold geometric trim as a subtle nod (NOT full ceremonial borders); comfy little shoes. Reads as a real kid
+  dressed for a day out — not formal.
+- **Formal / cover / holiday:** the traditional **habesha kemis** — flowing cream cotton with woven **tibeb**
+  borders (sage-green + gold) at neckline, waist, cuffs, hem; little white shoes. Use for covers and holiday
+  titles ONLY (and a cross-motif version only for Christian holiday books — see cultural note).
+- Keep the gold star clip in EVERY outfit (it anchors her identity).
 
 ## Reference images (REQUIRED)
 - references/eden-dress-ref.jpg  — the habesha kemis (tibeb border colors + pattern) + natural curly hair.

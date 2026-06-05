@@ -29,6 +29,43 @@ nature_and_animals:
   sky_nature: [tsehay/sun (ጸሐይ), chereka/moon (ጨረቃ), kokeb/star (ኮከብ), abeba/flower (አበባ), zinab/rain (ዝናብ)]
   landscapes: [highlands, Simien Mountains, Rift Valley, Blue Nile/Abay]
 
+# ENVIRONMENT & SETTING — feeds the Illustration agent so backdrops read as ETHIOPIA, not a generic place.
+# Use this for any outdoor/scenery prompt (zoo, market, home, journey). Native reviewer verifies.
+environment_and_setting:
+  climate:
+    highlands: "Addis Ababa sits ~2,355 m — temperate highland, NOT hot tropical. Mild, sunny, blue skies
+      ('13 months of sunshine'). Dry season most of the year; the big rains (kiremt) fall Jun–Sep."
+    light: "clear high-altitude light, soft warm sun, long gentle shadows; crisp not hazy."
+    lowlands_note: "Rift Valley / lowlands ARE hot and arid (acacia savanna) — use these for camel/heat scenes,
+      not for an Addis highland scene."
+  vegetation:
+    everyday_urban: "eucalyptus is EVERYWHERE in Addis (tall, slender, blue-green, peeling bark — introduced by
+      Emperor Menelik ~1894); jacaranda (purple blossom) lines some streets."
+    native_highland: [Juniperus procera (tid — tall conifer), Olea europaea cuspidata (wild olive),
+      Hagenia abyssinica (kosso), Acacia abyssinica (flat-topped acacia), Afrocarpus/Podocarpus (zigba)]
+    savanna_lowland: [flat-topped acacia, euphorbia candelabra (tree-cactus shape), dry golden grass]
+    signature_shade_tree: "warka / sycamore fig (ዋርካ) — big spreading shade tree, culturally beloved
+      (community gathers under it). Great hero tree for a friendly outdoor scene."
+    flowers: "adey abeba (yellow Meskel daisy) — the iconic Ethiopian wildflower, blooms spring/New Year."
+    ground: "reddish-brown highland soil; tended grass + shrubs in parks."
+  zoo_reference:
+    real_place: "Ethiopia's zoo is the Addis Ababa Zoo — 'Anbessa Gibi' (አንበሳ ግቢ, 'lion compound'),
+      founded 1948 by Emperor Haile Selassie."
+    lion_detail: "IMPORTANT — Ethiopia's lions are the distinctive Abyssinian / 'black-maned' lion: a thick
+      DARK mane running from the head down over the shoulders. Draw the storybook lion with a darker mane to
+      make it proudly Ethiopian (still soft & friendly for 0–3)."
+    enclosure_look: "simple highland-park enclosures: wood/stone rails, eucalyptus & acacia and a warka
+      shade tree behind, reddish soil + green shrubs, blue highland sky. Soft and uncluttered for 0–3."
+    barrier_safety: "Scale the barrier to the animal (see style guide 'Physical & safety realism'). The LION and
+      LEOPARD sit/stand SET BACK on a raised rocky ledge with a clear gap (a moat or planted strip) and a taller
+      sturdy rail/low stone wall between them and Eden — never right beside her over a knee-high rail. Hippo stays
+      in its pool, set back. Gentle/tall animals (giraffe reaching down, monkey, camel, elephant trunk) may come
+      nearer the rail."
+  architecture_texture: "mix of traditional (round tukul with thatch in rural scenes) and simple modern;
+    corrugated-metal roofs common; warm earth-tone walls. Keep backgrounds soft, not busy."
+  avoid_setting_cliches: "do NOT default to flat hot savanna + safari acacia for an Addis scene; do NOT add
+    snow, pine forests, or Western zoo architecture; no famine/dust imagery."
+
 places_and_heritage:
   landmarks: [Lalibela rock churches, Axum, Gondar castles, Addis Ababa, Simien Mountains]
   history_for_kids: [ancient kingdoms, the fidel script, Lucy/Dinknesh, Queen of Sheba (gentle)]
