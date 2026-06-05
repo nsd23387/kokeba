@@ -1,6 +1,15 @@
-# Reference images (Ethiopia)
-Authentic visual anchors attached to image-generation prompts (REQUIRED — see character sheet).
-Drop files here, e.g.:
-- eden-dress-ref.jpg   — traditional habesha kemis (tibeb border) + natural curly hair (the uploaded photo)
-Sourcing + licensing: prefer YOUR OWN photos, Wikimedia Commons / CC, or licensed stock. Use references for
-authenticity; always generate ORIGINAL art. Never reproduce a copyrighted product/stock photo in the book.
+# Reference images (Ethiopia) — SOURCE photos only
+Drop authentic SOURCE photos here (the things you generate FROM), e.g.:
+- eden-dress-ref.jpg  — the traditional habesha dress (tibeb border) + natural curly hair
+- mama-ref.jpg        — reference for Mama
+
+These are attached to image prompts for authenticity. Generate ORIGINAL art; never copy a photo.
+Use rights-cleared sources (your own photos, Wikimedia/CC, licensed stock).
+
+NOTE: the GENERATED, locked character sheets do NOT live here — they live in the book's art/ folder:
+  content/examples/ethiopia-0-3/eden-goes-to-the-zoo/art/eden_ref.png
+  content/examples/ethiopia-0-3/eden-goes-to-the-zoo/art/mama_ref.png
+(The scene prompts attach those.)
+
+CLEANUP TODO (Cowork can't delete on this mount): please remove the two misplaced generated sheets here:
+  rm "eden_ref..png" "mama_ref.png"   # run inside this references/ folder
