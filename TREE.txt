@@ -2,6 +2,7 @@ kokeba/
     .env.example
     .gitignore
     .nvmrc
+    AGENTS.md
     CHANGELOG.md
     CODE_OF_CONDUCT.md
     CONTRIBUTING.md
@@ -30,8 +31,13 @@ kokeba/
         author/
             README.md
             agent.md
+            compose-story-prompt.md
             io.schema.ts
             tools.ts
+            evals/
+                rubric.md
+        character-designer/
+            agent.md
             evals/
                 rubric.md
         compliance/
@@ -44,7 +50,9 @@ kokeba/
         illustration/
             README.md
             agent.md
+            compose-illustration-prompt.md
             io.schema.ts
+            style-intake.template.md
             tools.ts
             evals/
                 rubric.md
@@ -119,10 +127,42 @@ kokeba/
     content/
         examples/
             ethiopia-0-3/
+                eden-goes-to-the-zoo/
+                    Gate1_Review_Pack.docx
+                    Gate1_Vocab_Precheck.docx
+                    README.md
+                    animals.verify.json
+                    art-prompts.md
+                    book.yaml
+                    intake.filled.md
+                    manuscript.md
+                    pages.yaml
+                    scene-prompts.md
+                    verification.md
+                    art/
+                        PUT_eden_ref_here.txt
                 first-words/
                     README.md
+                    art-bible.md
+                    art-prompts.md
+                    book.yaml
+                    intake.filled.md
+                    manuscript.md
+                    pages.yaml
+            kenya-0-3/
+                zuri-goes-on-safari/
+                    README.md
+                    book.yaml
+                    manuscript.md
+    data-sources/
+        CATALOG.md
+        README.md
+        registry.yaml
     docs/
         Connect_GitHub_in_ClaudeCode.md
+        Connect_GitHub_in_Codex.md
+        fidel-rendering.md
+        kokeba-writing-guidelines.md
         api/
             openapi.yaml
         architecture/
@@ -150,6 +190,9 @@ kokeba/
         k8s/
         terraform/
             main.tf
+    intake/
+        intake-agent.md
+        story-intake-form.template.md
     packages/
         agents/
             README.md
@@ -206,6 +249,11 @@ kokeba/
             0-3-board-book.yaml
             3-6-picture-book.yaml
             6-9-chapter-book.yaml
+            0-3-board-book/
+                README.md
+                development.yaml
+                prompt.md
+                spec.yaml
             _template/
                 age-range.yaml
         country-packs/
@@ -213,16 +261,52 @@ kokeba/
                 README.md
                 country.yaml
             ethiopia/
+                README.md
                 country.yaml
+                inventory.yaml
                 keywords.yaml
+                prompt.md
                 brand-kit/
                     brand.yaml
                 characters/
                     abeba.yaml
+                    desta.yaml
+                    eden.refsheet-prompt.md
+                    eden.sheet.md
+                    mama.refsheet-prompt.md
+                    mama.sheet.md
                 culture/
                     library.yaml
+                references/
+                    README.md
+            kenya/
+                README.md
+                country.yaml
+                keywords.yaml
+                prompt.md
+                brand-kit/
+                    brand.yaml
+                characters/
+                    tembo.yaml
+                    zuri.yaml
+                culture/
+                    library.yaml
+        story-frameworks/
+            README.md
+            frameworks.yaml
+        style/
+            illustration-style-guide.md
     scripts/
         new-book.ts
         new-country.ts
+        ingest/
+            README.md
+            build-country-pack.mjs
+            sources.mjs
+        layout/
+            README.md
+            render-fidel.py
+        verify/
+            verify-book.mjs
     tests/
         fixtures/

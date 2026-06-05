@@ -1,0 +1,8 @@
+id: desta
+name: Desta           # ደስታ = "joy"
+role: companion (baby goat)
+look: "small cream/white baby goat, tiny horns just budding, big friendly eyes, a little gold bell on a collar"
+personality: bouncy, loyal, a little mischievous
+appears: in a corner of every page (the recurring 'find the goat' element)
+consistency_rules:
+  - always the same cream goat with the gold bell

@@ -1,0 +1,142 @@
+# Kokeba authoritative data sources — the Research agent ingests these to build/verify packs.
+# license_use: how we may use it commercially. PD=public domain, CC0=public domain dedication,
+#   PERMISSIVE=attribution-light, CC-BY=attribution required, CC-BY-SA=share-alike (don't copy verbatim
+#   into a sold product), CLOSED=reference only / license required.
+# RULE: prefer api/bulk over scraping; scrape only where no API exists, via Apify (compliant, rate-limited).
+#       Compile into the Country/Age pack with CITATIONS; the native reviewer is the FINAL authority.
+
+country_pack_sources:
+  - id: cia_world_factbook
+    feeds: [geography, people, government, economy, country_facts]
+    access: bulk          # factbook/factbook.json on GitHub, no API key
+    license_use: PD
+    redistributable: true
+  - id: unicode_cldr
+    feeds: [language_names, script, calendar_months_days, number_format, locale]
+    access: bulk
+    license_use: PERMISSIVE
+    redistributable: true
+  - id: wikidata
+    feeds: [names_meanings, places, animals, holidays, structured_facts]
+    access: api           # SPARQL + REST + dumps
+    license_use: CC0
+    redistributable: true
+  - id: wikipedia
+    feeds: [history, culture_prose, context]
+    access: api
+    license_use: CC-BY-SA   # reference only; do NOT copy verbatim into a sold book
+    redistributable: false
+  - id: unesco_ich_whc
+    feeds: [intangible_cultural_heritage, world_heritage_sites, traditions]
+    access: api           # UNESCO Data Catalog
+    license_use: CC-BY
+    redistributable: true
+  - id: geonames
+    feeds: [places, landmarks, geography]
+    access: api
+    license_use: CC-BY
+    redistributable: true
+  - id: nager_date
+    feeds: [public_holidays]
+    access: api           # date.nager.at, free, no key, 100+ countries
+    license_use: PERMISSIVE
+    redistributable: true
+  - id: themealdb
+    feeds: [foods, cuisine_by_area]
+    access: api
+    license_use: PERMISSIVE
+    redistributable: true
+  - id: gbif
+    feeds: [animals, species_by_country, wildlife]
+    access: api           # api.gbif.org, free, no key
+    license_use: CC-BY
+    redistributable: true
+  - id: loc_country_studies
+    feeds: [history, culture, society]
+    access: bulk
+    license_use: PD
+    redistributable: true
+  - id: pew_research
+    feeds: [religion_composition, values]
+    access: reference
+    license_use: CLOSED
+    redistributable: false
+  - id: behind_the_name
+    feeds: [given_name_meanings]
+    access: reference     # prefer Wikidata/Wiktionary for redistributable name meanings
+    license_use: CLOSED
+    redistributable: false
+
+vocabulary_sources:   # the heritage word per animal/object on the right page
+  - id: wiktionary
+    feeds: [word_translations, definitions, transliteration]
+    access: api
+    license_use: CC-BY-SA
+    redistributable: false   # reference; have reviewer confirm the final word
+  - id: wikidata_lexemes
+    feeds: [word_translations, senses, forms]
+    access: api
+    license_use: CC0
+    redistributable: true
+  - id: panlex
+    feeds: [word_translations_5700_languages]
+    access: bulk          # monthly CSV/JSON snapshots + HTTP API
+    license_use: CC0
+    redistributable: true
+
+age_pack_sources:
+  - id: cdc_act_early
+    feeds: [developmental_milestones_birth_5, social_emotional, language, cognitive, motor]
+    access: bulk          # CDC "Learn the Signs. Act Early." (2022, 75th percentile)
+    license_use: PD
+    redistributable: true
+  - id: asha_milestones
+    feeds: [speech, language, hearing, feeding_swallowing]
+    access: reference     # ASHA (2023)
+    license_use: CLOSED
+    redistributable: false
+  - id: headstart_elof
+    feeds: [early_learning_domains, approaches_to_learning, language_literacy, cognition]
+    access: bulk          # Head Start ELOF, birth-5
+    license_use: PD
+    redistributable: true
+  - id: who_ecd_gsed
+    feeds: [global_ecd_standards, nurturing_care, scales_0_3]
+    access: bulk
+    license_use: CC-BY    # WHO (check IGO terms)
+    redistributable: true
+  - id: nidcd_milestones
+    feeds: [speech_language_milestones]
+    access: bulk
+    license_use: PD
+    redistributable: true
+  - id: zero_to_three
+    feeds: [early_literacy, parenting_practice]
+    access: reference
+    license_use: CLOSED
+    redistributable: false
+
+ingestion:
+  prefer: [api, bulk]
+  scrape_only_if_no_api: true
+  scraper: "Apify (connector available) — managed, rate-limited, ToS-respecting; + RAG web browser for gap-fill; WebSearch for discovery"
+  flow: "Research agent reads this registry -> fetches per-country/age -> compiles into the pack inventory + prompt WITH citations -> native reviewer verifies -> cached. Author agent reads the CACHED, reviewed pack at draft time (no live scraping mid-draft)."
+  commercial_rule: "Use PD / CC0 / PERMISSIVE / CC-BY (with attribution) for anything baked into a sold book. Treat CC-BY-SA + CLOSED as REFERENCE ONLY. Reviewer is final authority on names + cultural sensitivity."
+
+reference_image_sources:   # authentic visual anchors attached to image prompts (inspire, never copy)
+  - id: wikimedia_commons
+    feeds: [clothing, hairstyles, landmarks, animals, cultural_dress]
+    access: api
+    license_use: CC-BY-SA/CC0 (varies)   # check each file; attribute
+    redistributable: as_per_file
+  - id: creator_uploads
+    feeds: [authentic_reference_photos]
+    access: local
+    license_use: OWN/RIGHTS-CLEARED
+    redistributable: true
+  - id: apify_image_search
+    feeds: [reference_discovery]
+    access: scrape            # managed, rate-limited; for DISCOVERY only
+    license_use: REFERENCE-ONLY
+    redistributable: false
+reference_rule: "Always attach a sourced reference image for character/scene authenticity. Generate ORIGINAL art; never reproduce a copyrighted photo. Prefer own/Wikimedia/CC/licensed."

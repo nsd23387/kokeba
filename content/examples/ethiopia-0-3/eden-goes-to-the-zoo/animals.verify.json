@@ -1,0 +1,9 @@
+[
+  { "en": "lion",     "word": "አንበሳ", "sci": "Panthera leo" },
+  { "en": "African elephant", "word": "ዝሆን", "sci": "Loxodonta africana" },
+  { "en": "grivet monkey", "word": "ዝንጀሮ", "sci": "Chlorocebus aethiops" },
+  { "en": "giraffe",  "word": "ቀጭኔ", "sci": "Giraffa camelopardalis" },
+  { "en": "dromedary camel", "word": "ግመል", "sci": "Camelus dromedarius" },
+  { "en": "hippopotamus", "word": "ጉማሬ", "sci": "Hippopotamus amphibius" },
+  { "en": "leopard",  "word": "ነብር", "sci": "Panthera pardus" }
+]

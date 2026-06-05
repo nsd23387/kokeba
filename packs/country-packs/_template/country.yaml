@@ -7,3 +7,10 @@ marketplace: TODO
 gifting_calendar: [TODO]
 reviewer: "TODO: named native reviewer (required)"
 status: draft
+
+# House-style bindings (REQUIRED — fill for the new market)
+house_style_bindings:
+  lead_language: TODO      # e.g. en
+  vocab_language: TODO     # e.g. sw (Swahili), yo (Yoruba)
+  script: TODO             # e.g. latin, arabic, ethiopic
+  representation: TODO     # authentic, diverse representation for this culture

@@ -1,0 +1,64 @@
+# Ethiopia Country Pack — KNOWLEDGE INVENTORY
+# A structured store of everything an author needs to write authentically for this market.
+# The engine compiles this (+ prompt.md) into context for the story-writing agent.
+# NOTE: AI-compiled; a native reviewer must verify every entry before publishing.
+meta:
+  country: Ethiopia
+  primary_language: Amharic (am)
+  script: Ge'ez / fidel
+  also_spoken: [Afaan Oromo, Tigrinya, Somali, English]
+
+identity_and_values:
+  core_values: [family & elders, hospitality, community (sharing meals), faith, respect, resilience, pride in heritage]
+  what_makes_proud: [never colonized, ancient script & church, Lucy/origins of humankind, unique 13-month calendar, coffee origin]
+  family_structure: extended family central; grandparents revered; communal child-raising
+  child_rearing: babies carried close, sung to, surrounded by relatives; storytelling oral tradition ("teret teret")
+
+daily_life:
+  home: [mesob (basket table), traditional + modern homes, coffee corner]
+  routines: [morning coffee ceremony, shared meals from one plate, market days, church/mosque]
+  sounds: [coffee roasting, church bells, call to prayer, lentil pot, children playing]
+
+food_and_drink:
+  staples: [injera (እንጀራ) flatbread, wot/stew, shiro (ሽሮ), teff (ጤፍ) grain]
+  drink: [buna (ቡና) coffee — central ritual, tea/shai]
+  treats: [honey/mar (ማር), dabo bread, popcorn at coffee]
+
+nature_and_animals:
+  animals: [fiyel/goat (ፍየል), doro/chicken (ዶሮ), bere/ox (በሬ), gimel/camel (ግመል), anbessa/lion (አንበሳ — national symbol), walia ibex, gelada]
+  sky_nature: [tsehay/sun (ጸሐይ), chereka/moon (ጨረቃ), kokeb/star (ኮከብ), abeba/flower (አበባ), zinab/rain (ዝናብ)]
+  landscapes: [highlands, Simien Mountains, Rift Valley, Blue Nile/Abay]
+
+places_and_heritage:
+  landmarks: [Lalibela rock churches, Axum, Gondar castles, Addis Ababa, Simien Mountains]
+  history_for_kids: [ancient kingdoms, the fidel script, Lucy/Dinknesh, Queen of Sheba (gentle)]
+
+holidays_and_traditions:
+  holidays:
+    - Enkutatash (አዲስ ዓመት) — New Year, Sept, yellow daisies (adey abeba)
+    - Timket — Epiphany, processions, white robes
+    - Meskel — finding of the cross, bonfire (demera)
+    - Genna — Ethiopian Christmas
+    - Eid al-Fitr / Eid al-Adha — for Muslim families
+  calendar: 13 months; ~7-8 years behind Gregorian; New Year in September
+  coffee_ceremony: roasting, three rounds, incense, popcorn — symbol of welcome
+
+faith:
+  traditions: [Ethiopian Orthodox Tewahedo, Islam, Protestant, Catholic, others]
+  guidance: "Represent inclusively and gently; avoid doctrine; celebrate shared values (gratitude, kindness, family)."
+
+language_texture:
+  greetings: [selam/hello-peace (ሰላም), tena yistilign/hello-formal, dehna/well (ደህና), chaw/bye (ቻው)]
+  endearments: [emaye/mommy (እማዬ), ababa/daddy (አባባ), lije/my child (ልጄ)]
+  storytelling_opener: "Teret teret — the Ethiopian 'once upon a time'."
+  naming: names carry meaning (Abeba=flower, Desta=joy, Kokeb=star, Selam=peace)
+
+sensitivities:
+  do: [show diverse skin tones & regions, honor elders, keep faith inclusive, accurate fidel]
+  avoid: [stereotypes of poverty/famine, conflict/politics, one-ethnicity-only framing, sacred imagery as decoration]
+
+reviewer:
+  required: true
+  checks: [fidel spelling, transliteration, dialect, cultural accuracy, faith sensitivity, originality]
+
+# Sources: compiled by the Research agent from data-sources/registry.yaml (cited). Native reviewer verifies.

@@ -1,5 +1,12 @@
-name: Abeba
-role: primary character (baby/toddler at 0-3; preschooler at 3-6)
-companion: baby goat
-look: "TODO: art-bible description — keep consistent across every title"
-personality: curious, warm, playful
+id: abeba
+name: Abeba            # አበባ = "flower"
+role: primary character
+age_presentation:
+  "0-3": baby / toddler girl
+  "3-6": preschooler (same character, older)
+look: "warm brown skin, big curious eyes, two small puff pom-poms / hair tufts, simple bright tunic; cheerful, round, baby-proportioned"
+personality: curious, gentle, playful, affectionate
+companion: desta
+consistency_rules:
+  - same face shape, eyes, and hair across every page and every book
+  - keep proportions baby-like for 0-3 (big head, small body)

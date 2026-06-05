@@ -1,0 +1,43 @@
+# 0-3 Age-Range Pack — DEVELOPMENTAL INVENTORY
+# What the book should support, by domain, for ages 0-3. Sources: ZERO TO THREE,
+# NIDCD, CDC/AAP early-literacy milestones (see prompt.md for citations).
+band: "0-3"
+sub_stages:
+  "0-12m":
+    speech_language: [coos/babbles, responds to voice, recognizes sound patterns in familiar words]
+    cognitive: [object permanence emerging, loves faces, looks at high-contrast images]
+    motor: [grasps, mouths books -> needs durable board/cloth]
+    book_behavior: [looks, chews, listens to rhythm of voice]
+  "12-24m":
+    speech_language: [first words -> ~50+ words; points to name pictures; loves repeated words/phrases]
+    cognitive: [object permanence solid (hide-and-seek delights), simple cause/effect]
+    social_emotional: [attachment, separation awareness, mirrors emotions]
+    motor: [turns board pages, carries books, points]
+  "24-36m":
+    speech_language: [vocab ~150-300 (age 2) growing to ~900-1000 (age 3); 2-3 word phrases; asks/answers simple questions]
+    cognitive: [follows a simple plot, anticipates a refrain, sorts/categorizes]
+    social_emotional: [names feelings, empathy emerging, routines = security]
+
+learning_goals_for_a_book:
+  five_literacy_blocks: [language development, phonological awareness, print awareness, alphabet knowledge, vocabulary]
+  prioritize_at_0_3: [vocabulary (naming), phonological awareness (rhythm/rhyme/repetition), print awareness (pointing, page-turning)]
+  target_concepts: [first words, naming objects, animals & sounds, colors, body parts, feelings, daily routines, object permanence]
+
+what_makes_a_0_3_book_work:
+  - very few words; one idea/object per page; big high-contrast images
+  - predictable, repeating refrain the child can anticipate and chant
+  - rhythm first, rhyme second (read-aloud test out loud)
+  - participation: questions, pointing, finding, naming, sounds
+  - an everyday emotional hook (mama, bedtime, the pet) + a recurring character
+  - warm, secure resolution (especially bedtime)
+
+content_guardrails:
+  do: [concrete & familiar, gentle stakes, repetition, sensory/sound words, secure endings]
+  avoid: [abstract concepts, complex plots/subplots, scary tension, too many words, sarcasm/irony]
+
+format_implications:
+  word_count: { typical: 30, max_story: 80 }   # a STORY for 2-3 runs longer than a pure word book
+  pages: { min: 12, max: 16 }
+  durability: board / hardcover; rounded corners
+
+# Sources: developmental milestones compiled from data-sources/registry.yaml (CDC, Head Start ELOF, WHO, NIDCD).

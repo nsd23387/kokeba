@@ -1,0 +1,23 @@
+# Book 1 manifest — MODULAR. References packs + framework + intake by id; holds no logic itself.
+id: ethiopia-0-3-where-is-desta
+title:
+  en: "Where's Desta?"
+  am: "ደስታ የት ነው?"
+  translit: "Desta Yet New?"
+series: "Kokeba"
+mode: narrative            # a STORY (not a word list)
+# --- modular references (swap to retarget) ---
+country_pack: country-ethiopia
+age_range_pack: 0-3-board-book
+story_framework: question-hide-seek-reunion
+intake: ./intake.filled.md
+characters: [abeba, desta]
+# ---------------------------------------------
+lead_language: en
+languages: [en, am]
+refrain: { en: "Is Desta here? No!", end: "There's Desta!" }
+page_count: 13
+word_count_total: 70
+status: draft              # awaiting Gate 1 (native review)
+compliance: { ai_generated: [text, illustrations], cpsia_flag: true, reading_age: "0-3", disclose_at_upload: true }
+artifacts: { manuscript: ./manuscript.md, pages: ./pages.yaml, art_prompts: ./art-prompts.md, art_bible: ./art-bible.md, intake: ./intake.filled.md }

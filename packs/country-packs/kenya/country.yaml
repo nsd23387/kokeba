@@ -1,0 +1,18 @@
+id: country-kenya
+name: Kenya
+status: stub   # proof-of-agnosticism; expand before publishing
+languages: { primary: sw, secondary: en }   # Swahili + English (official)
+script: latin
+font: "rounded friendly sans"
+marketplace: amazon.com
+diaspora_hubs: [US, UK, Gulf]
+gifting_calendar: [jamhuri_day, madaraka_day, eid, christmas, diwali, birthdays]
+characters: [zuri]   # this market's OWN character (see characters/)
+reviewer: { name: "TODO - native Swahili reviewer", role: "Gate 1: Swahili spelling, naming, cultural accuracy, originality" }
+
+# House-style bindings (same keys as every Country Pack)
+house_style_bindings:
+  lead_language: en
+  vocab_language: sw      # Swahili word taught on the right page
+  script: latin
+  representation: "diverse Kenyan; modern + traditional; respect Maasai imagery; no colonial/safari-tourist or poverty framing"

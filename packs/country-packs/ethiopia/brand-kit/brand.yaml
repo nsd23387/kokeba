@@ -1,4 +1,12 @@
-palette: ["#1F3A5F","#C9A227","#1B7A43"]
-fonts: ["Noto Sans Ethiopic"]
-logo: "TODO"
-cover_style: "big bold art, high-contrast, thumbnail-legible"
+# Kokeba brand kit (navy + gold + white; cream as soft tertiary).
+palette:
+  navy: "#222B6D"     # primary
+  gold: "#C9A227"     # accent (the star)
+  white: "#FFFFFF"    # surface / contrast
+  cool_white: "#F4F6FB"
+  cream: "#E7D7A6"    # soft tertiary / board-book pages
+fonts:
+  amharic: "Noto Sans Ethiopic"
+  latin: "rounded, friendly sans (TBD)"
+cover_style: "big bold high-contrast art, thumbnail-legible, star motif"
+logo: "TODO — star icon parked as future step"

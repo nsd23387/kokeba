@@ -1,10 +1,26 @@
-id: ethiopia
+# Ethiopia Country Pack — modular config consumed by the Kokeba engine.
+# Swap this whole folder to launch a different market; the engine stays identical.
+id: country-ethiopia
 name: Ethiopia
-languages: [am, en]          # Amharic (primary) + English
-script: ethiopic             # Ge'ez / fidel
-font: "Noto Sans Ethiopic"
-marketplace: amazon.com      # primary KDP marketplace
-diaspora_hubs: [US, EU, Gulf]
-gifting_calendar: [enkutatash, timket, meskel, eid, christmas, birthdays]
-reviewer: "TODO: named native Amharic reviewer"
 status: launch
+languages:
+  primary: am          # Amharic
+  secondary: en        # English (bilingual)
+script: ethiopic        # Ge'ez / fidel
+font: "Noto Sans Ethiopic"
+transliteration: latin  # romanized helper so non-readers can read aloud
+marketplace: amazon.com
+diaspora_hubs: [US, EU, Gulf]
+gifting_calendar: [enkutatash, timket, meskel, eid, christmas, birthdays, christenings]
+characters: [abeba, desta]   # defined in characters/
+reviewer:
+  name: "TODO — named native Amharic reviewer"
+  role: "Gate 1: spelling (fidel), dialect, transliteration, cultural accuracy, originality"
+notes: "Treat faith traditions (Orthodox, Muslim, others) inclusively and accurately."
+
+# House-style bindings (consumed by the Kokeba house style; same keys in every Country Pack)
+house_style_bindings:
+  lead_language: en        # story + rhyme (left page)
+  vocab_language: am       # heritage word taught on the right page
+  script: ethiopic         # Ge'ez / fidel
+  representation: "diverse Ethiopian; honor elders; inclusive faith"

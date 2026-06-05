@@ -1,5 +1,16 @@
-holidays: [Timket, Meskel, Enkutatash, Eid]
-foods: [injera, shiro, coffee/buna, teff]
-animals: [goat, lion, ibex, hornbill]
-landmarks: [Lalibela, Simien Mountains]
-notes: "Treat faith traditions (Orthodox, Muslim, others) inclusively and accurately."
+# Source material the Author/Illustration agents draw from. Vetted for sensitivity.
+foods: [injera (እንጀራ), buna/coffee (ቡና), shiro (ሽሮ), teff (ጤፍ), honey/mar (ማር)]
+drinks: [buna (ቡና), wuha/water (ውሃ)]
+animals: [fiyel/goat (ፍየል), doro/chicken (ዶሮ), anbessa/lion (አንበሳ), bere/ox (በሬ), gimel/camel (ግመል)]
+nature: [chereka/moon (ጨረቃ), kokeb/star (ኮከብ), abeba/flower (አበባ), tsehay/sun (ጸሐይ)]
+family: [emaye/mom (እማዬ), ababa/dad (አባባ), enkutan/grandma? TODO verify]
+places: [Lalibela, Simien Mountains, Addis Ababa]
+holidays: [Timket, Meskel, Enkutatash (New Year), Eid]
+objects: [jebena/coffee pot (ጀበና), mesob/basket table (መሶብ)]
+greetings: [selam/hello-peace (ሰላም), chaw/bye (ቻው), dehna/well (ደህና)]
+review_note: "Native reviewer must verify every fidel spelling, transliteration, and dialect choice."
+
+# Verification notes (Research agent; confirm at Gate 1):
+# - leopard: ነብር (nebir) has a variant ነብሮ and ነብር can mean "tiger" -> native reviewer must confirm the leopard word.
+# - hippo: ጉማሬ vs ጎማሬ spelling variant.
+# - All 7 zoo animals are authentic Ethiopian fauna (GBIF/park records; giraffe = Nubian, Gambella NP).

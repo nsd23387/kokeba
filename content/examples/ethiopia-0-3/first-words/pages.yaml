@@ -1,0 +1,18 @@
+# Structured page beats for "Where's Desta?" (machine-readable; pairs with manuscript.md)
+framework: question-hide-seek-reunion
+refrain: "Is Desta here? No!"
+hidden_element: "Desta's gold bell peeks on every page (find-me)"
+pages:
+  - n: 1  type: cover    text_en: "Where's Desta?"  am: "ደስታ የት ነው?"  translit: "Desta Yet New?"
+  - n: 2  type: dedication text_en: "For our little star"
+  - n: 3  beat: setup    text_en: "Abeba can't find Desta. \"Desta? Where are you?\""  child: "look together"
+  - n: 4  beat: search   text_en: "Is Desta by the injera? No!"  am: "እንጀራ"  translit: "injera"  child: "say No!"  find: hen
+  - n: 5  beat: search   text_en: "Is Desta by the buna? No!"    am: "ቡና"    translit: "buna"    child: "say No!"
+  - n: 6  beat: search   text_en: "Is Desta in the wuha? Splash - no!"  am: "ውሃ"  translit: "wuha"  child: "splash hands"
+  - n: 7  beat: search   text_en: "Is Desta in the abeba? No!"  am: "አበባ"  translit: "abeba"  child: "find the bell"
+  - n: 8  beat: search   text_en: "Is Desta with the anbessa? Roar - no!"  am: "አንበሳ"  translit: "anbessa"  child: "Roar!"
+  - n: 9  beat: turn     text_en: "Where can Desta be? The moon is up. The stars shine."  am: "ጨረቃ / ኮከብ"  translit: "chereka / kokeb"  child: "yawn"
+  - n: 10 beat: reveal   text_en: "There's Desta! Asleep in Abeba's bed."  child: "cheer / find"  sound: "Ting!"
+  - n: 11 beat: resolve  text_en: "Abeba hugs Desta. Warm and safe."  child: "hug"
+  - n: 12 beat: goodnight text_en: "Goodnight, Desta. Dehna eder."  am: "ደህና እደር"  translit: "dehna eder"
+  - n: 13 type: end      text_en: "Kokeba - a story for every little star"

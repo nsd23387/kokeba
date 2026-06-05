@@ -10,3 +10,6 @@ Automated pre-flight: KDP policy, AI disclosure, reading-age/BISAC, COPPA, CPSIA
 
 ## Prompt (system)
 > TODO: production system prompt for the compliance agent.
+
+## Review order (REQUIRED)
+Native-speaker review (Gate 1) happens AFTER illustration + layout, on the assembled, font-embedded proof — one collective review of text + art + fidel together.

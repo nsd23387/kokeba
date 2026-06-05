@@ -10,3 +10,6 @@ Lays out pages in Canva, sets the embedded script font, builds the cover, export
 
 ## Prompt (system)
 > TODO: production system prompt for the layout agent.
+
+## Script rendering (REQUIRED)
+Embed the Country Pack script font (e.g. Noto Sans Ethiopic for Amharic) or outline the glyphs in every export. See docs/fidel-rendering.md. KDP rejects non-embedded fonts.

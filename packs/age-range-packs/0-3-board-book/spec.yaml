@@ -1,0 +1,26 @@
+# 0-3 Age-Range Pack — industry-aligned board-book spec.
+# Swap this to change the age band; the engine and Country Pack stay the same.
+id: 0-3-board-book
+band: "0-3"
+bisac_audience: juvenile          # ages 0-11
+reading_age: "Baby - 2 years"
+format:
+  primary: board-book
+  kdp_note: "KDP can't print true board books — launch as KDP hardcover 'baby' edition; true board book via POD as fast-follow."
+spec:
+  word_count: { min: 0, max: 100, typical: 14 }   # ~one word per page
+  pages: { min: 12, max: 16 }
+  trim_in: "7x7 or 8x8 (square)"
+  words_per_page: 1
+  images_per_page: 1
+design_rules:
+  - one big, high-contrast image per page
+  - one concrete everyday object per page; concept content, not plot
+  - a recurring character on every page (the 'find me' element)
+  - a repeating one-word refrain the parent and baby can chant
+  - rounded, chunky type; minimal background clutter
+compliance_flags:
+  cpsia: true                      # books for <=3 are NOT exempt from testing
+  tracking_label: true
+  ai_disclosure: true
+status: launch

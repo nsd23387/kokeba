@@ -1,0 +1,23 @@
+# Book 1 manifest — MODULAR. References packs + framework + house style + intake by id.
+id: ethiopia-0-3-eden-zoo
+title: { en: "Eden Goes to the Zoo", am: "ኤደን ወደ እንስሳት ማቆያ ሄደች" }
+series: "Kokeba"
+mode: narrative
+# --- modular references ---
+country_pack: country-ethiopia
+age_range_pack: 0-3-board-book
+story_framework: journey-call-response
+house_style: docs/kokeba-writing-guidelines.md
+intake: ./intake.filled.md
+characters: [eden, mama]
+# --------------------------
+lead_language: en
+languages: [en, am]
+layout: { left_page: "English story only", right_page: "illustration + Amharic vocab (fidel + transliteration)" }
+style: { rhyme: true, scheme: "AABB couplets", amharic_in_rhyme: false }
+animals: [Anbessa/lion, Zihon/elephant, Zinjero/monkey, Qechne/giraffe, Gimel/camel, Gumare/hippo, Nebir/leopard]
+spreads: 11   # + cover + dedication + end
+status: verified-draft  # source-checked; next: illustration -> layout -> COLLECTIVE review (Gate 1) on the proof
+compliance: { ai_generated: [text, illustrations], cpsia_flag: true, reading_age: "0-3", disclose_at_upload: true }
+notes: "Follows Kokeba house style: left=English rhyme, right=illustration+Amharic vocab; Amharic NOT forced into rhyme; one interaction prompt per animal spread."
+artifacts: { manuscript: ./manuscript.md, pages: ./pages.yaml, art_prompts: ./art-prompts.md, intake: ./intake.filled.md }

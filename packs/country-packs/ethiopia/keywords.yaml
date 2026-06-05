@@ -1,4 +1,7 @@
-# Filled/maintained by the Market-Intelligence agent
-primary: ["amharic book for kids", "ethiopian children book", "bilingual amharic english"]
-categories: ["Children's Foreign Language Books", "Early Learning"]
-price_band_usd: { paperback: [9.99, 13.99], hardcover: [16.99, 21.99], kindle: [3.99, 5.99] }
+# Maintained by the Market-Intelligence agent (compliant data only).
+primary: ["amharic book for kids", "ethiopian children book", "bilingual amharic english", "amharic first words baby"]
+categories: ["Children's Foreign Language Books", "Early Learning", "Baby & Toddler"]
+price_band_usd:
+  hardcover: [16.99, 21.99]
+  paperback: [9.99, 13.99]
+  kindle: [3.99, 5.99]

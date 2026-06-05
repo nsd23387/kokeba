@@ -1,0 +1,19 @@
+# Kenya proof book — same engine/house style as Ethiopia; swapped Country Pack -> new character + Swahili.
+id: kenya-0-3-zuri-safari
+title: { en: "Zuri Goes on Safari" }
+series: "Kokeba"
+mode: narrative
+country_pack: country-kenya          # <- the only real swap vs. the Ethiopia book
+age_range_pack: 0-3-board-book
+story_framework: journey-call-response
+house_style: docs/kokeba-writing-guidelines.md
+characters: [zuri]                    # this country's OWN character (not Eden)
+lead_language: en
+languages: [en, sw]
+layout: { left_page: "English rhyme only", right_page: "illustration + Swahili vocab (latin)" }
+style: { rhyme: true, scheme: "AABB couplets", vocab_in_rhyme: false }
+animals: [simba/lion, tembo/elephant, twiga/giraffe, pundamilia/zebra, kiboko/hippo, tumbili/monkey, chui/leopard]
+spreads: 11
+status: draft   # awaiting native Swahili review
+compliance: { ai_generated: [text, illustrations], cpsia_flag: true, reading_age: "0-3", disclose_at_upload: true }
+notes: "Demonstrates the country-agnostic engine: identical house style + framework + age pack; Country Pack swap yields a new character (Zuri), new language (Swahili), new setting (safari)."

@@ -1,0 +1,43 @@
+# Story Framework Library — proven picture-book structures, adapted for 0-3.
+# The intake + age pack pick one; the agent writes an ORIGINAL story to that structure.
+# Bestsellers are cited only as evidence the structure works — never copied.
+frameworks:
+  - id: question-hide-seek-reunion
+    name: "Question + hide-and-seek + reunion"
+    structure: "Someone/something is missing -> repeated 'Is it here? No!' search -> joyful find -> cozy resolution."
+    why_0_3: "Object permanence delights toddlers; the 'No!' refrain invites chanting; reunion gives a warm ending."
+    evidence: ["Where's Spot?", "Dear Zoo", "Where Is Baby's Belly Button?"]
+    page_pattern: ["setup/problem", "search x4-5 (each = a question + a new place/word + 'No!')", "find!", "cozy close"]
+    teaches: [object names/places, object permanence, the word 'no', anticipation]
+
+  - id: call-and-response
+    name: "Call-and-response (question + answer)"
+    structure: "A repeated question -> a repeated answer that introduces the next thing."
+    why_0_3: "Predictable frame; child completes the line; pure naming + rhythm."
+    evidence: ["Brown Bear, Brown Bear, What Do You See?"]
+    page_pattern: ["X, X, what do you see? -> I see Y looking at me", "...chain to a warm ending"]
+    teaches: [colors, animals, naming, prediction]
+
+  - id: cumulative
+    name: "Cumulative (build-and-repeat)"
+    structure: "Each page adds one element and repeats the growing list; tips over at the end."
+    why_0_3: "Repetition + memory; the joy of the toppling finish."
+    evidence: ["The Napping House (older)", "many farm tales"]
+    page_pattern: ["+1 each page, repeat the chain, payoff"]
+    teaches: [sequence, memory, vocabulary stacking]
+
+  - id: circular-day
+    name: "Circular / daily routine"
+    structure: "Starts and ends in the same safe place (home/bed); a small loop through the day."
+    why_0_3: "Routine = security; bookends comfort the child."
+    evidence: ["Goodnight Moon (inventory/bedtime)"]
+    page_pattern: ["wake/start -> loop of familiar moments -> back home/bed"]
+    teaches: [routines, naming, comfort, time-of-day]
+
+  - id: bedtime-winddown
+    name: "Bedtime wind-down"
+    structure: "Energy descends page by page to a calm, loving goodnight."
+    why_0_3: "Co-regulation; ritual; perfect last-book-of-the-night."
+    evidence: ["Goodnight Moon", "lullaby books"]
+    page_pattern: ["busy -> slower -> quiet -> goodnight"]
+    teaches: [calming, gratitude, naming, routine]

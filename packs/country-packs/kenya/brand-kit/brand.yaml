@@ -1,0 +1,3 @@
+# Kokeba brand kit (shared palette across countries).
+palette: { navy: "#222B6D", gold: "#C9A227", white: "#FFFFFF", cool_white: "#F4F6FB", cream: "#E7D7A6" }
+cover_style: "big bold high-contrast art, thumbnail-legible, star motif"

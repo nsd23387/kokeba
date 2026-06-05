@@ -1,0 +1,3 @@
+primary: ["swahili book for kids", "kenyan children book", "bilingual swahili english", "swahili first words baby"]
+categories: ["Children's Foreign Language Books", "Early Learning", "Baby & Toddler"]
+price_band_usd: { hardcover: [16.99, 21.99], paperback: [9.99, 13.99], kindle: [3.99, 5.99] }

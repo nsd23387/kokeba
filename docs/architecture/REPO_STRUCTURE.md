@@ -120,7 +120,7 @@ Every box in the Kokeba architecture diagram has a home in the tree. A buyer can
 
 | Architecture element | Lives in |
 |---|---|
-| Orchestrator (Claude) | `packages/core` + `agents/orchestrator` |
+| Orchestrator (Codex) | `packages/core` + `agents/orchestrator` |
 | Market-Intelligence agent ("what sells fast") | `agents/market-intelligence` + `packages/integrations` (KDP-research clients) |
 | Author / Illustration / Layout / Assembly agents | `agents/*` + `packages/agents` (runtime) |
 | **Compliance agent** (pre-flight) | `agents/compliance` + `packages/compliance` + `compliance/rules` |
@@ -150,7 +150,7 @@ agents/author/
 └── README.md           # What it does, guardrails, owner
 ```
 
-This mirrors the Claude Agent SDK / Claude Code subagent model, so the platform stays portable: `.claude/agents/` and `.claude/skills/` can symlink or generate from here.
+This mirrors the OpenAI Codex subagent model, so the platform stays portable: `.claude/agents/` and `.claude/skills/` can symlink or generate from here.
 
 ### 4.2 `packs/` — content you swap (the multiplier)
 A Country Pack is everything that makes a market local; an Age-Range Pack is everything industry-standard about a band.
@@ -199,7 +199,7 @@ Generated books never pollute the engine. Real runs are gitignored; a few curate
 | Monorepo | **pnpm workspaces + Turborepo** | Fast, cache-friendly, tier-friendly |
 | Language | **TypeScript** (engine/UI) + **Python** (select agent tooling/market scripts) | Polyglot under one roof via `scripts/` and `packages/integrations` |
 | Front-end | **Next.js + React + Tailwind**, shared `packages/ui` | The §5.7 screens |
-| Agents | **Claude Agent SDK / Claude Code** | `agents/*` specs are portable |
+| Agents | **OpenAI Codex** | `agents/*` specs are portable |
 | Validation | **zod** schemas in `packages/types` | One source of truth for packs + IO |
 | Data | Postgres (catalog/tracker), object storage (assets) | Behind `apps/api` |
 | CI/CD | GitHub Actions in `.github/workflows` | build · test · e2e · security-scan · release |

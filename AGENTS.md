@@ -1,0 +1,25 @@
+# AGENTS.md — Kokeba (read by Codex)
+Country-agnostic AI-agent platform that produces children's books. Built/run with **Codex**.
+
+## What this repo is
+- `packs/` — swappable content: Country Packs (inventory + prompt + house_style_bindings + characters)
+  and Age-Range Packs (developmental prompt). `story-frameworks/` = proven structures.
+- `agents/` — agent specs: orchestrator, market-intelligence (research), author, illustration, layout,
+  compliance, character-designer, marketing. Author prompt = Country + Age + Framework + House Style + Intake.
+- `docs/kokeba-writing-guidelines.md` — the HOUSE STYLE (country-agnostic). Always follow it.
+- `data-sources/registry.yaml` — authoritative sources the research step ingests (Factbook, GBIF, Wikidata,
+  Nager.Date, PanLex, CDC, Head Start ELOF…). Prefer APIs/bulk; scrape via Apify only where no API.
+- `content/examples/` — generated books (e.g. Eden / Zuri).
+
+## How to run (Codex executes these)
+- Ingest a country's data:  `node scripts/ingest/build-country-pack.mjs ethiopia ET africa am`
+- Verify a book vs sources: `node scripts/verify/verify-book.mjs ET am content/examples/ethiopia-0-3/eden-goes-to-the-zoo/animals.verify.json`
+- Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
+
+## Hard rules (do not violate)
+1. Country-agnostic: resolve language/script/representation from the active Country Pack — never hard-code Amharic.
+2. House style: left page = lead-language rhyme ONLY; right page = illustration + one vocab-language word
+   (script + transliteration), NOT in the rhyme; one interaction per discovery spread.
+3. Each country gets its OWN character (run the Character Designer); never reuse another market's cast.
+4. Gates: every title needs native-speaker review (Gate 1) + the Compliance pre-flight before publish.
+5. Sources are inputs, not ground truth — the native reviewer is final on names + cultural sensitivity.

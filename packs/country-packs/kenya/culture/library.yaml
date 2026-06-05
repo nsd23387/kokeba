@@ -1,0 +1,9 @@
+foods: [ugali, sukuma wiki, chai, mandazi, nyama choma]
+animals: [simba/lion, tembo/elephant, twiga/giraffe, kiboko/hippo, chui/leopard, pundamilia/zebra, tumbili/monkey, faru/rhino, nyati/buffalo]
+nature: [jua/sun, mwezi/moon, nyota/star, savanna, Mount Kenya, Rift Valley, coast]
+places: [Nairobi, Maasai Mara, Amboseli, Mombasa]
+holidays: [Jamhuri Day, Madaraka Day, Eid, Christmas, Diwali]
+greetings: [jambo/hello, habari/how-are-you, asante/thanks, kwaheri/bye, "lala salama"/goodnight]
+values: [family & community (ujamaa), harambee/pulling-together, respect for elders, hospitality, pride in land & wildlife]
+sensitivities: { avoid: [colonial/safari-tourist gaze, poverty tropes, single-tribe framing], do: [modern + traditional, diverse peoples, respectful Maasai representation] }
+review_note: "Native Swahili reviewer must verify spelling, naming, and cultural accuracy."
