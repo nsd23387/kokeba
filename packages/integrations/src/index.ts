@@ -1,0 +1,2 @@
+// @kokeba/integrations entrypoint
+export {};

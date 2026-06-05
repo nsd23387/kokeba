@@ -1,0 +1,14 @@
+id: 0-3-board-book
+band: "0-3"
+bisac_audience: juvenile        # ages 0-11
+format: board-book              # NOTE: KDP can't print true board books — see docs/guides
+word_count: { min: 0, max: 100, typical: 15 }
+page_count: { min: 10, max: 16 }
+design_rules:
+  - one word or short phrase per page
+  - one big high-contrast image per spread
+  - concept content (first words, animals, colors, faces), not plot
+compliance_flags:
+  cpsia: true                   # books for <=3 are NOT exempt from testing
+  tracking_label: true
+status: launch

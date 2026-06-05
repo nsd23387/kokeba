@@ -1,0 +1,11 @@
+# CPSIA (US) — children's product safety
+id: cpsia
+applies_when: { age_band_max_lt: 4, or_format_in: [board-book, novelty] }
+checks:
+  - id: testing_required
+    rule: "Books intended for children <=3, or with inherent play value, are NOT exempt from third-party lead testing."
+    on_match: flag_for_testing
+  - id: tracking_label
+    rule: "Permanent tracking label required on physical children's products."
+    on_match: require_label
+note: "Ordinary paper picture books for older kids are exempt. Confirm with counsel before physical/novelty runs."

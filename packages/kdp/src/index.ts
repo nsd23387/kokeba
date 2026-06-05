@@ -1,0 +1,2 @@
+// @kokeba/kdp entrypoint
+export {};

@@ -1,0 +1,9 @@
+id: 3-6-picture-book
+band: "3-6"
+bisac_audience: juvenile
+format: paperback-picture-book
+word_count: { min: 300, max: 700, typical: 550 }
+page_count: { min: 24, max: 32 }
+design_rules: [short text 1-3 lines/spread, simple story arc + repeating refrain]
+compliance_flags: { cpsia: false }
+status: expansion

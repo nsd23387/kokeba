@@ -1,0 +1,2 @@
+// @kokeba/core entrypoint
+export {};

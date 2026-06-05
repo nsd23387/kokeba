@@ -1,0 +1,2 @@
+// @kokeba/types entrypoint
+export {};

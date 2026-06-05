@@ -1,0 +1,2 @@
+// @kokeba/compliance entrypoint
+export {};

@@ -1,0 +1,4 @@
+id: coppa
+checks:
+  - rule: "Marketing targets adults only; no child-directed ad targeting."
+  - rule: "No collection of children's data."

@@ -1,0 +1,5 @@
+id: kdp
+checks:
+  - rule: "Content meets KDP Content Guidelines; no prohibited content."
+  - rule: "Metadata + category accuracy; reading age set."
+  - rule: "<=3 new titles/day per account."

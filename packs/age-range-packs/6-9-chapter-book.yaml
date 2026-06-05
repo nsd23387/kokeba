@@ -1,0 +1,7 @@
+id: 6-9-chapter-book
+band: "6-9"
+bisac_audience: juvenile
+format: paperback
+word_count: { min: 4000, max: 10000 }
+page_count: { min: 48, max: 100 }
+status: expansion

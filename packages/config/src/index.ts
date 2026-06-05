@@ -1,0 +1,2 @@
+// @kokeba/config entrypoint
+export {};

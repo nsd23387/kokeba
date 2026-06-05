@@ -1,0 +1,2 @@
+// @kokeba/ui entrypoint
+export {};

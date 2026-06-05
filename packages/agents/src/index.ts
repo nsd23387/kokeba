@@ -1,0 +1,2 @@
+// @kokeba/agents entrypoint
+export {};

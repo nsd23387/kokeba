@@ -1,0 +1,10 @@
+id: ethiopia
+name: Ethiopia
+languages: [am, en]          # Amharic (primary) + English
+script: ethiopic             # Ge'ez / fidel
+font: "Noto Sans Ethiopic"
+marketplace: amazon.com      # primary KDP marketplace
+diaspora_hubs: [US, EU, Gulf]
+gifting_calendar: [enkutatash, timket, meskel, eid, christmas, birthdays]
+reviewer: "TODO: named native Amharic reviewer"
+status: launch

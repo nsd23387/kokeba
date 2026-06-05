@@ -1,0 +1,4 @@
+id: trademark
+checks:
+  - rule: "Title/character names + cover art free of trademark/copyright conflict."
+  - rule: "Story is original, not derivative of any named bestseller."

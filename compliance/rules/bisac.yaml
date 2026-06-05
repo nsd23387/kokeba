@@ -1,0 +1,4 @@
+id: bisac
+checks:
+  - rule: "Reading age + primary audience set, or the book is ineligible for kids' categories."
+  - rule: "Juvenile = ages 0-11; YA = 12-18."

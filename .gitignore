@@ -1,0 +1,9 @@
+node_modules/
+.env
+.turbo/
+dist/
+build/
+.next/
+content/**           # generated books — keep examples only
+!content/examples/**
+*.log

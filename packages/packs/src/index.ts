@@ -1,0 +1,2 @@
+// @kokeba/packs entrypoint
+export {};

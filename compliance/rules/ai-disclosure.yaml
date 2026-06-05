@@ -1,0 +1,4 @@
+id: ai-disclosure
+checks:
+  - rule: "Declare AI-generated text/images/translations at KDP upload, every time."
+    on_publish: prompt_disclosure
