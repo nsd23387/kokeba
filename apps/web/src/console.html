@@ -33,7 +33,14 @@ button.gate{background:var(--gate);color:#fff;border-color:var(--gate)}
 .budget{height:6px;background:#eee7d6;border-radius:4px;overflow:hidden}.budget>span{display:block;height:100%;background:var(--gold)}
 select{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:8px}
 small.hint{color:var(--muted);font-size:11px}
-</style></head><body>
+.preview-wrap{max-width:1180px;margin:0 auto;padding:0 18px 28px}
+.thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.thumb{border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.thumb img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#efe9da}
+.thumb .cap{font-size:11px;color:var(--muted);padding:4px 7px;display:flex;justify-content:space-between;gap:4px;align-items:center}
+.thumb .cap .am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:var(--navy)}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@700&display=swap" rel="stylesheet"></head><body>
 <header><span class="star">★</span><h1>Kokeba Studio</h1><span class="book" id="bookname">—</span></header>
 <div class="wrap">
   <div class="card">
@@ -70,12 +77,17 @@ small.hint{color:var(--muted);font-size:11px}
     </div>
   </div>
 </div>
+<div class="preview-wrap"><div class="card">
+  <h2>Book preview — always-on proof <button onclick="bumpArt()" style="float:right;font-size:11px;padding:3px 9px">↻ refresh art</button></h2>
+  <div id="preview" class="thumbs"></div>
+</div></div>
 <script>
-const API="";let BOOK=null;
+const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,RENDERED_V=0;
 const C={pending:'--pending',queued:'--queued',running:'--running',needs_approval:'--gate',done:'--done',blocked:'--blocked'};
 const api=(p,m,b)=>fetch(API+p,{method:m||'GET',headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined}).then(r=>r.json());
 async function refresh(){
   const s=await api('/api/state');BOOK=s.books[0];
+  const di=s.jobs.filter(j=>j.stage==='illustration'&&j.status==='done').length;if(di>PREV_ILLUS){PREV_ILLUS=di;ART_V++;}
   document.getElementById('bookname').textContent=BOOK.title+" · "+BOOK.country+" · "+BOOK.age;
   document.getElementById('mode').value=s.controls.approval_mode;
   const k=document.getElementById('kill');k.textContent=s.controls.kill_switch==='on'?'ON — paused':'off';
@@ -97,7 +109,19 @@ async function refresh(){
   const chat=(await api('/api/books/'+BOOK.id)).chat||[];
   document.getElementById('msgs').innerHTML=chat.map(m=>`<div class="msg ${m.role}">${m.text}</div>`).join('');
   const mm=document.getElementById('msgs');mm.scrollTop=mm.scrollHeight;
+  await maybeRenderPreview();
 }
+async function maybeRenderPreview(){
+  if(!BOOK)return;
+  if(!PAGES){const r=await api('/api/books/'+BOOK.id+'/pages');PAGES=(r&&r.pages)||[];}
+  if(RENDERED_V!==ART_V){RENDERED_V=ART_V;renderPreview();}
+}
+function renderPreview(){
+  const el=document.getElementById('preview');if(!el||!PAGES)return;
+  const imgs=PAGES.filter(p=>p.image);
+  el.innerHTML=imgs.length?imgs.map(p=>`<div class="thumb"><img src="/api/art/${BOOK.id}/${p.image}?v=${ART_V}" alt=""><div class="cap"><span>${p.page}</span>${p.vocab?`<span class="am">${p.vocab.am}</span>`:''}</div></div>`).join(''):'<div class="jobline">no art generated yet</div>';
+}
+function bumpArt(){ART_V++;RENDERED_V=ART_V;renderPreview();}
 const run=(stage)=>api('/api/jobs','POST',{bookId:BOOK.id,stage}).then(refresh);
 const approve=(stage)=>api('/api/books/'+BOOK.id+'/approve','POST',{stage}).then(refresh);
 const setMode=(v)=>api('/api/controls','POST',{approval_mode:v}).then(refresh);

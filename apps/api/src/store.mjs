@@ -35,8 +35,20 @@ export function load() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
   if (fs.existsSync(DB)) {
     try { state = JSON.parse(fs.readFileSync(DB, "utf8")); } catch { state = seed(); }
+    migrate();
   } else state = seed();
   return state;
+}
+// Backfill fields added after a state file was first written (e.g. book.dir).
+function migrate() {
+  const fresh = seed();
+  let changed = false;
+  for (const b of state.books || []) {
+    const ref = fresh.books.find((x) => x.id === b.id);
+    if (ref && !b.dir) { b.dir = ref.dir; changed = true; }
+    if (ref && !b.scenes) { b.scenes = ref.scenes; changed = true; }
+  }
+  if (changed) save();
 }
 export function save() {
   fs.mkdirSync(DATA_DIR, { recursive: true });
