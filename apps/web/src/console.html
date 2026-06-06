@@ -1,0 +1,107 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kokeba Studio</title>
+<style>
+:root{--navy:#222B6D;--gold:#C9A227;--cream:#FBF7EC;--sage:#A7B59A;--ink:#222B6D;--muted:#6b6f86;--line:#e4e0d2;
+  --pending:#b7b3a3;--queued:#C9A227;--running:#2f7ad6;--done:#1B7A43;--gate:#9A4DBB;--blocked:#B3261E;}
+*{box-sizing:border-box;margin:0}body{font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif;color:var(--ink);background:#F3EFE4}
+header{background:var(--navy);color:#fff;padding:14px 22px;display:flex;align-items:center;gap:10px}
+header .star{color:var(--gold);font-size:20px}header h1{font-size:18px;font-weight:600}
+header .book{margin-left:auto;font-size:13px;opacity:.85}
+.wrap{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;padding:18px;max-width:1180px;margin:0 auto}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h2{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:12px}
+.stage{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f1eee2}
+.stage:last-child{border-bottom:none}
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.stage .nm{font-weight:500;font-size:14px}.stage .ag{font-size:12px;color:var(--muted)}
+.badge{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;text-transform:capitalize}
+.spacer{flex:1}
+button{font:inherit;font-size:13px;border:1px solid var(--line);background:#fff;color:var(--navy);border-radius:8px;padding:6px 12px;cursor:pointer}
+button:hover{background:#faf7ee}button.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+button.gate{background:var(--gate);color:#fff;border-color:var(--gate)}
+.controls{display:flex;flex-direction:column;gap:12px}
+.row{display:flex;align-items:center;gap:10px;font-size:13px}
+.toggle{margin-left:auto}
+.chat{display:flex;flex-direction:column;height:340px}
+.msgs{flex:1;overflow:auto;display:flex;flex-direction:column;gap:8px;padding-right:4px}
+.msg{max-width:88%;padding:8px 11px;border-radius:12px;font-size:13px;line-height:1.4}
+.msg.user{align-self:flex-end;background:var(--navy);color:#fff;border-bottom-right-radius:3px}
+.msg.assistant{align-self:flex-start;background:#F1EEE2;color:var(--navy);border-bottom-left-radius:3px}
+.chatbar{display:flex;gap:8px;margin-top:10px}.chatbar input{flex:1;padding:8px 10px;border:1px solid var(--line);border-radius:8px;font:inherit}
+.jobs{font-size:12px;color:var(--muted);max-height:150px;overflow:auto}
+.jobline{padding:4px 0;border-bottom:1px dashed #eee7d6}
+.budget{height:6px;background:#eee7d6;border-radius:4px;overflow:hidden}.budget>span{display:block;height:100%;background:var(--gold)}
+select{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:8px}
+small.hint{color:var(--muted);font-size:11px}
+</style></head><body>
+<header><span class="star">★</span><h1>Kokeba Studio</h1><span class="book" id="bookname">—</span></header>
+<div class="wrap">
+  <div class="card">
+    <h2>Production pipeline</h2>
+    <div id="stages"></div>
+    <h2 style="margin-top:16px">Recent jobs</h2>
+    <div class="jobs" id="jobs"></div>
+  </div>
+  <div>
+    <div class="card" style="margin-bottom:18px">
+      <h2>Controls</h2>
+      <div class="controls">
+        <div class="row">Approval mode
+          <select id="mode" class="toggle" onchange="setMode(this.value)">
+            <option value="copilot">copilot (run each stage)</option>
+            <option value="autopilot">autopilot (auto-advance)</option>
+          </select></div>
+        <div class="row">Kill switch
+          <button id="kill" class="toggle" onclick="toggleKill()">—</button></div>
+        <div class="row" style="display:block">Daily budget <span id="budgettxt" style="float:right;color:var(--muted)"></span>
+          <div class="budget" style="margin-top:6px"><span id="budgetbar"></span></div></div>
+        <small class="hint">Autopilot auto-runs stages; gates always wait for you.</small>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Feedback chat</h2>
+      <div class="chat">
+        <div class="msgs" id="msgs"></div>
+        <div class="chatbar">
+          <input id="chatin" placeholder='e.g. "regenerate s05, monkey too close"' onkeydown="if(event.key==='Enter')send()">
+          <button class="primary" onclick="send()">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const API="";let BOOK=null;
+const C={pending:'--pending',queued:'--queued',running:'--running',needs_approval:'--gate',done:'--done',blocked:'--blocked'};
+const api=(p,m,b)=>fetch(API+p,{method:m||'GET',headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined}).then(r=>r.json());
+async function refresh(){
+  const s=await api('/api/state');BOOK=s.books[0];
+  document.getElementById('bookname').textContent=BOOK.title+" · "+BOOK.country+" · "+BOOK.age;
+  document.getElementById('mode').value=s.controls.approval_mode;
+  const k=document.getElementById('kill');k.textContent=s.controls.kill_switch==='on'?'ON — paused':'off';
+  k.style.background=s.controls.kill_switch==='on'?'#B3261E':'#fff';k.style.color=s.controls.kill_switch==='on'?'#fff':'#222B6D';
+  const b=s.controls.budget;document.getElementById('budgettxt').textContent=`$${b.spent_today_usd} / $${b.daily_cap_usd}`;
+  document.getElementById('budgetbar').style.width=Math.min(100,100*b.spent_today_usd/b.daily_cap_usd)+'%';
+  document.getElementById('stages').innerHTML=s.stages.map(st=>{
+    const status=BOOK.stages[st.id]||'pending';const col=`var(${C[status]})`;
+    let action='';
+    if(status==='needs_approval')action=`<button class="gate" onclick="approve('${st.id}')">Approve</button>`;
+    else if(status==='running'||status==='queued')action=`<button disabled>…</button>`;
+    else action=`<button onclick="run('${st.id}')">${status==='done'?'Re-run':'Run'}</button>`;
+    return `<div class="stage"><span class="dot" style="background:${col}"></span>
+      <div><div class="nm">${st.label}</div><div class="ag">${st.agent}${st.gate?' · gate':''}</div></div>
+      <span class="spacer"></span>
+      <span class="badge" style="background:${col}22;color:${col}">${status.replace('_',' ')}</span>${action}</div>`;
+  }).join('');
+  document.getElementById('jobs').innerHTML=s.jobs.map(j=>`<div class="jobline">[${j.status}] ${j.stage}${j.scope?' · '+j.scope:''} ${j.logs&&j.logs.length?'— '+j.logs.join('; '):''}</div>`).join('')||'<div class="jobline">no jobs yet</div>';
+  const chat=(await api('/api/books/'+BOOK.id)).chat||[];
+  document.getElementById('msgs').innerHTML=chat.map(m=>`<div class="msg ${m.role}">${m.text}</div>`).join('');
+  const mm=document.getElementById('msgs');mm.scrollTop=mm.scrollHeight;
+}
+const run=(stage)=>api('/api/jobs','POST',{bookId:BOOK.id,stage}).then(refresh);
+const approve=(stage)=>api('/api/books/'+BOOK.id+'/approve','POST',{stage}).then(refresh);
+const setMode=(v)=>api('/api/controls','POST',{approval_mode:v}).then(refresh);
+const toggleKill=async()=>{const s=await api('/api/state');api('/api/controls','POST',{kill_switch:s.controls.kill_switch==='on'?'off':'on'}).then(refresh);};
+async function send(){const i=document.getElementById('chatin');const t=i.value.trim();if(!t)return;i.value='';await api('/api/chat','POST',{bookId:BOOK.id,text:t});refresh();}
+refresh();setInterval(refresh,1500);
+</script></body></html>

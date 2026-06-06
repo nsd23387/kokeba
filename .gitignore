@@ -7,3 +7,4 @@ build/
 content/**           # generated books — keep examples only
 !content/examples/**
 *.log
+apps/api/.data/

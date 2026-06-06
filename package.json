@@ -9,7 +9,11 @@
     "e2e": "turbo run e2e",
     "new:country": "tsx scripts/new-country.ts",
     "new:book": "tsx scripts/new-book.ts",
-    "illustrate": "node scripts/illustrate/generate-scenes.mjs"
+    "illustrate": "node scripts/illustrate/generate-scenes.mjs",
+    "render": "node scripts/layout/build-book.mjs",
+    "api": "node apps/api/src/server.mjs",
+    "worker": "node apps/worker/src/worker.mjs",
+    "studio": "node apps/api/src/server.mjs & node apps/worker/src/worker.mjs"
   },
   "dependencies": {
     "openai": "^4.104.0"
