@@ -4,11 +4,31 @@
 // stubbed below with the exact commands to drop in later.
 //   node apps/worker/src/worker.mjs        (API_URL env, default http://localhost:8787)
 
+import { execFileSync } from "node:child_process";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 const API = process.env.API_URL || "http://localhost:8787";
 const POLL_MS = Number(process.env.POLL_MS || 1200);
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
+const MOCK = process.env.MOCK_STAGES === "1"; // set to mock the illustration stage too
 
 const post = (p, body) => fetch(`${API}${p}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body || {}) }).then((r) => r.json());
+const get = (p) => fetch(`${API}${p}`).then((r) => r.json());
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// LIVE illustration: run the real generator for the scene(s), inject reviewer feedback,
+// then rebuild the proof so the UI shows the new art. Needs IMAGE_GEN_API_KEY in .env.
+async function runIllustrationLive(job) {
+  const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
+  if (!book?.dir) throw new Error("book has no content dir");
+  const gen = ["scripts/illustrate/generate-scenes.mjs", book.dir, "--force"];
+  if (job.scope) gen.push("--only", job.scope);
+  if (job.note) gen.push("--note", job.note);
+  execFileSync("node", gen, { cwd: REPO_ROOT, stdio: "inherit", env: process.env });
+  execFileSync("node", ["scripts/layout/build-book.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit", env: process.env });
+  return [job.scope ? `regenerated ${job.scope}` : "generated all scenes", job.note ? `feedback: ${job.note}` : "", "rebuilt proof"].filter(Boolean);
+}
 
 // --- stage adapters ----------------------------------------------------------
 // MOCK now. To go live, replace a stage body with a child_process call, e.g.:
@@ -19,9 +39,9 @@ const ADAPTERS = {
   research:     async () => ["fetched country + age data", "compiled author context"],
   author:       async () => ["composed manuscript", "AABB couplets, vocab not forced into rhyme"],
   character:    async () => ["locked Eden + Mama reference sheets (formal + everyday)"],
-  illustration: async (job) => job.scope
-    ? [`regenerated ${job.scope} with feedback`, job.note ? `note: ${job.note}` : "", "attached locked refs"].filter(Boolean)
-    : ["generated cover + s01..s11", "attached locked refs", "applied safety + text-safe-zone rules"],
+  illustration: async (job) => MOCK
+    ? [`(mock) regenerated ${job.scope || "all"}`, job.note ? `note: ${job.note}` : ""].filter(Boolean)
+    : runIllustrationLive(job),
   layout:       async () => ["placed art + English + embedded fidel", "rebuilt proof.html"],
   compliance:   async () => ["COPPA/CPSIA checks", "BISAC + reading age set", "AI disclosure flagged"],
   export:       async () => ["rendered 300dpi PDF", "KDP trim + bleed verified"],

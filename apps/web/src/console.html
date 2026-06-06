@@ -48,9 +48,16 @@ small.hint{color:var(--muted);font-size:11px}
 .modal-title{font-weight:600;font-size:18px}.modal-sub{color:var(--muted);font-size:13px}
 .modal-side textarea{flex:1;min-height:120px;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit}
 .modal-actions{display:flex;gap:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+.spin{display:inline-block;animation:spin 1.1s linear infinite}
+.proc{position:absolute;inset:0;background:rgba(255,253,247,.78);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--navy);font-size:11px;font-weight:600}
+.proc .star{color:var(--gold);font-size:28px}
+#working{display:none;align-items:center;gap:6px;font-size:13px;color:#FBE9B0;animation:pulse 1.6s ease-in-out infinite}
+#working.on{display:inline-flex}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@700&display=swap" rel="stylesheet"></head><body>
-<header><span class="star">★</span><h1>Kokeba Studio</h1><span class="book" id="bookname">—</span></header>
+<header><span class="star">★</span><h1>Kokeba Studio</h1><span class="book" id="bookname">—</span><span id="working" style="margin-left:12px"><span class="spin">★</span> working…</span></header>
 <div class="wrap">
   <div class="card">
     <h2>Production pipeline</h2>
@@ -106,12 +113,14 @@ small.hint{color:var(--muted);font-size:11px}
   </div>
 </div>
 <script>
-const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,RENDERED_V=0,MODAL_SCENE=null;
+const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,MODAL_SCENE=null,PROCESSING=new Set(),RENDER_KEY='';
 const C={pending:'--pending',queued:'--queued',running:'--running',needs_approval:'--gate',done:'--done',blocked:'--blocked'};
 const api=(p,m,b)=>fetch(API+p,{method:m||'GET',headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined}).then(r=>r.json());
 async function refresh(){
   const s=await api('/api/state');BOOK=s.books[0];
   const di=s.jobs.filter(j=>j.stage==='illustration'&&j.status==='done').length;if(di>PREV_ILLUS){PREV_ILLUS=di;ART_V++;}
+  PROCESSING=new Set(s.jobs.filter(j=>j.stage==='illustration'&&(j.status==='queued'||j.status==='running')).map(j=>j.scope).filter(Boolean));
+  const active=s.jobs.filter(j=>j.status==='queued'||j.status==='running').length;document.getElementById('working').classList.toggle('on',active>0);
   document.getElementById('bookname').textContent=BOOK.title+" · "+BOOK.country+" · "+BOOK.age;
   document.getElementById('mode').value=s.controls.approval_mode;
   const k=document.getElementById('kill');k.textContent=s.controls.kill_switch==='on'?'ON — paused':'off';
@@ -122,7 +131,7 @@ async function refresh(){
     const status=BOOK.stages[st.id]||'pending';const col=`var(${C[status]})`;
     let action='';
     if(status==='needs_approval')action=`<button class="gate" onclick="approve('${st.id}')">Approve</button>`;
-    else if(status==='running'||status==='queued')action=`<button disabled>…</button>`;
+    else if(status==='running'||status==='queued')action=`<button disabled><span class="spin" style="color:var(--gold)">★</span></button>`;
     else action=`<button onclick="run('${st.id}')">${status==='done'?'Re-run':'Run'}</button>`;
     return `<div class="stage"><span class="dot" style="background:${col}"></span>
       <div><div class="nm">${st.label}</div><div class="ag">${st.agent}${st.gate?' · gate':''}</div></div>
@@ -138,14 +147,16 @@ async function refresh(){
 async function maybeRenderPreview(){
   if(!BOOK)return;
   if(!PAGES){const r=await api('/api/books/'+BOOK.id+'/pages');PAGES=(r&&r.pages)||[];}
-  if(RENDERED_V!==ART_V){RENDERED_V=ART_V;renderPreview();}
+  const key=ART_V+'|'+[...PROCESSING].sort().join(',');
+  if(RENDER_KEY!==key){RENDER_KEY=key;renderPreview();}
 }
 function renderPreview(){
   const el=document.getElementById('preview');if(!el||!PAGES)return;
   const imgs=PAGES.filter(p=>p.image);
-  el.innerHTML=imgs.length?imgs.map(p=>`<div class="thumb" onclick="openImg('${p.image}','${p.page}',${p.vocab?`'${p.vocab.am}'`:'null'})"><img src="/api/art/${BOOK.id}/${p.image}?v=${ART_V}" alt=""><div class="cap"><span>${p.page}</span>${p.vocab?`<span class="am">${p.vocab.am}</span>`:''}</div></div>`).join(''):'<div class="jobline">no art generated yet</div>';
+  el.innerHTML=imgs.length?imgs.map(p=>{const sc=p.image.replace(/\.png$/,'');const proc=PROCESSING.has(sc);
+    return `<div class="thumb" onclick="openImg('${p.image}','${p.page}',${p.vocab?`'${p.vocab.am}'`:'null'})"><img src="/api/art/${BOOK.id}/${p.image}?v=${ART_V}" alt="">${proc?'<div class="proc"><span class="star spin">★</span>Regenerating…</div>':''}<div class="cap"><span>${p.page}</span>${p.vocab?`<span class="am">${p.vocab.am}</span>`:''}</div></div>`;}).join(''):'<div class="jobline">no art generated yet</div>';
 }
-function bumpArt(){ART_V++;RENDERED_V=ART_V;renderPreview();}
+function bumpArt(){ART_V++;RENDER_KEY='';renderPreview();}
 function openImg(image,page,am){
   MODAL_SCENE=image.replace(/\.png$/,'');
   document.getElementById('modal-img').src='/api/art/'+BOOK.id+'/'+image+'?v='+ART_V;
@@ -157,8 +168,9 @@ function openImg(image,page,am){
 function closeImg(){document.getElementById('modal').classList.remove('open');}
 async function regenFromModal(){
   const note=document.getElementById('modal-fb').value.trim();
+  PROCESSING.add(MODAL_SCENE);RENDER_KEY='';renderPreview();
+  document.getElementById('modal-note').innerHTML='<span class="spin" style="color:var(--gold)">★</span> Queued regeneration of '+MODAL_SCENE+'… it updates here when the worker finishes.';
   await api('/api/jobs','POST',{bookId:BOOK.id,stage:'illustration',scope:MODAL_SCENE,note:note||('regenerate '+MODAL_SCENE)});
-  document.getElementById('modal-note').textContent='Queued regeneration of '+MODAL_SCENE+' with your feedback. It updates here when the worker finishes.';
   refresh();
 }
 const run=(stage)=>api('/api/jobs','POST',{bookId:BOOK.id,stage}).then(refresh);

@@ -65,6 +65,7 @@ const DRY = has("--dry-run");
 const FORCE = has("--force");
 const onlyArg = valOf("--only");
 const only = onlyArg ? new Set(onlyArg.split(",").map((s) => s.trim())) : null;
+const NOTE = valOf("--note"); // reviewer feedback appended to the prompt for this run
 
 // ---------- load manifest ----------
 const manifestPath = path.resolve(bookDir, "scenes.json");
@@ -109,7 +110,8 @@ const results = [];
 for (const scene of scenes) {
   const outPath = path.join(artDir, scene.file);
   const refPaths = resolveRefs(manifest, scene, bookDir, path);
-  const prompt = composePrompt(manifest, scene);
+  let prompt = composePrompt(manifest, scene);
+  if (NOTE) prompt += `\n\nADDITIONAL ART DIRECTION (reviewer feedback — apply this carefully): ${NOTE}`;
 
   // validate refs exist
   const missing = refPaths.filter((p) => !fs.existsSync(p));
