@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+body { background: #F3EFE4; color: #222B6D; }
+
+/* shimmer skeleton for art that hasn't streamed/loaded yet */
+@keyframes shimmer { 0% { background-position: -480px 0; } 100% { background-position: 480px 0; } }
+.shimmer {
+  background: #efe9da linear-gradient(90deg, #efe9da 0%, #f7f2e6 50%, #efe9da 100%);
+  background-size: 480px 100%;
+  animation: shimmer 1.3s infinite linear;
+}
+@keyframes fadein { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: none; } }
+.fadein { animation: fadein .4s ease both; }

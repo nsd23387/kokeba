@@ -13,7 +13,17 @@ import { canDispatch, shouldAutoAdvance, chargeBudget } from "../../../packages/
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const CONSOLE = path.resolve(here, "../../web/src/console.html");
+const REPO_ROOT = path.resolve(here, "../../..");
 const PORT = process.env.PORT || 8787;
+
+// Read a book's layout.json pages (text + vocab + image filename).
+function readPages(book) {
+  if (!book?.dir) return [];
+  const lp = path.join(REPO_ROOT, book.dir, "layout.json");
+  if (!fs.existsSync(lp)) return [];
+  try { return JSON.parse(fs.readFileSync(lp, "utf8")).pages || []; } catch { return []; }
+}
+const MIME = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg" };
 
 const json = (res, code, body) => {
   res.writeHead(code, { "content-type": "application/json", "access-control-allow-origin": "*" });
@@ -67,6 +77,49 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "GET" && (p === "/" || p === "/index.html")) {
     if (fs.existsSync(CONSOLE)) { res.writeHead(200, { "content-type": "text/html" }); return res.end(fs.readFileSync(CONSOLE)); }
     return json(res, 404, { error: "console not found" });
+  }
+
+  // book pages (layout text + vocab + image filename)
+  if (req.method === "GET" && p.match(/^\/api\/books\/[^/]+\/pages$/)) {
+    const b = db.getBook(p.split("/")[3]);
+    return b ? json(res, 200, { pages: readPages(b) }) : json(res, 404, { error: "no book" });
+  }
+  // proof stream (SSE) — emits one page at a time for the "assembling proof" effect
+  if (req.method === "GET" && p.match(/^\/api\/books\/[^/]+\/proof-stream$/)) {
+    const b = db.getBook(p.split("/")[3]);
+    if (!b) return json(res, 404, { error: "no book" });
+    res.writeHead(200, { "content-type": "text/event-stream", "cache-control": "no-cache", connection: "keep-alive", "access-control-allow-origin": "*" });
+    const pages = readPages(b);
+    res.write(`event: meta\ndata: ${JSON.stringify({ total: pages.length, title: b.title })}\n\n`);
+    let i = 0;
+    const tick = setInterval(() => {
+      if (i >= pages.length) { res.write(`event: done\ndata: {}\n\n`); clearInterval(tick); return res.end(); }
+      res.write(`event: page\ndata: ${JSON.stringify({ index: i, page: pages[i] })}\n\n`);
+      i++;
+    }, 420);
+    req.on("close", () => clearInterval(tick));
+    return;
+  }
+  // serve a book's art file
+  if (req.method === "GET" && p.match(/^\/api\/art\/[^/]+\/[^/]+$/)) {
+    const [, , , bookId, file] = p.split("/");
+    const b = db.getBook(bookId);
+    if (!b?.dir || file.includes("..")) return json(res, 404, { error: "not found" });
+    const fp = path.join(REPO_ROOT, b.dir, "art", file);
+    if (!fs.existsSync(fp)) return json(res, 404, { error: "no art" });
+    res.writeHead(200, { "content-type": MIME[path.extname(file)] || "application/octet-stream", "access-control-allow-origin": "*" });
+    return fs.createReadStream(fp).pipe(res);
+  }
+  // Gate 1 review submission: corrections + flags + cultural sign-off -> approve or return
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/gate1$/)) {
+    const bookId = p.split("/")[3]; const body = await readBody(req);
+    const b = db.getBook(bookId); if (!b) return json(res, 404, { error: "no book" });
+    b.gate1 = { ...body, at: Date.now() }; // { decision:'approve'|'return', corrections:{}, flags:{}, cultural_ok, notes }
+    if (body.decision === "approve") { b.stages.gate1 = STATUS.DONE; advanceAfter(b, "gate1"); db.addChat(bookId, "assistant", "Gate 1 approved — advancing to compliance."); }
+    else { b.stages.gate1 = STATUS.PENDING; b.stages.illustration = STATUS.PENDING; b.stages.layout = STATUS.PENDING;
+      db.addChat(bookId, "user", `Gate 1 returned: ${body.notes || "changes requested"}`); }
+    db.save();
+    return json(res, 200, { ok: true, book: b });
   }
 
   // state

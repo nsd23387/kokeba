@@ -19,6 +19,7 @@ function seed() {
         title: "Eden Goes to the Zoo",
         country: "Ethiopia",
         age: "0-3",
+        dir: "content/examples/ethiopia-0-3/eden-goes-to-the-zoo",
         stages: { ...freshStages(), research: "done", author: "done", character: "done", illustration: "done", layout: "done" },
         scenes: ["cover","s01","s02","s03","s04","s05","s06","s07","s08","s09","s10","s11"],
       },
