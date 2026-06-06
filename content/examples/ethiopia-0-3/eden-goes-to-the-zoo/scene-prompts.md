@@ -58,6 +58,11 @@ drifts toward formal/ceremonial white habesha, correct it — everyday only.
 Cultural rule: inclusive of all Ethiopian kids (incl. Muslim) — neutral geometric patterns only, no faith-specific
 symbols on everyday wear.
 
+**TEXT-SAFE ZONE (square trim):** keep the **bottom ~18%** of every image a CALM, simple area (ground / path /
+water / grass / sky) — **no faces, feet, hands, or key subjects** in that lower strip. The Amharic vocab word sits
+in a band there at layout, so nothing important may be cropped or covered. Keep characters + main action in the
+upper/middle of the frame.
+
 ---
 
 ## Prompts (paste one at a time)

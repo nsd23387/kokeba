@@ -10,6 +10,9 @@
 - ONE hero subject per page (the child + one key animal/object). Lots of clean negative space.
 - Clear, readable emotion on the character. Never cluttered.
 - NO text inside the illustration — text is added at layout (so it stays localizable).
+- **TEXT-SAFE ZONE.** Keep the bottom ~18% of every illustration a calm, simple area (ground/sky/water — no
+  faces, feet, hands, or key subjects). On square trims the heritage word is set in a band over this strip; the
+  safe zone means it never crops or covers anything important. Keep characters + main action upper/middle.
 
 ## Palette
 - Brand: navy #222B6D, gold #C9A227, white #FFFFFF, cream #E7D7A6.

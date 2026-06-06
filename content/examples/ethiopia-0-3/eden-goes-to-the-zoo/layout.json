@@ -1,10 +1,20 @@
 {
   "book_id": "ethiopia-0-3-eden-zoo",
   "trim": "8.5x8.5in",
+  "trim_shape": "square",
   "bleed_in": 0.125,
   "art_dir": "art",
   "script_font": "Noto Sans Ethiopic",
-  "_note": "Bridge artifact for the layout stage. Each page = the right-page illustration (from scenes.json) + the left-page English + (animal pages) one Amharic vocab word. The layout agent autofills the Kokeba page template in Canva with these fields, then exports a print-ready PDF (Canva embeds the Ethiopic font).",
+  "template": {
+    "spread": "left page = English story (rhyme + interaction); right page = full-bleed square illustration + vocab",
+    "image": "full-bleed, fills the square page edge-to-edge (no crop)",
+    "vocab_placement": "overlay band over the bottom text-safe zone of the right-page image (am word + translit + en gloss)",
+    "text_safe_zone": "bottom ~18% of each illustration kept calm so the vocab band covers nothing important",
+    "fonts": { "english": "Fraunces (warm storybook serif)", "amharic": "Noto Sans Ethiopic (embedded at export)" },
+    "palette": { "navy": "#222B6D", "gold": "#C9A227", "page": "#FFFDF7", "sage": "#A7B59A" },
+    "status": "APPROVED (template locked)"
+  },
+  "_note": "Bridge artifact for the layout stage. Each page = the right-page illustration (from scenes.json) + the left-page English + (animal pages) one Amharic vocab word. Render via scripts/layout/build-book.mjs (proof.html -> print-ready PDF, fidel embedded), or autofill the Canva template. Same field set either way.",
   "pages": [
     { "page": "cover", "image": "cover.png", "title_en": "Eden Goes to the Zoo", "title_am": "ኤደን ወደ እንስሳት ማቆያ ሄደች" },
     { "page": "dedication", "image": null, "english": "For our little star ★" },
