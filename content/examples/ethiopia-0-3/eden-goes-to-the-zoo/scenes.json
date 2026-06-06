@@ -1,0 +1,85 @@
+{
+  "book_id": "ethiopia-0-3-eden-zoo",
+  "model_hint": "gpt-image",
+  "size": "1024x1024",
+  "art_dir": "art",
+  "refs": {
+    "eden": "art/eden_everyday_ref.png",
+    "mama": "art/mama_everyday_ref.png"
+  },
+  "shared_block": "Soft, warm children's storybook illustration — gentle painterly shading, subtle texture, rounded friendly shapes, cozy warm lighting. Palette: cream/white, sage-green, gold, navy accents. Ages 0-3: NO text or letters in the image, square composition, soft uncluttered background, ONE clear subject. IDENTITY + everyday outfits EXACTLY as in the attached reference sheet(s): Eden (toddler, warm brown skin, dark-brown curly hair + small gold star clip, yellow everyday play dress, baby proportions) and, where attached, Mama (warm brown skin, dark curly hair, cream V-neck top + sage-green trousers). Keep faces, hair, star clip, and the everyday clothes identical to the references — do NOT switch to formal white habesha. Setting reads as the ETHIOPIAN highlands (Addis Ababa ~2,355 m): temperate, clear blue sky, soft warm light, reddish-brown soil with green grass; trees are tall slender eucalyptus, flat-topped acacia, and a spreading warka shade tree; a few yellow adey-abeba daisies. Cultural rule: inclusive of all Ethiopian kids — neutral geometric patterns only, no faith-specific symbols on everyday wear. No snow/pine, no hot flat safari, no Western zoo buildings.",
+  "scenes": [
+    {
+      "id": "cover",
+      "file": "cover.png",
+      "refs": ["eden", "mama"],
+      "prompt": "Scene: Eden stands at a bright, friendly ETHIOPIAN-highland zoo entrance gate holding Mama's hand and looking up with wide-eyed wonder; a couple of friendly animals (a lion, a giraffe) peek playfully over the gate/enclosures behind. Leave calm space across the top third for a title (render NO text). Eden is the hero; Mama warm and secondary."
+    },
+    {
+      "id": "s01",
+      "file": "s01.png",
+      "refs": ["eden"],
+      "prompt": "Scene: Eden waking in a cozy little bed at home, stretching with a sleepy happy smile; soft golden morning light through a window. This is HOME — no zoo. Mama is not in this scene."
+    },
+    {
+      "id": "s02",
+      "file": "s02.png",
+      "refs": ["eden", "mama"],
+      "prompt": "Scene: Eden holding Mama's hand, walking happily toward the Ethiopian-highland zoo entrance gate, pointing ahead with excitement. Eucalyptus and acacia around the path, blue sky. Mama warm and secondary."
+    },
+    {
+      "id": "s03",
+      "file": "s03.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (lion / Anbessa): a big, friendly Ethiopian black-maned lion — soft fluffy but noticeably DARK mane from the head over the shoulders, gentle and not scary. BARRIER REALISM: the lion sits SET BACK on a raised rocky ledge deeper in its enclosure, with a clear gap (a small moat / planted strip) and a taller sturdy wooden rail or low stone wall between it and Eden — it is NOT right beside her. Eden stands at the barrier on the visitor side, cupping her hands to 'roar' back, delighted (hero, biggest and closest); Mama beside her, a hand on Eden's shoulder, smiling. Small blank wooden sign post by the rail."
+    },
+    {
+      "id": "s04",
+      "file": "s04.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (elephant / Zihon): a happy round elephant in its enclosure (dirt-and-grass habitat with a little pool) behind a low rounded rail, lifting its trunk to wave; Eden at the rail waving back with a big smile, Mama beside her waving too. Gentle animal — it may come nearer the rail."
+    },
+    {
+      "id": "s05",
+      "file": "s05.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (monkey / Zinjero): a playful monkey swinging on a branch / climbing frame inside a leafy enclosure behind a low rounded rail; Eden at the rail giggling with her hands up, 'chattering' along; Mama crouched beside her, laughing with her."
+    },
+    {
+      "id": "s06",
+      "file": "s06.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (giraffe / Qechne): a tall gentle giraffe in its enclosure bending its long neck down over a low rounded rail toward Eden, who looks up and stretches on tiptoes with a delighted smile; Mama beside her, gently steadying her, looking up too. Tall reaching animal — may come near the rail."
+    },
+    {
+      "id": "s07",
+      "file": "s07.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (camel / Gimel): a calm smiling one-humped camel in a sandy enclosure behind a low rounded rail; Eden at the rail bouncing and wiggling happily, mid-giggle; Mama beside her, holding her hand and smiling."
+    },
+    {
+      "id": "s08",
+      "file": "s08.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (hippo / Gumare): a round jolly hippo splashing in its pool SET BACK inside the enclosure (a clear gap + a sturdy rail between the pool and the path), cheerful water droplets; Eden at the rail laughing and pretending to splash; Mama beside her, sharing the laugh."
+    },
+    {
+      "id": "s09",
+      "file": "s09.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (leopard / Nebir): a gentle spotted leopard tiptoeing softly SET BACK on the rocks deeper in its leafy enclosure (a clear gap + a taller sturdy rail between it and the path; calm, friendly, not fierce); Eden at the barrier tiptoeing quietly, finger to her lips, eyes wide; Mama beside her, also tiptoeing playfully, finger to lips."
+    },
+    {
+      "id": "s10",
+      "file": "s10.png",
+      "refs": ["eden", "mama"],
+      "prompt": "ZOO SCENE (reflection): Eden walking down the zoo path holding Mama's hand, both waving goodbye; the lion, elephant and giraffe wave back warmly from their enclosures in the soft background. Happy and content."
+    },
+    {
+      "id": "s11",
+      "file": "s11.png",
+      "refs": ["eden", "mama"],
+      "prompt": "Scene (final / bus): Eden sitting beside Mama on a cozy bus seat, looking up at her with a sleepy happy smile; through the window the zoo and a soft evening sky fade away, a few first stars twinkling. Tender, bedtime-warm. No enclosure — they're heading home."
+    }
+  ]
+}

@@ -8,7 +8,9 @@
     "lint": "turbo run lint",
     "e2e": "turbo run e2e",
     "new:country": "tsx scripts/new-country.ts",
-    "new:book": "tsx scripts/new-book.ts"
+    "new:book": "tsx scripts/new-book.ts",
+    "illustrate": "node scripts/illustrate/generate-scenes.mjs"
   },
+  "dependencies": { "openai": "^4.67.0" },
   "devDependencies": { "turbo": "^2.0.0", "typescript": "^5.4.0", "tsx": "^4.7.0" }
 }

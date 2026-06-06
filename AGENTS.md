@@ -14,6 +14,8 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
 ## How to run (Codex executes these)
 - Ingest a country's data:  `node scripts/ingest/build-country-pack.mjs ethiopia ET africa am`
 - Verify a book vs sources: `node scripts/verify/verify-book.mjs ET am content/examples/ethiopia-0-3/eden-goes-to-the-zoo/animals.verify.json`
+- Generate a book's art:    `node scripts/illustrate/generate-scenes.mjs content/examples/ethiopia-0-3/eden-goes-to-the-zoo`
+  (lock the character reference sheets first; reads the book's `scenes.json`; needs `IMAGE_GEN_API_KEY`; `pnpm add openai` once. `--dry-run` validates without the API.)
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
 
 ## Hard rules (do not violate)
