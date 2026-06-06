@@ -132,10 +132,11 @@ const server = http.createServer(async (req, res) => {
 
   // run a stage
   if (req.method === "POST" && p === "/api/jobs") {
-    const { bookId, stage: st, scope } = await readBody(req);
+    const { bookId, stage: st, scope, note } = await readBody(req);
     const b = db.getBook(bookId);
     if (!b) return json(res, 404, { error: "no book" });
-    return json(res, 200, enqueueStage(b, st, { scope }));
+    if (note) db.addChat(bookId, "user", `${scope ? scope + ": " : ""}${note}`);
+    return json(res, 200, enqueueStage(b, st, { scope, note }));
   }
   // worker: claim next queued job
   if (req.method === "POST" && p === "/api/next-job") {

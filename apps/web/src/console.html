@@ -39,6 +39,15 @@ small.hint{color:var(--muted);font-size:11px}
 .thumb img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#efe9da}
 .thumb .cap{font-size:11px;color:var(--muted);padding:4px 7px;display:flex;justify-content:space-between;gap:4px;align-items:center}
 .thumb .cap .am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:var(--navy)}
+.thumb{cursor:pointer;transition:transform .12s}.thumb:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(34,43,109,.14)}
+.modal{position:fixed;inset:0;background:rgba(20,22,40,.62);display:none;align-items:center;justify-content:center;z-index:50;padding:24px}
+.modal.open{display:flex}
+.modal-card{background:#fff;border-radius:14px;overflow:hidden;display:flex;max-width:1000px;width:100%;max-height:90vh}
+.modal-card>img{width:58%;object-fit:contain;background:#11142a}
+.modal-side{flex:1;padding:20px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.modal-title{font-weight:600;font-size:18px}.modal-sub{color:var(--muted);font-size:13px}
+.modal-side textarea{flex:1;min-height:120px;border:1px solid var(--line);border-radius:8px;padding:10px;font:inherit}
+.modal-actions{display:flex;gap:8px}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@700&display=swap" rel="stylesheet"></head><body>
 <header><span class="star">★</span><h1>Kokeba Studio</h1><span class="book" id="bookname">—</span></header>
@@ -81,8 +90,23 @@ small.hint{color:var(--muted);font-size:11px}
   <h2>Book preview — always-on proof <button onclick="bumpArt()" style="float:right;font-size:11px;padding:3px 9px">↻ refresh art</button></h2>
   <div id="preview" class="thumbs"></div>
 </div></div>
+<div id="modal" class="modal" onclick="if(event.target===this)closeImg()">
+  <div class="modal-card">
+    <img id="modal-img" src="" alt="">
+    <div class="modal-side">
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-sub" id="modal-sub"></div>
+      <textarea id="modal-fb" placeholder="Feedback for THIS page — e.g. 'make the lion friendlier', 'don't cover Mama's face', 'she should face the entrance'"></textarea>
+      <div class="modal-actions">
+        <button class="primary" onclick="regenFromModal()">Regenerate this page</button>
+        <button onclick="closeImg()">Close</button>
+      </div>
+      <small class="hint" id="modal-note"></small>
+    </div>
+  </div>
+</div>
 <script>
-const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,RENDERED_V=0;
+const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,RENDERED_V=0,MODAL_SCENE=null;
 const C={pending:'--pending',queued:'--queued',running:'--running',needs_approval:'--gate',done:'--done',blocked:'--blocked'};
 const api=(p,m,b)=>fetch(API+p,{method:m||'GET',headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined}).then(r=>r.json());
 async function refresh(){
@@ -119,9 +143,24 @@ async function maybeRenderPreview(){
 function renderPreview(){
   const el=document.getElementById('preview');if(!el||!PAGES)return;
   const imgs=PAGES.filter(p=>p.image);
-  el.innerHTML=imgs.length?imgs.map(p=>`<div class="thumb"><img src="/api/art/${BOOK.id}/${p.image}?v=${ART_V}" alt=""><div class="cap"><span>${p.page}</span>${p.vocab?`<span class="am">${p.vocab.am}</span>`:''}</div></div>`).join(''):'<div class="jobline">no art generated yet</div>';
+  el.innerHTML=imgs.length?imgs.map(p=>`<div class="thumb" onclick="openImg('${p.image}','${p.page}',${p.vocab?`'${p.vocab.am}'`:'null'})"><img src="/api/art/${BOOK.id}/${p.image}?v=${ART_V}" alt=""><div class="cap"><span>${p.page}</span>${p.vocab?`<span class="am">${p.vocab.am}</span>`:''}</div></div>`).join(''):'<div class="jobline">no art generated yet</div>';
 }
 function bumpArt(){ART_V++;RENDERED_V=ART_V;renderPreview();}
+function openImg(image,page,am){
+  MODAL_SCENE=image.replace(/\.png$/,'');
+  document.getElementById('modal-img').src='/api/art/'+BOOK.id+'/'+image+'?v='+ART_V;
+  document.getElementById('modal-title').textContent='Page '+page+(am&&am!=='null'?' · '+am:'');
+  document.getElementById('modal-sub').textContent=image+' — inspect & give feedback';
+  document.getElementById('modal-fb').value='';document.getElementById('modal-note').textContent='';
+  document.getElementById('modal').classList.add('open');
+}
+function closeImg(){document.getElementById('modal').classList.remove('open');}
+async function regenFromModal(){
+  const note=document.getElementById('modal-fb').value.trim();
+  await api('/api/jobs','POST',{bookId:BOOK.id,stage:'illustration',scope:MODAL_SCENE,note:note||('regenerate '+MODAL_SCENE)});
+  document.getElementById('modal-note').textContent='Queued regeneration of '+MODAL_SCENE+' with your feedback. It updates here when the worker finishes.';
+  refresh();
+}
 const run=(stage)=>api('/api/jobs','POST',{bookId:BOOK.id,stage}).then(refresh);
 const approve=(stage)=>api('/api/books/'+BOOK.id+'/approve','POST',{stage}).then(refresh);
 const setMode=(v)=>api('/api/controls','POST',{approval_mode:v}).then(refresh);
