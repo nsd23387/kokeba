@@ -13,7 +13,7 @@
       "id": "cover",
       "file": "cover.png",
       "refs": ["eden", "mama"],
-      "prompt": "Scene: Eden stands at a bright, friendly ETHIOPIAN-highland zoo entrance gate holding Mama's hand and looking up with wide-eyed wonder; a couple of friendly animals (a lion, a giraffe) peek playfully over the gate/enclosures behind. Leave calm space across the top third for a title (render NO text). Eden is the hero; Mama warm and secondary."
+      "prompt": "COVER (hero composition, richer + more polished than interior pages): warm golden inviting light, lush ETHIOPIAN-highland zoo entrance with a colorful welcoming gate and a big spreading warka shade tree; Eden (hero, front and centered, full of joyful wonder) holding Mama's hand, both looking up happily; a few friendly soft-smiling animals peek warmly over the gate and enclosures — the black-maned lion, a giraffe, and an elephant — arranged with depth. Inviting, premium picture-book cover feel, crisp detail. COMPOSITION: keep the TOP THIRD a calm, simple SKY area (clear space reserved for the title) and keep the characters/animals in the lower two-thirds; render NO text in the image."
     },
     {
       "id": "s01",
@@ -43,7 +43,7 @@
       "id": "s05",
       "file": "s05.png",
       "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (monkey / Zinjero): a playful monkey swinging on a branch / climbing frame inside a leafy enclosure behind a low rounded rail; Eden at the rail giggling with her hands up, 'chattering' along; Mama crouched beside her, laughing with her."
+      "prompt": "ZOO SCENE (monkey / Zinjero): a playful monkey SET BACK INSIDE its leafy enclosure on the FAR side of a barrier (climbing-frame / branches behind a mesh or rail fence) — clearly separated, NOT on the visitor side, NOT next to or reaching toward Eden. Eden and Mama stand on the visitor side of the fence; Eden giggling with her hands up, 'chattering' along; Mama crouched beside her, laughing. There must be obvious separation (fence/mesh) between the monkey and the people — the monkey cannot touch them."
     },
     {
       "id": "s06",
@@ -55,19 +55,19 @@
       "id": "s07",
       "file": "s07.png",
       "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (camel / Gimel): a calm smiling one-humped camel in a sandy enclosure behind a low rounded rail; Eden at the rail bouncing and wiggling happily, mid-giggle; Mama beside her, holding her hand and smiling."
+      "prompt": "ZOO SCENE (camel / Gimel): a calm smiling one-humped camel in a sandy enclosure behind a low rounded rail; Eden stands at the rail with BOTH FEET FLAT ON THE GROUND, wiggling and giggling happily (she is firmly standing on the path, NOT jumping, NOT floating, feet clearly planted on the ground); Mama beside her, holding her hand and smiling."
     },
     {
       "id": "s08",
       "file": "s08.png",
       "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (hippo / Gumare): a round jolly hippo splashing in its pool SET BACK inside the enclosure (a clear gap + a sturdy rail between the pool and the path), cheerful water droplets; Eden at the rail laughing and pretending to splash; Mama beside her, sharing the laugh."
+      "prompt": "ZOO SCENE (hippo / Gumare): a round jolly hippo with a SOFT HAPPY mouth (gentle, friendly — no large or sharp teeth, not aggressive) splashing in its pool SET BACK inside the enclosure (a clear gap + a sturdy rail between the pool and the path), cheerful water droplets; Eden at the rail laughing and pretending to splash; Mama beside her, sharing the laugh."
     },
     {
       "id": "s09",
       "file": "s09.png",
       "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (leopard / Nebir): a gentle spotted leopard tiptoeing softly SET BACK on the rocks deeper in its leafy enclosure (a clear gap + a taller sturdy rail between it and the path; calm, friendly, not fierce); Eden at the barrier tiptoeing quietly, finger to her lips, eyes wide; Mama beside her, also tiptoeing playfully, finger to lips."
+      "prompt": "ZOO SCENE (leopard / Nebir): a gentle spotted leopard with a soft friendly face (calm, not fierce) tiptoeing softly SET BACK on the rocks deeper in its enclosure, across a CLEARLY VISIBLE WATER MOAT — a small channel of blue water in the gap between the visitor rail and the leopard's rocky ledge, so it's plainly impossible for it to reach Eden; a taller sturdy rail on the visitor side too. Eden at the barrier tiptoeing quietly, finger to her lips, eyes wide; Mama beside her, also tiptoeing playfully, finger to lips."
     },
     {
       "id": "s10",
