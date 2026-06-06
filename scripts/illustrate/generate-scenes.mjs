@@ -19,7 +19,31 @@
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 import { composePrompt, resolveRefs } from "./compose-prompt.mjs";
+
+// Minimal .env loader (no dependency). Reads <repo>/.env if present, strips inline
+// comments + quotes, and fills any vars not already set in the environment.
+function loadDotEnv() {
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  const envPath = path.resolve(here, "../../.env");
+  if (!fs.existsSync(envPath)) return;
+  for (const raw of fs.readFileSync(envPath, "utf8").split("\n")) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const eq = line.indexOf("=");
+    if (eq < 0) continue;
+    const key = line.slice(0, eq).trim();
+    let val = line.slice(eq + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    } else {
+      val = val.replace(/\s+#.*$/, "").trim(); // strip inline comment on unquoted values
+    }
+    if (key && process.env[key] === undefined) process.env[key] = val;
+  }
+}
+loadDotEnv();
 
 // ---------- args ----------
 const args = process.argv.slice(2);

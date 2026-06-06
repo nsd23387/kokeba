@@ -63,6 +63,10 @@ toddler over a knee-high rail) break the spell and read as unsafe. Apply these e
   `environment_and_setting` — no out-of-place elements.
 - **Friendly, never threatening.** Big animals stay soft-eyed and calm; show wonder/safety, not danger — solve it
   with body language and distance, not by shrinking a predator to toy size.
+- **Friendly FACES are explicit, not implied.** "Not scary" alone is unreliable — state the expression:
+  gentle smile, soft closed mouth (or a soft open "rawr" with NO bared/sharp teeth, NO fangs), warm relaxed eyes,
+  ears up/neutral. Negatives to include for predators: no aggressive open jaws, no bared teeth, no snarl, no
+  lunging. The CHILD can make the big sound/action; the animal stays calm and kind.
 > Author/illustrator note: state the barrier height + the animal's setback explicitly in each prompt for big
 > animals; don't assume the model will infer safe spacing.
 

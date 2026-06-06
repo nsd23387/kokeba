@@ -57,10 +57,11 @@ environment_and_setting:
     enclosure_look: "simple highland-park enclosures: wood/stone rails, eucalyptus & acacia and a warka
       shade tree behind, reddish soil + green shrubs, blue highland sky. Soft and uncluttered for 0–3."
     barrier_safety: "Scale the barrier to the animal (see style guide 'Physical & safety realism'). The LION and
-      LEOPARD sit/stand SET BACK on a raised rocky ledge with a clear gap (a moat or planted strip) and a taller
-      sturdy rail/low stone wall between them and Eden — never right beside her over a knee-high rail. Hippo stays
-      in its pool, set back. Gentle/tall animals (giraffe reaching down, monkey, camel, elephant trunk) may come
-      nearer the rail."
+      LEOPARD sit/rest SET BACK on a raised rocky ledge with a CLEARLY VISIBLE WATER MOAT (a small river/channel of
+      blue water) in the gap between the visitor rail and the ledge — this reads obviously as 'cannot reach / cannot
+      cross', better than a vague gap. A sturdy rail/low stone wall on the visitor side too; never right beside the
+      child over a knee-high rail. Hippo stays in its pool, set back. Gentle/tall animals (giraffe reaching down,
+      monkey, camel, elephant trunk) may come nearer the rail."
   architecture_texture: "mix of traditional (round tukul with thatch in rural scenes) and simple modern;
     corrugated-metal roofs common; warm earth-tone walls. Keep backgrounds soft, not busy."
   avoid_setting_cliches: "do NOT default to flat hot savanna + safari acacia for an Addis scene; do NOT add

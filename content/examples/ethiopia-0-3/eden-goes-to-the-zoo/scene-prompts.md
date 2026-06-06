@@ -77,13 +77,15 @@ symbols on everyday wear.
 
 **S3 — lion (Anbessa)** · attach `eden_everyday_ref.png` + `mama_everyday_ref.png` · save `s03.png`
 > [shared block] ZOO SCENE: a big, friendly **Ethiopian "black-maned" Abyssinian lion** — a soft, fluffy but
-> noticeably **DARK mane** running from the head over the shoulders (this is the real Addis "Anbessa Gibi" lion;
-> keep it gentle and friendly for 0–3). **BARRIER REALISM:** the lion sits **set BACK** on a raised rocky ledge
-> deeper in its highland enclosure, with a **clear gap (a small moat / planted strip)** and a **taller, sturdy
-> wooden rail or low stone wall** between it and Eden — it is NOT right beside her. Habitat behind: reddish soil
-> and grass, eucalyptus + a warka shade tree, blue sky. Eden stands at the barrier on the **visitor side**, cupping
-> her hands to "roar" back, delighted; **Mama beside her, a hand on her shoulder, smiling**. Lion soft-eyed and
-> friendly (not scary). A small blank sign post by the rail.
+> noticeably **DARK mane** (this is the real Addis "Anbessa Gibi" lion). **FRIENDLY FACE (ages 0–3):** soft
+> **gentle smile** (slightly upturned closed mouth), big warm rounded eyes, ears up, soft rounded features —
+> sweet, calm, almost cuddly. **NO** open roaring jaws, **NO** bared/sharp teeth, **NO** snarl, **NO** fierce stare
+> (Eden does the roaring, not the lion). **BARRIER REALISM (make it obvious):** the lion rests **set BACK** on a
+> raised rocky ledge **across a clearly VISIBLE WATER MOAT** — a small river/channel of blue water in the gap
+> between the visitor rail and the ledge, so it's plainly impossible for the lion to reach Eden or cross; a sturdy
+> wooden rail / low stone wall on the visitor side too. Habitat behind: eucalyptus + a warka shade tree, blue sky.
+> Eden stands at the rail on the **visitor side**, cupping her hands to "roar" back, delighted; **Mama beside her, a
+> hand on her shoulder, smiling**. A small blank sign post by the rail.
 
 **S4 — elephant (Zihon)** · attach `eden_everyday_ref.png` + `mama_everyday_ref.png` · save `s04.png`
 > [shared block] ZOO SCENE: a happy round elephant in its enclosure (dirt-and-grass habitat with a little pool)
