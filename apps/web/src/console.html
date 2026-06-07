@@ -106,7 +106,11 @@ small.hint{color:var(--muted);font-size:11px}
   </div>
 </div>
 <div class="preview-wrap"><div class="card">
-  <h2>Book preview — always-on proof <button onclick="bumpArt()" style="float:right;font-size:11px;padding:3px 9px">↻ refresh art</button></h2>
+  <h2>Final proof — laid-out (text + images) <a id="proof-open" target="_blank" style="float:right;font-size:11px;color:var(--navy)">open in new tab ↗</a></h2>
+  <iframe id="proof-frame" style="width:100%;height:560px;border:1px solid var(--line);border-radius:8px;background:#EDE6D4"></iframe>
+</div></div>
+<div class="preview-wrap"><div class="card">
+  <h2>Book preview — raw art <button onclick="bumpArt()" style="float:right;font-size:11px;padding:3px 9px">↻ refresh art</button></h2>
   <div id="preview" class="thumbs"></div>
 </div></div>
 <div id="modal" class="modal" onclick="if(event.target===this)closeImg()">
@@ -125,7 +129,7 @@ small.hint{color:var(--muted);font-size:11px}
   </div>
 </div>
 <script>
-const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,MODAL_SCENE=null,PROCESSING=new Set(),RENDER_KEY='';
+const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,MODAL_SCENE=null,PROCESSING=new Set(),RENDER_KEY='',PROOF_SET='';
 const C={pending:'--pending',queued:'--queued',running:'--running',needs_approval:'--gate',done:'--done',blocked:'--blocked'};
 const api=(p,m,b)=>fetch(API+p,{method:m||'GET',headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined}).then(r=>r.json());
 async function refresh(){
@@ -171,6 +175,8 @@ async function refresh(){
     cst.innerHTML=(cm.counts.fail>0?`<span style="color:var(--blocked)">✗ ${cm.counts.fail}</span>`:`<span style="color:var(--done)">✓ ready</span>`)+(cm.counts.todo?` <span style="color:var(--gold)">▢ ${cm.counts.todo} to do</span>`:'');
     cfl.innerHTML=(cm.checks||[]).map(c=>`<div class="jobline">${c.status==='fail'?'✗':c.status==='todo'?'▢':c.status==='warn'?'⚠':'✓'} ${c.item}: ${c.note}</div>`).join('');
   }else{cst.textContent='not run';cfl.innerHTML='<div class="jobline">run Compliance to check publish-readiness</div>';}
+  const pkey=BOOK.id+'|'+ART_V;
+  if(PROOF_SET!==pkey){PROOF_SET=pkey;const u='/api/books/'+BOOK.id+'/proof?v='+ART_V;document.getElementById('proof-frame').src=u;document.getElementById('proof-open').href=u;}
   await maybeRenderPreview();
 }
 async function maybeRenderPreview(){

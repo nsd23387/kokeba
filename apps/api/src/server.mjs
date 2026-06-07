@@ -40,10 +40,14 @@ function enqueueStage(book, stageId, { scope = null, note = null } = {}) {
     db.save();
     return { gate: true, stage: stageId };
   }
-  // HARD BLOCK: publish-side stages cannot run while pre-flight QA has failures.
-  if ((stageId === "compliance" || stageId === "export") && preflightFail(book) > 0) {
+  // HARD BLOCK: publish-side stages cannot run while QA/compliance has failures.
+  const pf = preflightFail(book), cf = complianceFail(book);
+  let blockReason = null;
+  if ((stageId === "compliance" || stageId === "export") && pf > 0) blockReason = `pre-flight QA has ${pf} failing check(s)`;
+  if (stageId === "export" && cf > 0) blockReason = `compliance has ${cf} failing check(s) (e.g. DPI/KDP spec) — not upload-ready`;
+  if (blockReason) {
     book.stages[stageId] = STATUS.BLOCKED;
-    (book.blocks = book.blocks || {})[stageId] = `pre-flight QA has ${preflightFail(book)} failing check(s) — fix before ${stageId}`;
+    (book.blocks = book.blocks || {})[stageId] = `${blockReason} — fix before ${stageId}`;
     db.save();
     return { blocked: true, reason: book.blocks[stageId] };
   }
@@ -72,6 +76,7 @@ function persistFeedback(book, scope, note) {
   } catch {}
 }
 const preflightFail = (b) => (b.preflight && b.preflight.counts ? b.preflight.counts.fail || 0 : 0);
+const complianceFail = (b) => (b.compliance && b.compliance.counts ? b.compliance.counts.fail || 0 : 0);
 function advanceAfter(book, stageId) {           // autopilot auto-advance
   const nextId = nextStageId(stageId);
   if (!nextId) return;
@@ -126,6 +131,16 @@ const server = http.createServer(async (req, res) => {
     }, 420);
     req.on("close", () => clearInterval(tick));
     return;
+  }
+  // serve the laid-out proof.html (rewrite art/ paths to the art endpoint so images load)
+  if (req.method === "GET" && p.match(/^\/api\/books\/[^/]+\/proof$/)) {
+    const b = db.getBook(p.split("/")[3]);
+    if (!b?.dir) return json(res, 404, { error: "no book" });
+    const fp = path.join(REPO_ROOT, b.dir, "proof.html");
+    if (!fs.existsSync(fp)) return json(res, 404, { error: "proof not built — run Layout" });
+    const html = fs.readFileSync(fp, "utf8").replace(/src="art\//g, `src="/api/art/${b.id}/`);
+    res.writeHead(200, { "content-type": "text/html", "access-control-allow-origin": "*" });
+    return res.end(html);
   }
   // serve a book's art file
   if (req.method === "GET" && p.match(/^\/api\/art\/[^/]+\/[^/]+$/)) {

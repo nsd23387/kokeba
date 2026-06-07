@@ -8,15 +8,20 @@
     "JUVENILE FICTION / Concepts / Words"
   ],
   "trim": "8.5x8.5in",
-  "pages": 14,
+  "spreads": 14,
+  "interior_pages": 24,
+  "spine_in": 0.054,
   "language": [
     "en",
     "am"
   ],
+  "min_dpi_found": 117,
+  "required_px": 2625,
   "ai_content": {
     "text": true,
     "images": true,
     "disclose_at_upload": true
   },
+  "format": "paperback or hardcover (KDP does not print board books)",
   "cpsia_note": "Children's product — verify testing/labeling for physical editions."
 }
