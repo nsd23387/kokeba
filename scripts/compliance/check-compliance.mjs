@@ -17,6 +17,9 @@ if (!bookDir) { console.error("Usage: node scripts/compliance/check-compliance.m
 const L = JSON.parse(fs.readFileSync(path.resolve(bookDir, "layout.json"), "utf8"));
 const artDir = path.resolve(bookDir, L.art_dir || "art");
 const cover = L.pages.find((p) => p.page === "cover");
+const pubPath = path.resolve(bookDir, "publishing.json");
+const pub = fs.existsSync(pubPath) ? JSON.parse(fs.readFileSync(pubPath, "utf8")) : null;
+const frontBackPages = pub ? 2 + (pub.about ? 1 : 0) : 0; // title + copyright (+ about)
 const animalPages = L.pages.filter((p) => p.vocab);
 const imgPages = L.pages.filter((p) => p.image);
 const haveArt = imgPages.filter((p) => fs.existsSync(path.resolve(artDir, p.image)));
@@ -30,7 +33,7 @@ let minDpi = Infinity;
 for (const pg of haveArt) { const s = pngSize(path.resolve(artDir, pg.image)); if (s) minDpi = Math.min(minDpi, Math.round(s.w / (trimW + 2 * KDP.bleed_in))); }
 const storySpreads = L.pages.filter((p) => /^\d+$/.test(p.page) && p.image).length;
 const otherInterior = L.pages.filter((p) => p.page !== "cover" && !/^\d+$/.test(p.page)).length;
-const interiorPages = storySpreads * 2 + otherInterior;
+const interiorPages = storySpreads * 2 + otherInterior + frontBackPages;
 const spineIn = (interiorPages * KDP.paper_white_in).toFixed(3);
 const needPx = Math.ceil((trimW + 2 * KDP.bleed_in) * KDP.min_dpi);
 
@@ -42,9 +45,18 @@ add("ok", "Audience", "Ages 0-3 (board/picture book) — children's product");
 add("warn", "CPSIA", "Children's product: physical print run requires CPSIA testing (lead/phthalates) + tracking label. Print-on-demand via KDP is generally exempt, but verify for your edition.");
 add("ok", "COPPA", "No data collection in a printed book — N/A; applies only to any companion app/site.");
 
-// --- AI disclosure (KDP requires declaring AI-generated content) ---
-add("fail", "AI disclosure", "Declare AI-generated text AND images in KDP's 'AI Content' question at upload.");
-checks[checks.length - 1].status = "todo"; // it's an upload-time action, not a blocker on the asset
+// --- AI disclosure: KDP upload question + a PRINTED notice in the book ---
+add("todo", "AI disclosure (KDP)", "Declare AI-generated text AND images in KDP's 'AI Content' question at upload.");
+add(pub && pub.ai_notice && pub.ai_notice.trim() ? "ok" : "fail", "AI notice (printed)",
+  pub && pub.ai_notice && pub.ai_notice.trim() ? "AI-assistance notice present on the copyright page" : "add an AI-assistance notice to publishing.json (printed on the copyright page)");
+
+// --- Publishing / front matter ---
+add(pub ? "ok" : "fail", "Front/back matter", pub ? "title + copyright pages generated from publishing.json" : "no publishing.json — title/copyright pages missing");
+if (pub) {
+  add(pub.author || pub.copyright_holder ? "ok" : "warn", "Author / © holder", pub.author || pub.copyright_holder || "set an author or copyright holder");
+  add(pub.reviewer_name ? "ok" : "warn", "Reviewer credited", pub.reviewer_name || "name the human reviewer (Gate 1) on the copyright page");
+  add(pub.isbn ? "ok" : "todo", "ISBN", pub.isbn || "assign a KDP free ISBN at upload, or add your own");
+}
 
 // --- metadata / KDP readiness ---
 add(cover && fs.existsSync(path.resolve(artDir, cover.image)) ? "ok" : "fail", "Cover", cover ? `cover art ${cover.image}` : "no cover page");

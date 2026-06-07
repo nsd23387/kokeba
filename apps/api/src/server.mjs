@@ -132,6 +132,22 @@ const server = http.createServer(async (req, res) => {
     req.on("close", () => clearInterval(tick));
     return;
   }
+  // publishing info (front/back matter) — editable from the platform
+  if (p.match(/^\/api\/books\/[^/]+\/publishing$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b?.dir) return json(res, 404, { error: "no book" });
+    const fp = path.join(REPO_ROOT, b.dir, "publishing.json");
+    if (req.method === "GET") {
+      const pub = fs.existsSync(fp) ? JSON.parse(fs.readFileSync(fp, "utf8")) : {};
+      return json(res, 200, { publishing: pub });
+    }
+    if (req.method === "PUT") {
+      const body = await readBody(req);
+      const cur = fs.existsSync(fp) ? JSON.parse(fs.readFileSync(fp, "utf8")) : {};
+      const next = { ...cur, ...body };
+      fs.writeFileSync(fp, JSON.stringify(next, null, 2));
+      return json(res, 200, { ok: true, publishing: next });
+    }
+  }
   // serve the laid-out proof.html (rewrite art/ paths to the art endpoint so images load)
   if (req.method === "GET" && p.match(/^\/api\/books\/[^/]+\/proof$/)) {
     const b = db.getBook(p.split("/")[3]);

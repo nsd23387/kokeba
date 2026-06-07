@@ -29,6 +29,8 @@ const L = JSON.parse(fs.readFileSync(layoutPath, "utf8"));
 const artDir = L.art_dir || "art";
 const esc = (s = "") => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const nl2br = (s = "") => esc(s).replace(/\n/g, "<br>");
+const pubPath = path.resolve(bookDir, "publishing.json");
+const pub = fs.existsSync(pubPath) ? JSON.parse(fs.readFileSync(pubPath, "utf8")) : null;
 
 function imgTag(file, alt) {
   if (!file) return `<div class="ph">no image</div>`;
@@ -66,12 +68,38 @@ function centeredPage(p, cls) {
   return `<div class="single ${cls}"><div class="star">&#9733;</div>
     <div class="centered">${nl2br(p.english)}</div></div>`;
 }
+// --- front/back matter (from publishing.json) ---
+function titlePage() {
+  const c = L.pages.find((x) => x.page === "cover") || {};
+  return `<div class="single fm"><div class="star">&#9733;</div>
+    <div class="fm-title">${esc(c.title_en || L.book_id)}</div>
+    ${c.title_am ? `<div class="fm-title-am">${esc(c.title_am)}</div>` : ""}
+    ${pub.author ? `<div class="fm-by">by ${esc(pub.author)}</div>` : ""}
+    <div class="fm-imprint">${esc(pub.imprint || "")}</div></div>`;
+}
+function copyrightPage() {
+  const holder = pub.copyright_holder || pub.author || pub.imprint || "the publisher";
+  const ai = `${esc(pub.ai_notice || "")}${pub.reviewer_name ? ` Reviewed by ${esc(pub.reviewer_name)}.` : ""}`.trim();
+  return `<div class="single cp"><div class="cp-box">
+    <p>&copy; ${esc(pub.copyright_year || "")} ${esc(holder)}. ${esc(pub.rights || "")}</p>
+    ${pub.edition ? `<p>${esc(pub.edition)}</p>` : ""}
+    ${pub.isbn ? `<p>ISBN: ${esc(pub.isbn)}</p>` : ""}
+    ${pub.imprint ? `<p>${esc(pub.imprint)}</p>` : ""}
+    ${ai ? `<p class="ai">${ai}</p>` : ""}
+    ${pub.language_note ? `<p>${esc(pub.language_note)}</p>` : ""}
+  </div></div>`;
+}
+function aboutPage() {
+  return `<div class="single fm"><div class="star">&#9733;</div>
+    <div class="about">${nl2br(pub.about || "")}</div>
+    ${pub.contact ? `<div class="fm-contact">${esc(pub.contact)}</div>` : ""}</div>`;
+}
 
 const blocks = [];
 for (const p of L.pages) {
-  if (p.page === "cover") blocks.push(coverPage(p));
+  if (p.page === "cover") { blocks.push(coverPage(p)); if (pub) { blocks.push(titlePage()); blocks.push(copyrightPage()); } }
   else if (p.page === "dedication") blocks.push(centeredPage(p, "ded"));
-  else if (p.page === "end") blocks.push(centeredPage(p, "end"));
+  else if (p.page === "end") { if (pub && pub.about) blocks.push(aboutPage()); blocks.push(centeredPage(p, "end")); }
   else blocks.push(spread(p));
 }
 
@@ -99,6 +127,14 @@ body{background:#EDE6D4;font-family:'Fraunces',Georgia,serif;color:var(--navy);p
 .translit{color:var(--gold);font-style:italic;font-size:clamp(12px,1.4vw,17px)}
 .gloss{color:#8A8676;font-size:clamp(11px,1.2vw,15px)}
 .centered{font-size:clamp(18px,2.4vw,26px);font-weight:500;text-align:center;line-height:1.5}
+.fm{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9%;gap:8px}
+.fm-title{font-size:clamp(22px,3.2vw,34px);font-weight:500;color:#222B6D}
+.fm-title-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#9A7D1E;font-size:clamp(16px,2.2vw,24px)}
+.fm-by{color:#6B6F86;font-style:italic;margin-top:6px}.fm-imprint{margin-top:14px;color:#C9A227;font-weight:500}
+.about{max-width:80%;line-height:1.6;font-size:clamp(14px,1.7vw,18px)}.fm-contact{margin-top:10px;color:#6B6F86;font-size:13px}
+.cp{display:flex;align-items:center;justify-content:center;padding:10%}
+.cp-box{font-size:clamp(12px,1.5vw,15px);line-height:1.7;color:#4a4e66;text-align:center;max-width:88%}
+.cp-box .ai{margin-top:8px;color:#9A7D1E;font-style:italic}
 .cover .cover-title{position:absolute;left:9%;right:9%;top:6%;text-align:center;background:rgba(255,253,247,.88);border:1px solid rgba(201,162,39,.55);border-radius:16px;padding:14px 18px 16px;box-shadow:0 6px 18px rgba(34,43,109,.12)}
 .ct-star{color:var(--gold);font-size:22px;line-height:1;margin-bottom:2px}
 .ct-en{color:var(--navy);font-weight:500;font-size:clamp(22px,3.6vw,40px);line-height:1.12}
@@ -122,8 +158,9 @@ if (process.argv.includes("--single")) {
   const W = tmm ? tmm[1] : "8.5", H = tmm ? tmm[2] : "8.5";
   const sheets = [];
   for (const p of L.pages) {
-    if (p.page === "cover") continue;                 // cover ships in the wrap, not the interior
-    if (p.page === "dedication" || p.page === "end") { sheets.push(`<div class="sheet">${centeredPage(p, p.page)}</div>`); continue; }
+    if (p.page === "cover") { if (pub) { sheets.push(`<div class="sheet">${titlePage()}</div>`); sheets.push(`<div class="sheet">${copyrightPage()}</div>`); } continue; }
+    if (p.page === "dedication") { sheets.push(`<div class="sheet">${centeredPage(p, "ded")}</div>`); continue; }
+    if (p.page === "end") { if (pub && pub.about) sheets.push(`<div class="sheet">${aboutPage()}</div>`); sheets.push(`<div class="sheet">${centeredPage(p, "end")}</div>`); continue; }
     sheets.push(`<div class="sheet">${textPage(p)}</div>`);   // left page (story)
     sheets.push(`<div class="sheet">${imagePage(p)}</div>`);  // right page (art + word)
   }
@@ -144,6 +181,11 @@ if (process.argv.includes("--single")) {
 .word{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;font-size:48px;line-height:1}
 .translit{color:#C9A227;font-style:italic;font-size:24px}.gloss{color:#8A8676;font-size:20px}
 .centered{font-size:30px;font-weight:500;text-align:center;line-height:1.5}.single{display:flex;align-items:center;justify-content:center;padding:9%}
+.fm{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9%;gap:10px}
+.fm-title{font-size:38px;font-weight:500;color:#222B6D}.fm-title-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#9A7D1E;font-size:26px}
+.fm-by{color:#6B6F86;font-style:italic}.fm-imprint{margin-top:16px;color:#C9A227;font-weight:500}
+.about{max-width:80%;line-height:1.6;font-size:20px}.fm-contact{margin-top:10px;color:#6B6F86;font-size:15px}
+.cp{display:flex;align-items:center;justify-content:center;padding:10%}.cp-box{font-size:16px;line-height:1.8;color:#4a4e66;text-align:center;max-width:88%}.cp-box .ai{margin-top:10px;color:#9A7D1E;font-style:italic}
 .pg{display:none}.ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b1a583}
 </style></head><body>${sheets.join("\n")}</body></html>`;
   fs.writeFileSync(path.resolve(bookDir, "proof-print.html"), printHtml);
