@@ -5,10 +5,12 @@
 
 import http from "node:http";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import * as db from "./store.mjs";
-import { STAGES, stage, nextStageId, isGate, STATUS } from "../../../packages/core/src/pipeline.mjs";
+import { STAGES, stage, nextStageId, isGate, STATUS, freshStages } from "../../../packages/core/src/pipeline.mjs";
 import { canDispatch, shouldAutoAdvance, chargeBudget } from "../../../packages/controls/src/control-plane.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -228,6 +230,23 @@ const server = http.createServer(async (req, res) => {
     const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
     const body = await readBody(req); b.vision = { ...body, at: Date.now() }; db.save();
     return json(res, 200, { ok: true });
+  }
+
+  // create a brand-new title from an intake (runs the scaffold)
+  if (req.method === "POST" && p === "/api/books") {
+    const intake = await readBody(req);
+    const slug = (s) => String(s || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    const bookId = intake.book_id || `${slug(intake.country)}-0-3-${slug(intake.child_name)}-${slug(intake.setting || "zoo")}`;
+    intake.book_id = bookId;
+    if (db.getBook(bookId)) return json(res, 200, { error: "a book with that id already exists", bookId });
+    const tmp = path.join(os.tmpdir(), `intake-${bookId}.json`);
+    fs.writeFileSync(tmp, JSON.stringify(intake));
+    try { execFileSync("node", ["scripts/new-title/scaffold.mjs", tmp, "content"], { cwd: REPO_ROOT, stdio: "inherit" }); }
+    catch (e) { return json(res, 200, { error: "scaffold failed: " + e.message }); }
+    let scenesIds = [];
+    try { scenesIds = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, "content", bookId, "scenes.json"), "utf8")).scenes.map((s) => s.id); } catch {}
+    const book = db.addBook({ id: bookId, title: intake.title_en, country: intake.country, age: "0-3", dir: `content/${bookId}`, stages: freshStages(), scenes: scenesIds });
+    return json(res, 200, { ok: true, book });
   }
 
   // state

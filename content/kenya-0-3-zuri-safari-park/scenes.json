@@ -1,0 +1,89 @@
+{
+  "book_id": "kenya-0-3-zuri-safari-park",
+  "model_hint": "gpt-image",
+  "size": "1024x1024",
+  "art_dir": "art",
+  "refs": {
+    "child": "art/child_everyday_ref.png",
+    "mama": "art/mama_everyday_ref.png"
+  },
+  "shared_block": "Soft, warm children's storybook illustration — gentle painterly shading, rounded friendly shapes, cozy warm lighting. Ages 0-3: NO text in the image, square composition, soft uncluttered background, ONE clear subject. IDENTITY from attachments: Zuri (toddler) and, where attached, Mama — keep faces/hair identical to the references; everyday casual clothes (not formal). Setting reads as Kenya. FRIENDLY FACE: every animal has a soft gentle smile, warm eyes, never scary; no bared teeth or snarl. ZOO IDENTITY: one consistent entrance gate + one emblem; every enclosure uses the same low wood-rail-on-stone-curb fence. BARRIER REALISM: predators (lion, leopard, hippo) sit SET BACK across a clearly visible WATER MOAT behind the rail; the child is always safely on the visitor side. RENDER QUALITY: finish every surface, no melting/blank fences or empty sand. TEXT-SAFE ZONE: keep the bottom ~18% calm (no faces/feet/key subjects) for the vocab band.",
+  "scenes": [
+    {
+      "id": "cover",
+      "file": "cover.png",
+      "refs": [
+        "child",
+        "mama"
+      ],
+      "prompt": "Scene: Zuri and Mama arriving at the Kenya safari park entrance gate, FACING THE VIEWER with joy; animals gated behind. Keep the top third clear sky for the title; no text."
+    },
+    {
+      "id": "s01",
+      "file": "s01.png",
+      "refs": [
+        "child"
+      ],
+      "prompt": "Scene: Zuri waking in a cozy bed at home, stretching with a sleepy happy smile; soft morning light. No safari park."
+    },
+    {
+      "id": "s02",
+      "file": "s02.png",
+      "refs": [
+        "child",
+        "mama"
+      ],
+      "prompt": "Scene: Zuri holding Mama's hand walking toward the safari park entrance gate, pointing ahead, excited."
+    },
+    {
+      "id": "s03",
+      "file": "s03.png",
+      "refs": [
+        "child",
+        "mama"
+      ],
+      "prompt": "ZOO SCENE (lion / simba): a big, cuddly friendly lion with a soft dark mane. Set BACK behind a visible water moat + sturdy rail. Zuri at the rail on the visitor side doing the action (\"Can you roar?\"), delighted; Mama beside her."
+    },
+    {
+      "id": "s04",
+      "file": "s04.png",
+      "refs": [
+        "child",
+        "mama"
+      ],
+      "prompt": "ZOO SCENE (elephant / tembo): a happy round elephant lifting its trunk to wave. Zuri at the rail on the visitor side doing the action (\"Can you wave?\"), delighted; Mama beside her."
+    },
+    {
+      "id": "s05",
+      "file": "s05.png",
+      "refs": [
+        "child",
+        "mama"
+      ],
+      "prompt": "ZOO SCENE (giraffe / twiga): a tall gentle giraffe whose body stays back and lowers only its long neck toward the rail. Zuri at the rail on the visitor side doing the action (\"Can you stretch tall?\"), delighted; Mama beside her."
+    },
+    {
+      "id": "s06",
+      "file": "s06.png",
+      "refs": [
+        "child",
+        "mama"
+      ],
+      "extra_ref_files": [
+        "s03.png",
+        "s04.png",
+        "s05.png"
+      ],
+      "prompt": "ZOO SCENE (reflection): Zuri and Mama waving goodbye; the animals wave back from behind their fences. ANIMAL CONSISTENCY: match the attached animal references."
+    },
+    {
+      "id": "s07",
+      "file": "s07.png",
+      "refs": [
+        "child",
+        "mama"
+      ],
+      "prompt": "Scene (final): Zuri beside Mama heading home, sleepy happy smile; evening sky, first stars. Tender, bedtime-warm."
+    }
+  ]
+}

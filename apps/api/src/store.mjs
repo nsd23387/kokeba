@@ -77,6 +77,7 @@ export function addJob({ bookId, stage, scope = null, note = null }) {
   save();
   return job;
 }
+export function addBook(book) { load().books.push(book); save(); return book; }
 export function addChat(bookId, role, text) {
   const m = { id: randomUUID().slice(0, 8), bookId, role, text, ts: Date.now() };
   load().chat.push(m); save(); return m;

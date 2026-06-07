@@ -1,0 +1,86 @@
+{
+  "book_id": "kenya-0-3-zuri-safari-park",
+  "trim": "8.5x8.5in",
+  "trim_shape": "square",
+  "bleed_in": 0.125,
+  "art_dir": "art",
+  "script_font": "Noto Sans Ethiopic",
+  "languages": [
+    "en",
+    "sw"
+  ],
+  "template": {
+    "status": "scaffolded"
+  },
+  "pages": [
+    {
+      "page": "cover",
+      "image": "cover.png",
+      "title_en": "Zuri Goes on Safari",
+      "title_am": ""
+    },
+    {
+      "page": "dedication",
+      "image": null,
+      "english": "For our little star ★"
+    },
+    {
+      "page": "1",
+      "image": "s01.png",
+      "english": "Good morning, Zuri, sleepyhead.\nTime to wake and leave your bed."
+    },
+    {
+      "page": "2",
+      "image": "s02.png",
+      "english": "Shoes on feet, off we go.\nTo the safari park— let's say hello!"
+    },
+    {
+      "page": "3",
+      "image": "s03.png",
+      "english": "A lion stands strong and proud.\n\"ROAR!\" says Zuri, big and loud.",
+      "interaction": "Can you roar?",
+      "vocab": {
+        "am": "simba",
+        "translit": "simba",
+        "en": "lion"
+      }
+    },
+    {
+      "page": "4",
+      "image": "s04.png",
+      "english": "An elephant stomps down the way.\nIts trunk waves high to say, \"Good day!\"",
+      "interaction": "Can you wave?",
+      "vocab": {
+        "am": "tembo",
+        "translit": "tembo",
+        "en": "elephant"
+      }
+    },
+    {
+      "page": "5",
+      "image": "s05.png",
+      "english": "A giraffe stretches to the sky.\nIts long neck reaches way up high.",
+      "interaction": "Can you stretch tall?",
+      "vocab": {
+        "am": "twiga",
+        "translit": "twiga",
+        "en": "giraffe"
+      }
+    },
+    {
+      "page": "6",
+      "image": "s06.png",
+      "english": "We saw animals, big and small.\nZuri's favorite? Loved them all!"
+    },
+    {
+      "page": "7",
+      "image": "s07.png",
+      "english": "The trip rolls home. The sky turns blue.\nZuri waves, \"Bye-bye, safari park!\""
+    },
+    {
+      "page": "end",
+      "image": null,
+      "english": "Kokeba ★ — A story for every little star."
+    }
+  ]
+}

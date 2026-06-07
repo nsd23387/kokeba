@@ -60,7 +60,23 @@ small.hint{color:var(--muted);font-size:11px}
 #working.on{display:inline-flex}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@700&display=swap" rel="stylesheet"></head><body>
-<header><span class="star">★</span><h1>Kokeba Studio</h1><span class="book" id="bookname">—</span><span id="working" style="margin-left:12px"><span class="spin">★</span> working…</span></header>
+<header><span class="star">★</span><h1>Kokeba Studio</h1>
+<select id="bookpick" onchange="switchBook(this.value)" style="margin-left:auto;font-size:13px;padding:5px 9px;border-radius:8px;border:none;background:#fff;color:#222B6D"></select>
+<button onclick="toggleNew()" style="font-size:12px;padding:5px 11px;margin-left:8px">＋ New title</button>
+<span id="working" style="margin-left:12px"><span class="spin">★</span> working…</span></header>
+<div id="newcard" style="display:none;max-width:1180px;margin:14px auto 0;padding:0 18px"><div class="card">
+  <h2>New title <button onclick="createBook()" class="primary" style="float:right;font-size:11px;padding:4px 12px">Create</button></h2>
+  <div id="new-msg" style="font-size:12px;color:#1B7A43;min-height:14px;margin-bottom:6px"></div>
+  <div class="pubform">
+    <label>Title<input id="nw-title_en" placeholder="Zuri Goes on Safari"></label>
+    <label>Title in script (optional)<input id="nw-title_am"></label>
+    <label>Country<input id="nw-country" placeholder="Kenya"></label>
+    <label>Heritage language code<input id="nw-language" placeholder="sw"></label>
+    <label>Child's name<input id="nw-child_name" placeholder="Zuri"></label>
+    <label>Setting<input id="nw-setting" placeholder="safari park"></label>
+    <label style="grid-column:1/3">Animals — one per line as <i>english : word : pronunciation</i><textarea id="nw-animals" rows="4" placeholder="lion : simba : simba&#10;elephant : tembo : tembo&#10;giraffe : twiga : twiga"></textarea></label>
+  </div>
+</div></div>
 <div class="wrap">
   <div class="card">
     <h2>Production pipeline</h2>
@@ -158,19 +174,30 @@ small.hint{color:var(--muted);font-size:11px}
   </div>
 </div>
 <script>
-const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,MODAL_SCENE=null,PROCESSING=new Set(),RENDER_KEY='',PROOF_SET='',PUB_LOADED=false;
+const API="";let BOOK=null;let PAGES=null,ART_V=1,PREV_ILLUS=0,MODAL_SCENE=null,PROCESSING=new Set(),RENDER_KEY='',PROOF_SET='',PUB_LOADED=false,ACTIVE_ID='';
+function toggleNew(){const n=document.getElementById('newcard');n.style.display=n.style.display==='none'?'block':'none';}
+function switchBook(id){ACTIVE_ID=id;PAGES=null;PUB_LOADED=false;PROOF_SET='';RENDER_KEY='';PREV_ILLUS=0;PROCESSING=new Set();refresh();}
+async function createBook(){
+  const g=id=>document.getElementById('nw-'+id).value.trim();
+  const animals=g('animals').split('\n').map(l=>l.split(':').map(x=>x.trim())).filter(a=>a[0]).map(a=>({en:a[0],am:a[1]||a[0],translit:a[2]||a[1]||a[0]}));
+  const body={title_en:g('title_en'),title_am:g('title_am'),country:g('country'),language:g('language')||'am',child_name:g('child_name'),setting:g('setting')||'zoo',animals};
+  const r=await api('/api/books','POST',body);
+  if(r.error){document.getElementById('new-msg').style.color='#B3261E';document.getElementById('new-msg').textContent=r.error;return;}
+  document.getElementById('new-msg').textContent='Created '+r.book.id;toggleNew();switchBook(r.book.id);
+}
 const PUB_FIELDS=['author','imprint','copyright_year','copyright_holder','edition','isbn','reviewer_name','dedication','language_note','ai_notice','about','contact'];
 async function loadPub(){const r=await api('/api/books/'+BOOK.id+'/publishing');const pub=(r&&r.publishing)||{};for(const f of PUB_FIELDS){const el=document.getElementById('pub-'+f);if(el)el.value=pub[f]==null?'':pub[f];}}
 async function savePub(){const body={};for(const f of PUB_FIELDS){const el=document.getElementById('pub-'+f);if(el)body[f]=el.type==='number'?Number(el.value||0):el.value;}await api('/api/books/'+BOOK.id+'/publishing','PUT',body);document.getElementById('pub-msg').textContent='Saved. Run Layout (or Upscale) to apply to the proof + copyright page.';}
 const C={pending:'--pending',queued:'--queued',running:'--running',needs_approval:'--gate',done:'--done',blocked:'--blocked'};
 const api=(p,m,b)=>fetch(API+p,{method:m||'GET',headers:{'content-type':'application/json'},body:b?JSON.stringify(b):undefined}).then(r=>r.json());
 async function refresh(){
-  const s=await api('/api/state');BOOK=s.books[0];
-  const di=s.jobs.filter(j=>j.stage==='illustration'&&j.status==='done').length;if(di>PREV_ILLUS){PREV_ILLUS=di;ART_V++;}
-  PROCESSING=new Set(s.jobs.filter(j=>j.stage==='illustration'&&(j.status==='queued'||j.status==='running')).map(j=>j.scope).filter(Boolean));
-  const active=s.jobs.filter(j=>j.status==='queued'||j.status==='running').length;document.getElementById('working').classList.toggle('on',active>0);
+  const s=await api('/api/state');BOOK=s.books.find(b=>b.id===ACTIVE_ID)||s.books[0];ACTIVE_ID=BOOK.id;
+  const bp=document.getElementById('bookpick');bp.innerHTML=s.books.map(b=>`<option value="${b.id}">${b.title} · ${b.country}</option>`).join('');bp.value=ACTIVE_ID;
+  const myJobs=s.jobs.filter(j=>j.bookId===BOOK.id);
+  const di=myJobs.filter(j=>j.stage==='illustration'&&j.status==='done').length;if(di>PREV_ILLUS){PREV_ILLUS=di;ART_V++;}
+  PROCESSING=new Set(myJobs.filter(j=>j.stage==='illustration'&&(j.status==='queued'||j.status==='running')).map(j=>j.scope).filter(Boolean));
+  const active=myJobs.filter(j=>j.status==='queued'||j.status==='running').length;document.getElementById('working').classList.toggle('on',active>0);
   if(!PUB_LOADED){PUB_LOADED=true;loadPub();}
-  document.getElementById('bookname').textContent=BOOK.title+" · "+BOOK.country+" · "+BOOK.age;
   document.getElementById('mode').value=s.controls.approval_mode;
   const k=document.getElementById('kill');k.textContent=s.controls.kill_switch==='on'?'ON — paused':'off';
   k.style.background=s.controls.kill_switch==='on'?'#B3261E':'#fff';k.style.color=s.controls.kill_switch==='on'?'#fff':'#222B6D';
@@ -187,7 +214,7 @@ async function refresh(){
       <span class="spacer"></span>
       <span class="badge" style="background:${col}22;color:${col}">${status.replace('_',' ')}</span>${action}</div>`;
   }).join('');
-  document.getElementById('jobs').innerHTML=s.jobs.map(j=>`<div class="jobline">[${j.status}] ${j.stage}${j.scope?' · '+j.scope:''} ${j.logs&&j.logs.length?'— '+j.logs.join('; '):''}</div>`).join('')||'<div class="jobline">no jobs yet</div>';
+  document.getElementById('jobs').innerHTML=myJobs.slice().reverse().map(j=>`<div class="jobline">[${j.status}] ${j.stage}${j.scope?' · '+j.scope:''} ${j.logs&&j.logs.length?'— '+j.logs.join('; '):''}</div>`).join('')||'<div class="jobline">no jobs yet</div>';
   const chat=(await api('/api/books/'+BOOK.id)).chat||[];
   document.getElementById('msgs').innerHTML=chat.map(m=>`<div class="msg ${m.role}">${m.text}</div>`).join('');
   const mm=document.getElementById('msgs');mm.scrollTop=mm.scrollHeight;
