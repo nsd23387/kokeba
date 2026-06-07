@@ -22,7 +22,8 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
   (deterministic checks: predator moats, animal-ref consistency, refs/art present + square/non-blank, fidel present. Exit 1 on FAIL; the worker runs it after layout and stores results for the UI. FAIL hard-blocks Gate 1 + compliance + export.)
 - Vision QA (pixel-level, opt-in): `IMAGE_GEN_API_KEY=… VISION_MODEL=gpt-4o-mini node scripts/preflight/vision-check.mjs <book-dir>`
   (sends each page + reference images to a vision model; flags consistency/floating/rendering/proximity/scariness. Advisory. Worker runs it when `VISION_QA=1`.)
-- Compliance: `node scripts/compliance/check-compliance.mjs <book-dir>` (CPSIA/COPPA/AI-disclosure/BISAC/reading-age + writes `kdp-metadata.json`).
+- Compliance: `node scripts/compliance/check-compliance.mjs <book-dir>` (CPSIA/COPPA/AI-disclosure/BISAC/reading-age/DPI/trim/spine + writes `kdp-metadata.json`).
+- Provenance: `node scripts/provenance/build-provenance.mjs <book-dir>` (models, per-page prompt hash/refs/feedback, contributors, human-authorship, sources → `provenance.json` + `provenance.md`; the worker runs it in the compliance stage and the API merges runtime QA + gate approvals).
 - Upscale to print res: `node scripts/upscale/upscale-art.mjs <book-dir>` (Lanczos upscale to >=300 DPI at trim; needs `npm i sharp`. Pipeline stage `upscale` runs after layout so the DPI check passes.)
 - Export PDF: `node scripts/export/build-pdf.mjs <book-dir>` (headless Chromium → `interior.pdf` single pages + `cover.pdf` wrap w/ computed spine + `book.pdf` proof; needs `npm i -D puppeteer`).
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)

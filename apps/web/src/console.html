@@ -204,6 +204,14 @@ async function refresh(){
     cst.innerHTML=(cm.counts.fail>0?`<span style="color:var(--blocked)">✗ ${cm.counts.fail}</span>`:`<span style="color:var(--done)">✓ ready</span>`)+(cm.counts.todo?` <span style="color:var(--gold)">▢ ${cm.counts.todo} to do</span>`:'');
     cfl.innerHTML=(cm.checks||[]).map(c=>`<div class="jobline">${c.status==='fail'?'✗':c.status==='todo'?'▢':c.status==='warn'?'⚠':'✓'} ${c.item}: ${c.note}</div>`).join('');
   }else{cst.textContent='not run';cfl.innerHTML='<div class="jobline">run Compliance to check publish-readiness</div>';}
+  const pv=BOOK.provenance,pe=document.getElementById('prov');
+  if(pv){const c=pv.contributors||{},m=pv.models||{},qa=pv.qa||{};
+    pe.innerHTML=`<div class="jobline">Models: ${m.illustration||'—'} · vision ${m.vision_qa||'—'} · upscale lanczos</div>
+    <div class="jobline">Author: ${c.author||'—'} · Reviewer (Gate 1): ${c.native_reviewer||'—'}</div>
+    <div class="jobline">Pages documented: ${(pv.pages||[]).length} (prompt hashes + refs + human feedback)</div>
+    <div class="jobline">QA recorded: preflight ${qa.preflight?qa.preflight.fail+' fail':'—'} · vision ${qa.vision?qa.vision.fail+' fail':'—'} · compliance ${qa.compliance?qa.compliance.fail+' fail':'—'}</div>
+    <div class="jobline">→ provenance.json + provenance.md in the book folder</div>`;
+  }else{pe.innerHTML='<div class="jobline">run Compliance to build the provenance/credits record</div>';}
   const pkey=BOOK.id+'|'+ART_V;
   if(PROOF_SET!==pkey){PROOF_SET=pkey;const u='/api/books/'+BOOK.id+'/proof?v='+ART_V;document.getElementById('proof-frame').src=u;document.getElementById('proof-open').href=u;}
   await maybeRenderPreview();
