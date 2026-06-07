@@ -158,6 +158,13 @@ const server = http.createServer(async (req, res) => {
     return json(res, 200, { ok: true });
   }
 
+  // vision QA results (worker posts; advisory)
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/vision$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
+    const body = await readBody(req); b.vision = { ...body, at: Date.now() }; db.save();
+    return json(res, 200, { ok: true });
+  }
+
   // state
   if (req.method === "GET" && p === "/api/state")
     return json(res, 200, { stages: STAGES, controls: db.getControls(), books: db.getBooks(), jobs: db.getJobs().slice(-40).reverse() });

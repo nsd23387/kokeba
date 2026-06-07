@@ -28,7 +28,8 @@ async function runIllustrationLive(job) {
   execFileSync("node", gen, { cwd: REPO_ROOT, stdio: "inherit", env: process.env });
   execFileSync("node", ["scripts/layout/build-book.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit", env: process.env });
   await runPreflight(job.bookId, book.dir);
-  return [job.scope ? `regenerated ${job.scope}` : "generated all scenes", job.note ? `feedback: ${job.note}` : "", "rebuilt proof + pre-flight"].filter(Boolean);
+  await runVisionQA(job.bookId, book.dir);
+  return [job.scope ? `regenerated ${job.scope}` : "generated all scenes", job.note ? `feedback: ${job.note}` : "", "rebuilt proof + QA"].filter(Boolean);
 }
 
 // Run the deterministic pre-flight QA and store results so the UI shows flags before Gate 1.
@@ -37,6 +38,15 @@ async function runPreflight(bookId, dir) {
   try { out = execFileSync("node", ["scripts/preflight/check-book.mjs", dir, "--json"], { cwd: REPO_ROOT }).toString(); }
   catch (e) { out = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1,"warn":0,"pass":0},"flags":[]}'; }
   try { await post(`/api/books/${bookId}/preflight`, JSON.parse(out)); } catch {}
+}
+
+// Vision QA — opt-in (VISION_QA=1) pixel-level inspection via a vision model.
+async function runVisionQA(bookId, dir) {
+  if (process.env.VISION_QA !== "1") return;
+  let out;
+  try { out = execFileSync("node", ["scripts/preflight/vision-check.mjs", dir, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 10 * 1024 * 1024 }).toString(); }
+  catch (e) { out = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1,"warn":0,"pass":0},"flags":[]}'; }
+  try { await post(`/api/books/${bookId}/vision`, JSON.parse(out)); } catch {}
 }
 
 // --- stage adapters ----------------------------------------------------------
@@ -56,8 +66,9 @@ const ADAPTERS = {
     if (book?.dir) {
       execFileSync("node", ["scripts/layout/build-book.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
       await runPreflight(job.bookId, book.dir);
+      await runVisionQA(job.bookId, book.dir);
     }
-    return ["placed art + English + embedded fidel", "rebuilt proof.html", "ran pre-flight QA"];
+    return ["placed art + English + embedded fidel", "rebuilt proof.html", "ran pre-flight + vision QA"];
   },
   compliance:   async () => ["COPPA/CPSIA checks", "BISAC + reading age set", "AI disclosure flagged"],
   export:       async () => ["rendered 300dpi PDF", "KDP trim + bleed verified"],
