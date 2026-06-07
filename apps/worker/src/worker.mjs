@@ -70,8 +70,21 @@ const ADAPTERS = {
     }
     return ["placed art + English + embedded fidel", "rebuilt proof.html", "ran pre-flight + vision QA"];
   },
-  compliance:   async () => ["COPPA/CPSIA checks", "BISAC + reading age set", "AI disclosure flagged"],
-  export:       async () => ["rendered 300dpi PDF", "KDP trim + bleed verified"],
+  compliance:   async (job) => {
+    const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
+    if (book?.dir) {
+      let out;
+      try { out = execFileSync("node", ["scripts/compliance/check-compliance.mjs", book.dir, "--json"], { cwd: REPO_ROOT }).toString(); }
+      catch (e) { out = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1},"checks":[]}'; }
+      try { await post(`/api/books/${job.bookId}/compliance`, JSON.parse(out)); } catch {}
+    }
+    return ["ran CPSIA/COPPA/AI-disclosure checks", "wrote kdp-metadata.json"];
+  },
+  export:       async (job) => {
+    const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
+    if (book?.dir) execFileSync("node", ["scripts/export/build-pdf.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
+    return ["exported print-ready PDF (book.pdf) — or proof.html for manual print"];
+  },
 };
 
 async function runOnce() {
