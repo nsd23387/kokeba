@@ -100,6 +100,10 @@ small.hint{color:var(--muted);font-size:11px}
       <h2>Provenance &amp; credits</h2>
       <div id="prov" style="font-size:12px;color:var(--muted);max-height:175px;overflow:auto"></div>
     </div>
+    <div class="card" style="margin-bottom:18px">
+      <h2>Listing — SEO + GEO</h2>
+      <div id="listing" style="font-size:12px;color:var(--muted);max-height:185px;overflow:auto"></div>
+    </div>
     <div class="card">
       <h2>Feedback chat</h2>
       <div class="chat">
@@ -204,6 +208,16 @@ async function refresh(){
     cst.innerHTML=(cm.counts.fail>0?`<span style="color:var(--blocked)">✗ ${cm.counts.fail}</span>`:`<span style="color:var(--done)">✓ ready</span>`)+(cm.counts.todo?` <span style="color:var(--gold)">▢ ${cm.counts.todo} to do</span>`:'');
     cfl.innerHTML=(cm.checks||[]).map(c=>`<div class="jobline">${c.status==='fail'?'✗':c.status==='todo'?'▢':c.status==='warn'?'⚠':'✓'} ${c.item}: ${c.note}</div>`).join('');
   }else{cst.textContent='not run';cfl.innerHTML='<div class="jobline">run Compliance to check publish-readiness</div>';}
+  const pc=BOOK.pdfcheck;
+  if(pc&&pc.flags){cfl.innerHTML+=`<div class="jobline" style="margin-top:6px;color:var(--navy)">PDF export check: ${pc.counts.fail>0?('✗ '+pc.counts.fail+' fail'):'✓ ok'}</div>`+pc.flags.filter(f=>f.level!=='ok').map(f=>`<div class="jobline">${f.level==='fail'?'✗':'⚠'} [${f.file}] ${f.check}: ${f.msg}</div>`).join('');}
+  const lg=BOOK.listing,le=document.getElementById('listing');
+  if(lg){le.innerHTML=`<div class="jobline">Primary keyword: ${lg.seo?lg.seo.primary_keyword:'—'}</div>
+    <div class="jobline">Keywords (7): ${(lg.keywords||[]).join(' · ')}</div>
+    <div class="jobline">Categories: ${(lg.categories||[]).join(' | ')}</div>
+    <div class="jobline">GEO entities: ${(lg.geo&&lg.geo.entities||[]).slice(0,6).join(', ')}…</div>
+    <div class="jobline">Markets: ${(lg.markets&&lg.markets.primary_marketplaces||[]).join(', ')} · diaspora ${(lg.markets&&lg.markets.diaspora_targets||[]).join(', ')}</div>
+    <div class="jobline">→ listing-metadata.json in the book folder</div>`;}
+  else{le.innerHTML='<div class="jobline">run Compliance to generate the SEO/GEO listing</div>';}
   const pv=BOOK.provenance,pe=document.getElementById('prov');
   if(pv){const c=pv.contributors||{},m=pv.models||{},qa=pv.qa||{};
     pe.innerHTML=`<div class="jobline">Models: ${m.illustration||'—'} · vision ${m.vision_qa||'—'} · upscale lanczos</div>

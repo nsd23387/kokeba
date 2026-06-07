@@ -206,6 +206,16 @@ const server = http.createServer(async (req, res) => {
     const b = db.getBook(p.split("/")[3]); return b ? json(res, 200, { provenance: b.provenance || null }) : json(res, 404, { error: "no book" });
   }
 
+  // listing metadata (SEO+GEO) and final-PDF validation (worker posts)
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/listing$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
+    b.listing = { ...(await readBody(req)), at: Date.now() }; db.save(); return json(res, 200, { ok: true });
+  }
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/pdfcheck$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
+    b.pdfcheck = { ...(await readBody(req)), at: Date.now() }; db.save(); return json(res, 200, { ok: true });
+  }
+
   // compliance report (worker posts)
   if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/compliance$/)) {
     const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });

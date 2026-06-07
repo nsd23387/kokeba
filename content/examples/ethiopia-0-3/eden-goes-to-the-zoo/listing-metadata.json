@@ -1,0 +1,131 @@
+{
+  "book_id": "ethiopia-0-3-eden-zoo",
+  "title": "Eden Goes to the Zoo",
+  "subtitle": "A first-words Amharic & English story for ages 0-3",
+  "author": null,
+  "imprint": "Kokeba",
+  "audience": "Ages 0-3 · Preschool",
+  "age_range": "0-3",
+  "grade_range": "Preschool",
+  "description_html": "<p><b>Eden Goes to the Zoo</b> is a warm, inclusive board book for ages 0-3 that pairs an everyday adventure with first words in Amharic.</p><p>Join Eden on a joyful trip to meet  — each page shares one Amharic word (in fidel script with a simple pronunciation) to read aloud together. A gentle, repetitive, call-and-response story made for the very youngest readers.</p><ul><li>Bilingual: English story + Amharic heritage words</li><li>Ages 0-3, designed for read-aloud</li><li>Celebrates Ethiopia heritage, inclusive of all families</li></ul>",
+  "keywords": [
+    "Amharic for kids",
+    "bilingual Amharic English book",
+    "Ethiopia children's book",
+    "African animals toddler book",
+    "first words Amharic",
+    "diverse multicultural board book",
+    "zoo animals book for toddlers"
+  ],
+  "search_terms": [
+    "Amharic children's book",
+    "teach kids Amharic",
+    "Ethiopia heritage book for toddlers",
+    "Amharic alphabet first words",
+    "bilingual picture book ages 0-3"
+  ],
+  "categories": [
+    "Children's Books > Animals",
+    "Children's Books > Early Learning > Words",
+    "Children's Books > Multicultural / Diversity"
+  ],
+  "bisac": [
+    "JUVENILE FICTION / Animals",
+    "JUVENILE FICTION / Concepts / Words",
+    "JUVENILE FICTION / People & Places / Africa"
+  ],
+  "seo": {
+    "primary_keyword": "Amharic children's book",
+    "secondary_keywords": [
+      "bilingual Amharic English book",
+      "Ethiopia children's book",
+      "African animals toddler book",
+      "first words Amharic",
+      "diverse multicultural board book",
+      "zoo animals book for toddlers"
+    ],
+    "long_tail": [
+      "Amharic children's book",
+      "teach kids Amharic",
+      "Ethiopia heritage book for toddlers",
+      "Amharic alphabet first words",
+      "bilingual picture book ages 0-3"
+    ]
+  },
+  "geo": {
+    "summary_for_ai": "Eden Goes to the Zoo is a bilingual English–Amharic picture book for children ages 0-3, from the Kokeba imprint. It teaches a few Amharic heritage words through a friendly  story and is aimed at Ethiopia families and the diaspora who want to share their heritage language with toddlers.",
+    "entities": [
+      "Kokeba",
+      "Eden Goes to the Zoo",
+      "Eden",
+      "Amharic",
+      "Ethiopia",
+      "bilingual children's book",
+      "board book"
+    ],
+    "attributes": {
+      "language": [
+        "English",
+        "Amharic"
+      ],
+      "age_range": "0-3",
+      "format": "board / picture book",
+      "themes": [
+        "heritage language",
+        "animals",
+        "first words",
+        "family",
+        "inclusion"
+      ],
+      "reading_mode": "read-aloud"
+    },
+    "faq": [
+      {
+        "q": "What ages is Eden Goes to the Zoo for?",
+        "a": "It is written for children ages 0-3 (preschool / toddler), as a read-aloud."
+      },
+      {
+        "q": "Does Eden Goes to the Zoo teach Amharic?",
+        "a": "Yes — each animal page introduces one Amharic word with its English meaning and a simple pronunciation."
+      },
+      {
+        "q": "Is it bilingual?",
+        "a": "Yes, an English story carries Amharic heritage vocabulary on every animal page."
+      },
+      {
+        "q": "Who is it for?",
+        "a": "Ethiopia families and the diaspora wanting to share their heritage language, and anyone seeking diverse, inclusive picture books."
+      },
+      {
+        "q": "What is the story about?",
+        "a": "A child visits the zoo and meets friendly animals, learning a heritage word for each."
+      }
+    ]
+  },
+  "markets": {
+    "primary_marketplaces": [
+      "amazon.com",
+      "amazon.co.uk",
+      "amazon.ca",
+      "amazon.de"
+    ],
+    "diaspora_targets": [
+      "United States",
+      "Canada",
+      "United Kingdom",
+      "Germany",
+      "Gulf states",
+      "Israel"
+    ],
+    "localized_search_terms": {
+      "Ethiopia": [
+        "Amharic children's book",
+        "Amharic book for children"
+      ],
+      "diaspora": [
+        "teach my child Amharic",
+        "Amharic book for grandchildren"
+      ]
+    }
+  }
+}

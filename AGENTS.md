@@ -26,6 +26,8 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
 - Provenance: `node scripts/provenance/build-provenance.mjs <book-dir>` (models, per-page prompt hash/refs/feedback, contributors, human-authorship, sources → `provenance.json` + `provenance.md`; the worker runs it in the compliance stage and the API merges runtime QA + gate approvals).
 - Upscale to print res: `node scripts/upscale/upscale-art.mjs <book-dir>` (Lanczos upscale to >=300 DPI at trim; needs `npm i sharp`. Pipeline stage `upscale` runs after layout so the DPI check passes.)
 - Export PDF: `node scripts/export/build-pdf.mjs <book-dir>` (headless Chromium → `interior.pdf` single pages + `cover.pdf` wrap w/ computed spine + `book.pdf` proof; needs `npm i -D puppeteer`).
+- Listing (SEO+GEO): `node scripts/metadata/build-listing.mjs <book-dir>` (title, 7 keywords, categories, age; SEO search terms + GEO entities/FAQ/AI-summary + diaspora market targeting → `listing-metadata.json`. Worker runs it in compliance.)
+- Validate PDFs: `node scripts/validate/validate-pdf.mjs <book-dir>` (interior/cover MediaBox dimensions vs trim+bleed, page count, fonts-embedded. Worker runs it after export; exit 1 on FAIL.)
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
 
 ## Hard rules (do not violate)

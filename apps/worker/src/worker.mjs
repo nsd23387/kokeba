@@ -89,13 +89,23 @@ const ADAPTERS = {
       try { pv = execFileSync("node", ["scripts/provenance/build-provenance.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 8 * 1024 * 1024 }).toString(); }
       catch (e) { pv = e.stdout ? e.stdout.toString() : "{}"; }
       try { await post(`/api/books/${job.bookId}/provenance`, JSON.parse(pv)); } catch {}
+      let lst;
+      try { lst = execFileSync("node", ["scripts/metadata/build-listing.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 8 * 1024 * 1024 }).toString(); }
+      catch (e) { lst = e.stdout ? e.stdout.toString() : "{}"; }
+      try { await post(`/api/books/${job.bookId}/listing`, JSON.parse(lst)); } catch {}
     }
-    return ["ran CPSIA/COPPA/AI-disclosure checks", "wrote kdp-metadata.json", "built provenance record"];
+    return ["ran CPSIA/COPPA/AI-disclosure checks", "wrote kdp-metadata.json", "built provenance + SEO/GEO listing"];
   },
   export:       async (job) => {
     const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
-    if (book?.dir) execFileSync("node", ["scripts/export/build-pdf.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
-    return ["exported print-ready PDF (book.pdf) — or proof.html for manual print"];
+    if (book?.dir) {
+      execFileSync("node", ["scripts/export/build-pdf.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
+      let v;
+      try { v = execFileSync("node", ["scripts/validate/validate-pdf.mjs", book.dir, "--json"], { cwd: REPO_ROOT }).toString(); }
+      catch (e) { v = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1}}'; }
+      try { await post(`/api/books/${job.bookId}/pdfcheck`, JSON.parse(v)); } catch {}
+    }
+    return ["exported interior.pdf + cover.pdf", "validated PDFs against KDP"];
   },
 };
 
