@@ -85,8 +85,12 @@ const ADAPTERS = {
       try { out = execFileSync("node", ["scripts/compliance/check-compliance.mjs", book.dir, "--json"], { cwd: REPO_ROOT }).toString(); }
       catch (e) { out = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1},"checks":[]}'; }
       try { await post(`/api/books/${job.bookId}/compliance`, JSON.parse(out)); } catch {}
+      let pv;
+      try { pv = execFileSync("node", ["scripts/provenance/build-provenance.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 8 * 1024 * 1024 }).toString(); }
+      catch (e) { pv = e.stdout ? e.stdout.toString() : "{}"; }
+      try { await post(`/api/books/${job.bookId}/provenance`, JSON.parse(pv)); } catch {}
     }
-    return ["ran CPSIA/COPPA/AI-disclosure checks", "wrote kdp-metadata.json"];
+    return ["ran CPSIA/COPPA/AI-disclosure checks", "wrote kdp-metadata.json", "built provenance record"];
   },
   export:       async (job) => {
     const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);

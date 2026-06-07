@@ -189,6 +189,23 @@ const server = http.createServer(async (req, res) => {
     return json(res, 200, { ok: true });
   }
 
+  // provenance record (worker posts file-based provenance; API merges runtime QA + gate approvals)
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/provenance$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
+    const body = await readBody(req);
+    b.provenance = {
+      ...body,
+      qa: { preflight: b.preflight?.counts || null, vision: b.vision?.counts || null, compliance: b.compliance?.counts || null },
+      gates: { gate1: b.gate1 || null, gate1_status: b.stages.gate1, gate2_status: b.stages.gate2 },
+      stored_at: Date.now(),
+    };
+    db.save();
+    return json(res, 200, { ok: true });
+  }
+  if (req.method === "GET" && p.match(/^\/api\/books\/[^/]+\/provenance$/)) {
+    const b = db.getBook(p.split("/")[3]); return b ? json(res, 200, { provenance: b.provenance || null }) : json(res, 404, { error: "no book" });
+  }
+
   // compliance report (worker posts)
   if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/compliance$/)) {
     const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
