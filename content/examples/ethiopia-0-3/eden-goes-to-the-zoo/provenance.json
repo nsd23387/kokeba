@@ -1,0 +1,181 @@
+{
+  "book_id": "ethiopia-0-3-eden-zoo",
+  "title": {
+    "en": "Eden Goes to the Zoo",
+    "am": "ኤደን ወደ እንስሳት ማቆያ ሄደች"
+  },
+  "generated_at": "2026-06-07T17:34:53.228Z",
+  "contributors": {
+    "author": null,
+    "imprint": "Kokeba",
+    "copyright_holder": null,
+    "native_reviewer": null
+  },
+  "models": {
+    "illustration": "gpt-image",
+    "vision_qa": "gpt-4o-mini",
+    "upscale": "sharp (lanczos3) — swappable for an AI upscaler"
+  },
+  "ai_assistance_statement": "The illustrations and text in this book were created with the assistance of AI.",
+  "human_authorship": [
+    "Story authored and structured by a human (manuscript + house style + framework).",
+    "Character design and art direction set by a human (locked reference sheets + art-direction intake).",
+    "Every AI image was a human-directed prompt; outputs were selected/curated and revised by a human.",
+    "Human feedback was applied per page (recorded below) and re-generated until approved.",
+    "Native-speaker review and cultural sign-off performed by a human at Gate 1."
+  ],
+  "reference_sources": "Reference photos + data per data-sources/registry.yaml (PD/CC0/permissive baked in; CC-BY-SA/closed = reference-only). Generate-original, never-copy policy enforced in prompts.",
+  "originality": "Originality + cultural accuracy attested by the native reviewer at Gate 1.",
+  "pages": [
+    {
+      "id": "cover",
+      "file": "cover.png",
+      "prompt_sha256": "518822259317",
+      "prompt_chars": 1064,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png",
+        "s03.png",
+        "s06.png",
+        "s04.png"
+      ],
+      "human_feedback": [
+        "All animals must look EXACTLY like their approved single-animal pages attached as references — the friendly dark-maned lion (s03), giraffe (s06), elephant (s04); do not invent different-looking animals.",
+        "All animals are INSIDE the zoo behind the entrance gate; include a zoo entrance marker/emblem.",
+        "regenerate cover"
+      ]
+    },
+    {
+      "id": "s01",
+      "file": "s01.png",
+      "prompt_sha256": "65ead2cac542",
+      "prompt_chars": 180,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    },
+    {
+      "id": "s02",
+      "file": "s02.png",
+      "prompt_sha256": "1c97abb283d3",
+      "prompt_chars": 340,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    },
+    {
+      "id": "s03",
+      "file": "s03.png",
+      "prompt_sha256": "6fd2210461ac",
+      "prompt_chars": 1008,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    },
+    {
+      "id": "s04",
+      "file": "s04.png",
+      "prompt_sha256": "daa58d8f82b5",
+      "prompt_chars": 373,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    },
+    {
+      "id": "s05",
+      "file": "s05.png",
+      "prompt_sha256": "03e7f46b34b2",
+      "prompt_chars": 505,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    },
+    {
+      "id": "s06",
+      "file": "s06.png",
+      "prompt_sha256": "990a6c29af71",
+      "prompt_chars": 407,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": [
+        "Make the pose realistic and grounded: Eden's feet are clearly planted on the visitor path, knees slightly bent on tiptoes, with Mama standing beside her and one gentle hand resting on Eden's shoulder for balance. No floating, no lifted pose."
+      ]
+    },
+    {
+      "id": "s07",
+      "file": "s07.png",
+      "prompt_sha256": "6b98af517548",
+      "prompt_chars": 343,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    },
+    {
+      "id": "s08",
+      "file": "s08.png",
+      "prompt_sha256": "2cef4bd4805f",
+      "prompt_chars": 358,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": [
+        "This image is unrealistc. Eden is spalshing water at the hippo. There should be more distance between the hippo and the child also the median fades away. This is unrealistic and not safe for the child Eden."
+      ]
+    },
+    {
+      "id": "s09",
+      "file": "s09.png",
+      "prompt_sha256": "ad8752d42f2c",
+      "prompt_chars": 521,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    },
+    {
+      "id": "s10",
+      "file": "s10.png",
+      "prompt_sha256": "20f310ebcad2",
+      "prompt_chars": 410,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png",
+        "s03.png",
+        "s04.png",
+        "s06.png"
+      ],
+      "human_feedback": [
+        "The lion, elephant and giraffe MUST look exactly like their approved single-animal pages attached as references (same friendly faces, the same dark-maned lion as s03) — keep them consistent with the inside pages."
+      ]
+    },
+    {
+      "id": "s11",
+      "file": "s11.png",
+      "prompt_sha256": "f6c4c72983ae",
+      "prompt_chars": 259,
+      "references": [
+        "art/eden_everyday_ref.png",
+        "art/mama_everyday_ref.png"
+      ],
+      "human_feedback": []
+    }
+  ],
+  "qa": null,
+  "gates": null
+}
