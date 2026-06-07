@@ -13,6 +13,8 @@
       "id": "cover",
       "file": "cover.png",
       "refs": ["eden", "mama"],
+      "extra_ref_files": ["s03.png", "s06.png", "s04.png"],
+      "feedback": ["All animals must look EXACTLY like their approved single-animal pages attached as references — the friendly dark-maned lion (s03), giraffe (s06), elephant (s04); do not invent different-looking animals.", "All animals are INSIDE the zoo behind the entrance gate; include a zoo entrance marker/emblem."],
       "prompt": "COVER (hero composition, polished): warm golden inviting light at an ETHIOPIAN-highland ZOO. Eden (hero) and Mama stand IN FRONT OF the zoo's ENTRANCE GATE, FACING THE VIEWER with bright 'we're here!' joy (we clearly see their happy faces; NOT their backs, NOT walking away). ALL the animals are INSIDE the zoo, BEHIND the gate and fence — the black-maned lion, a giraffe and an elephant are each in their enclosures visible behind/through the gate, clearly GATED IN, NOT loose out in the open beside the family. A welcoming ZOO ENTRANCE ARCH over the gate carries a friendly animal emblem (a simple lion-head / paw silhouette) marking it as a zoo. TITLE-SAFE COMPOSITION (critical): the entire TOP THIRD must be EMPTY, calm SKY — no heads, faces, arch-top, tree-tops or animals there; keep Eden, Mama and all faces in the LOWER TWO-THIRDS so the title sits in clear sky covering no one. Premium picture-book feel, crisp detail. Render NO readable text or letters anywhere (use the emblem, not words)."
     },
     {
@@ -73,7 +75,9 @@
       "id": "s10",
       "file": "s10.png",
       "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (reflection): Eden walking down the zoo path holding Mama's hand, both waving goodbye; the lion, elephant and giraffe wave back warmly from their enclosures in the soft background. Happy and content."
+      "extra_ref_files": ["s03.png", "s04.png", "s06.png"],
+      "feedback": ["The lion, elephant and giraffe MUST look exactly like their approved single-animal pages attached as references (same friendly faces, the same dark-maned lion as s03) — keep them consistent with the inside pages."],
+      "prompt": "ZOO SCENE (reflection): Eden walking down the zoo path holding Mama's hand, both waving goodbye; the lion, elephant and giraffe wave back warmly from BEHIND their enclosure fences in the soft background. ANIMAL CONSISTENCY: match each animal to its attached reference image exactly — same friendly faces, the same dark-maned lion as the inside pages; do not invent different-looking animals. Happy and content."
     },
     {
       "id": "s11",

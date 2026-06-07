@@ -41,9 +41,28 @@ function enqueueStage(book, stageId, { scope = null, note = null } = {}) {
     return { gate: true, stage: stageId };
   }
   const gate = canDispatch(db.getControls(), sd);
-  if (!gate.ok) { book.stages[stageId] = STATUS.BLOCKED; db.save(); return { blocked: true, reason: gate.reason }; }
+  if (!gate.ok) {
+    book.stages[stageId] = STATUS.BLOCKED;
+    (book.blocks = book.blocks || {})[stageId] = gate.reason;
+    db.save();
+    return { blocked: true, reason: gate.reason };
+  }
+  if (book.blocks) delete book.blocks[stageId];
   const job = db.addJob({ bookId: book.id, stage: stageId, scope, note });
   return { job };
+}
+
+// Persist reviewer feedback INTO the scene so it's permanent context on every future
+// regeneration (embedded alongside the scene prompt + requirements).
+function persistFeedback(book, scope, note) {
+  if (!book?.dir || !scope || !note) return;
+  const sp = path.join(REPO_ROOT, book.dir, "scenes.json");
+  if (!fs.existsSync(sp)) return;
+  try {
+    const m = JSON.parse(fs.readFileSync(sp, "utf8"));
+    const sc = (m.scenes || []).find((s) => s.id === scope);
+    if (sc) { sc.feedback = sc.feedback || []; sc.feedback.push(note); fs.writeFileSync(sp, JSON.stringify(m, null, 2)); }
+  } catch {}
 }
 function advanceAfter(book, stageId) {           // autopilot auto-advance
   const nextId = nextStageId(stageId);
@@ -136,6 +155,7 @@ const server = http.createServer(async (req, res) => {
     const b = db.getBook(bookId);
     if (!b) return json(res, 404, { error: "no book" });
     if (note) db.addChat(bookId, "user", `${scope ? scope + ": " : ""}${note}`);
+    if (st === "illustration" && scope && note) persistFeedback(b, scope, note); // embed feedback into the scene
     return json(res, 200, enqueueStage(b, st, { scope, note }));
   }
   // worker: claim next queued job

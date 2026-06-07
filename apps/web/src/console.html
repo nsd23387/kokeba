@@ -76,7 +76,7 @@ small.hint{color:var(--muted);font-size:11px}
           </select></div>
         <div class="row">Kill switch
           <button id="kill" class="toggle" onclick="toggleKill()">—</button></div>
-        <div class="row" style="display:block">Daily budget <span id="budgettxt" style="float:right;color:var(--muted)"></span>
+        <div class="row" style="display:block">Daily budget <button onclick="resetBudget()" style="float:right;font-size:11px;padding:2px 8px">reset</button><span id="budgettxt" style="float:right;color:var(--muted);margin-right:10px"></span>
           <div class="budget" style="margin-top:6px"><span id="budgetbar"></span></div></div>
         <small class="hint">Autopilot auto-runs stages; gates always wait for you.</small>
       </div>
@@ -134,7 +134,7 @@ async function refresh(){
     else if(status==='running'||status==='queued')action=`<button disabled><span class="spin" style="color:var(--gold)">★</span></button>`;
     else action=`<button onclick="run('${st.id}')">${status==='done'?'Re-run':'Run'}</button>`;
     return `<div class="stage"><span class="dot" style="background:${col}"></span>
-      <div><div class="nm">${st.label}</div><div class="ag">${st.agent}${st.gate?' · gate':''}</div></div>
+      <div><div class="nm">${st.label}</div><div class="ag">${st.agent}${st.gate?' · gate':''}</div>${status==='blocked'&&BOOK.blocks&&BOOK.blocks[st.id]?`<div style="font-size:11px;color:var(--blocked)">⚠ ${BOOK.blocks[st.id]}</div>`:''}</div>
       <span class="spacer"></span>
       <span class="badge" style="background:${col}22;color:${col}">${status.replace('_',' ')}</span>${action}</div>`;
   }).join('');
@@ -177,6 +177,7 @@ const run=(stage)=>api('/api/jobs','POST',{bookId:BOOK.id,stage}).then(refresh);
 const approve=(stage)=>api('/api/books/'+BOOK.id+'/approve','POST',{stage}).then(refresh);
 const setMode=(v)=>api('/api/controls','POST',{approval_mode:v}).then(refresh);
 const toggleKill=async()=>{const s=await api('/api/state');api('/api/controls','POST',{kill_switch:s.controls.kill_switch==='on'?'off':'on'}).then(refresh);};
+const resetBudget=()=>api('/api/controls','POST',{budget:{spent_today_usd:0,spent_month_usd:0}}).then(refresh);
 async function send(){const i=document.getElementById('chatin');const t=i.value.trim();if(!t)return;i.value='';await api('/api/chat','POST',{bookId:BOOK.id,text:t});refresh();}
 refresh();setInterval(refresh,1500);
 </script></body></html>

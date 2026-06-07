@@ -109,7 +109,12 @@ if (!DRY) {
 const results = [];
 for (const scene of scenes) {
   const outPath = path.join(artDir, scene.file);
-  const refPaths = resolveRefs(manifest, scene, bookDir, path);
+  const baseRefs = resolveRefs(manifest, scene, bookDir, path);
+  // Animal/style consistency: attach approved scene images as extra references.
+  const extraRefs = (scene.extra_ref_files || [])
+    .map((f) => path.resolve(bookDir, manifest.art_dir || "art", f))
+    .filter((fp) => fs.existsSync(fp));
+  const refPaths = [...baseRefs, ...extraRefs];
   let prompt = composePrompt(manifest, scene);
   if (NOTE) prompt += `\n\nADDITIONAL ART DIRECTION (reviewer feedback — apply this carefully): ${NOTE}`;
 

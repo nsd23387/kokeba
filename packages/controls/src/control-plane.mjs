@@ -5,7 +5,7 @@ import { isGate } from "../../core/src/pipeline.mjs";
 export const DEFAULT_CONTROLS = {
   approval_mode: "copilot", // "copilot" = human runs each stage; "autopilot" = engine auto-advances
   kill_switch: "off",       // "on" pauses ALL job dispatch
-  budget: { daily_cap_usd: 20, monthly_cap_usd: 400, spent_today_usd: 0, spent_month_usd: 0 },
+  budget: { daily_cap_usd: 60, monthly_cap_usd: 400, spent_today_usd: 0, spent_month_usd: 0 },
 };
 
 // Can a stage be dispatched right now? Returns { ok, reason }.

@@ -48,6 +48,10 @@ function migrate() {
     if (ref && !b.dir) { b.dir = ref.dir; changed = true; }
     if (ref && !b.scenes) { b.scenes = ref.scenes; changed = true; }
   }
+  // bump an old low daily cap so repeated regenerations don't silently block
+  if (state.controls?.budget && state.controls.budget.daily_cap_usd < fresh.controls.budget.daily_cap_usd) {
+    state.controls.budget.daily_cap_usd = fresh.controls.budget.daily_cap_usd; changed = true;
+  }
   if (changed) save();
 }
 export function save() {
