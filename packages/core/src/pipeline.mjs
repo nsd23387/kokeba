@@ -7,6 +7,7 @@ export const STAGES = [
   { id: "character",    label: "Character design",        agent: "character-designer",  cost: 2 },
   { id: "illustration", label: "Illustration",            agent: "illustration",        cost: 6 },
   { id: "layout",       label: "Layout & proof",          agent: "layout",              cost: 1 },
+  { id: "upscale",      label: "Upscale to print res",    agent: "layout",              cost: 0 },
   { id: "gate1",        label: "Gate 1 — native review",  agent: "human", gate: true,   cost: 0 },
   { id: "compliance",   label: "Compliance pre-flight",   agent: "compliance",          cost: 0 },
   { id: "gate2",        label: "Gate 2 — QA sign-off",    agent: "human", gate: true,   cost: 0 },

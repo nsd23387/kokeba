@@ -23,7 +23,8 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
 - Vision QA (pixel-level, opt-in): `IMAGE_GEN_API_KEY=… VISION_MODEL=gpt-4o-mini node scripts/preflight/vision-check.mjs <book-dir>`
   (sends each page + reference images to a vision model; flags consistency/floating/rendering/proximity/scariness. Advisory. Worker runs it when `VISION_QA=1`.)
 - Compliance: `node scripts/compliance/check-compliance.mjs <book-dir>` (CPSIA/COPPA/AI-disclosure/BISAC/reading-age + writes `kdp-metadata.json`).
-- Export PDF: `node scripts/export/build-pdf.mjs <book-dir>` (headless Chromium → `book.pdf`; needs `npm i -D puppeteer`, else open `proof.html` and Print → PDF).
+- Upscale to print res: `node scripts/upscale/upscale-art.mjs <book-dir>` (Lanczos upscale to >=300 DPI at trim; needs `npm i sharp`. Pipeline stage `upscale` runs after layout so the DPI check passes.)
+- Export PDF: `node scripts/export/build-pdf.mjs <book-dir>` (headless Chromium → `interior.pdf` single pages + `cover.pdf` wrap w/ computed spine + `book.pdf` proof; needs `npm i -D puppeteer`).
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
 
 ## Hard rules (do not violate)

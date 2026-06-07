@@ -11,6 +11,7 @@
     "new:book": "tsx scripts/new-book.ts",
     "illustrate": "node scripts/illustrate/generate-scenes.mjs",
     "render": "node scripts/layout/build-book.mjs",
+    "upscale": "node scripts/upscale/upscale-art.mjs",
     "preflight": "node scripts/preflight/check-book.mjs",
     "vision": "node scripts/preflight/vision-check.mjs",
     "compliance": "node scripts/compliance/check-compliance.mjs",

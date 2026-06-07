@@ -61,6 +61,14 @@ const ADAPTERS = {
   illustration: async (job) => MOCK
     ? [`(mock) regenerated ${job.scope || "all"}`, job.note ? `note: ${job.note}` : ""].filter(Boolean)
     : runIllustrationLive(job),
+  upscale:      async (job) => {
+    const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
+    if (book?.dir) {
+      execFileSync("node", ["scripts/upscale/upscale-art.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit", env: process.env, maxBuffer: 16 * 1024 * 1024 });
+      execFileSync("node", ["scripts/layout/build-book.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
+    }
+    return ["upscaled art to print resolution (>=300 DPI)", "rebuilt proof"];
+  },
   layout:       async (job) => {
     const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
     if (book?.dir) {

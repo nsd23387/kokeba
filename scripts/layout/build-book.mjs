@@ -115,6 +115,41 @@ ${blocks.join("\n")}
 
 const out = path.resolve(bookDir, "proof.html");
 fs.writeFileSync(out, html);
+
+// --- KDP single-page interior (each physical page on its own sheet, full-bleed) ---
+if (process.argv.includes("--single")) {
+  const tmm = String(L.trim || "8.5x8.5in").match(/([\d.]+)x([\d.]+)/);
+  const W = tmm ? tmm[1] : "8.5", H = tmm ? tmm[2] : "8.5";
+  const sheets = [];
+  for (const p of L.pages) {
+    if (p.page === "cover") continue;                 // cover ships in the wrap, not the interior
+    if (p.page === "dedication" || p.page === "end") { sheets.push(`<div class="sheet">${centeredPage(p, p.page)}</div>`); continue; }
+    sheets.push(`<div class="sheet">${textPage(p)}</div>`);   // left page (story)
+    sheets.push(`<div class="sheet">${imagePage(p)}</div>`);  // right page (art + word)
+  }
+  const printHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,1,500&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+@page{size:${W}in ${H}in;margin:0}
+*{box-sizing:border-box;margin:0}body{font-family:'Fraunces',Georgia,serif;color:#222B6D}
+.sheet{width:${W}in;height:${H}in;page-break-after:always;overflow:hidden;position:relative;background:#FFFDF7}
+.sheet .page,.sheet .single{width:100%!important;height:100%!important;aspect-ratio:auto!important;border-radius:0!important;box-shadow:none!important}
+.L{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9%;text-align:center}
+.star{color:#C9A227;font-size:42px;margin-bottom:18px}
+.rhyme{font-size:30px;line-height:1.5;font-weight:500}
+.prompt{margin-top:24px;display:inline-block;border:1.5px solid #C9A227;color:#9A7D1E;background:#FBF3DA;font-style:italic;font-size:22px;padding:8px 20px;border-radius:22px}
+.R img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.band{position:absolute;left:0;right:0;bottom:0;background:rgba(255,253,247,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:14px 0 18px}
+.word{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;font-size:48px;line-height:1}
+.translit{color:#C9A227;font-style:italic;font-size:24px}.gloss{color:#8A8676;font-size:20px}
+.centered{font-size:30px;font-weight:500;text-align:center;line-height:1.5}.single{display:flex;align-items:center;justify-content:center;padding:9%}
+.pg{display:none}.ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b1a583}
+</style></head><body>${sheets.join("\n")}</body></html>`;
+  fs.writeFileSync(path.resolve(bookDir, "proof-print.html"), printHtml);
+  console.log(`Wrote proof-print.html (${sheets.length} single interior pages, ${W}x${H}in)`);
+}
+
 const have = L.pages.filter((p) => p.image && fs.existsSync(path.resolve(bookDir, artDir, p.image))).length;
 const need = L.pages.filter((p) => p.image).length;
 console.log(`Wrote ${path.relative(process.cwd(), out)}`);
