@@ -81,6 +81,10 @@ small.hint{color:var(--muted);font-size:11px}
         <small class="hint">Autopilot auto-runs stages; gates always wait for you.</small>
       </div>
     </div>
+    <div class="card" style="margin-bottom:18px">
+      <h2>Pre-flight QA <span id="pf-status" style="float:right;font-size:12px;text-transform:none;letter-spacing:0"></span></h2>
+      <div id="pf-flags" style="font-size:12px;color:var(--muted);max-height:150px;overflow:auto"></div>
+    </div>
     <div class="card">
       <h2>Feedback chat</h2>
       <div class="chat">
@@ -142,6 +146,12 @@ async function refresh(){
   const chat=(await api('/api/books/'+BOOK.id)).chat||[];
   document.getElementById('msgs').innerHTML=chat.map(m=>`<div class="msg ${m.role}">${m.text}</div>`).join('');
   const mm=document.getElementById('msgs');mm.scrollTop=mm.scrollHeight;
+  const pf=BOOK.preflight,pst=document.getElementById('pf-status'),pfl=document.getElementById('pf-flags');
+  if(pf&&pf.counts){
+    pst.innerHTML=(pf.counts.fail>0?`<span style="color:var(--blocked)">✗ ${pf.counts.fail} fail</span>`:`<span style="color:var(--done)">✓ pass</span>`)+(pf.counts.warn?` <span style="color:var(--gold)">⚠ ${pf.counts.warn} warn</span>`:'');
+    const issues=(pf.flags||[]).filter(f=>f.level!=='pass');
+    pfl.innerHTML=issues.length?issues.map(f=>`<div class="jobline">${f.level==='fail'?'✗':'⚠'} [${f.page}] ${f.check}: ${f.msg}</div>`).join(''):'<div class="jobline">no issues — structure is publication-clean</div>';
+  }else{pst.textContent='not run yet';pfl.innerHTML='<div class="jobline">run Layout to generate QA flags</div>';}
   await maybeRenderPreview();
 }
 async function maybeRenderPreview(){

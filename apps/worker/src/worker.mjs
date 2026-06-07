@@ -27,7 +27,16 @@ async function runIllustrationLive(job) {
   if (job.note) gen.push("--note", job.note);
   execFileSync("node", gen, { cwd: REPO_ROOT, stdio: "inherit", env: process.env });
   execFileSync("node", ["scripts/layout/build-book.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit", env: process.env });
-  return [job.scope ? `regenerated ${job.scope}` : "generated all scenes", job.note ? `feedback: ${job.note}` : "", "rebuilt proof"].filter(Boolean);
+  await runPreflight(job.bookId, book.dir);
+  return [job.scope ? `regenerated ${job.scope}` : "generated all scenes", job.note ? `feedback: ${job.note}` : "", "rebuilt proof + pre-flight"].filter(Boolean);
+}
+
+// Run the deterministic pre-flight QA and store results so the UI shows flags before Gate 1.
+async function runPreflight(bookId, dir) {
+  let out;
+  try { out = execFileSync("node", ["scripts/preflight/check-book.mjs", dir, "--json"], { cwd: REPO_ROOT }).toString(); }
+  catch (e) { out = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1,"warn":0,"pass":0},"flags":[]}'; }
+  try { await post(`/api/books/${bookId}/preflight`, JSON.parse(out)); } catch {}
 }
 
 // --- stage adapters ----------------------------------------------------------
@@ -42,7 +51,14 @@ const ADAPTERS = {
   illustration: async (job) => MOCK
     ? [`(mock) regenerated ${job.scope || "all"}`, job.note ? `note: ${job.note}` : ""].filter(Boolean)
     : runIllustrationLive(job),
-  layout:       async () => ["placed art + English + embedded fidel", "rebuilt proof.html"],
+  layout:       async (job) => {
+    const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
+    if (book?.dir) {
+      execFileSync("node", ["scripts/layout/build-book.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
+      await runPreflight(job.bookId, book.dir);
+    }
+    return ["placed art + English + embedded fidel", "rebuilt proof.html", "ran pre-flight QA"];
+  },
   compliance:   async () => ["COPPA/CPSIA checks", "BISAC + reading age set", "AI disclosure flagged"],
   export:       async () => ["rendered 300dpi PDF", "KDP trim + bleed verified"],
 };

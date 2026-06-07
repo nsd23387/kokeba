@@ -18,6 +18,8 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
   (lock the character reference sheets first; reads the book's `scenes.json`; needs `IMAGE_GEN_API_KEY`; `pnpm add openai` once. `--dry-run` validates without the API. `--only s03 --force` re-rolls one scene.)
 - Render the book proof:     `node scripts/layout/build-book.mjs content/examples/ethiopia-0-3/eden-goes-to-the-zoo`
   (reads `layout.json` + `art/`; writes `proof.html` in the approved square template; open it and Print -> Save as PDF. Fidel embeds via Noto Sans Ethiopic.)
+- Pre-flight QA (before Gate 1): `node scripts/preflight/check-book.mjs content/examples/ethiopia-0-3/eden-goes-to-the-zoo`
+  (deterministic checks: predator moats, animal-ref consistency, refs/art present + square/non-blank, fidel present. Exit 1 on FAIL; the worker runs it after layout and stores results for the UI.)
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
 
 ## Hard rules (do not violate)
