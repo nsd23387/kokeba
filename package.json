@@ -12,6 +12,7 @@
     "illustrate": "node scripts/illustrate/generate-scenes.mjs",
     "render": "node scripts/layout/build-book.mjs",
     "preflight": "node scripts/preflight/check-book.mjs",
+    "vision": "node scripts/preflight/vision-check.mjs",
     "api": "node apps/api/src/server.mjs",
     "worker": "node apps/worker/src/worker.mjs",
     "studio": "node apps/api/src/server.mjs & node apps/worker/src/worker.mjs"

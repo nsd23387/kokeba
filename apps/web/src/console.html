@@ -85,6 +85,10 @@ small.hint{color:var(--muted);font-size:11px}
       <h2>Pre-flight QA <span id="pf-status" style="float:right;font-size:12px;text-transform:none;letter-spacing:0"></span></h2>
       <div id="pf-flags" style="font-size:12px;color:var(--muted);max-height:150px;overflow:auto"></div>
     </div>
+    <div class="card" style="margin-bottom:18px">
+      <h2>Vision QA <span id="vq-status" style="float:right;font-size:12px;text-transform:none;letter-spacing:0"></span></h2>
+      <div id="vq-flags" style="font-size:12px;color:var(--muted);max-height:150px;overflow:auto"></div>
+    </div>
     <div class="card">
       <h2>Feedback chat</h2>
       <div class="chat">
@@ -152,6 +156,12 @@ async function refresh(){
     const issues=(pf.flags||[]).filter(f=>f.level!=='pass');
     pfl.innerHTML=issues.length?issues.map(f=>`<div class="jobline">${f.level==='fail'?'✗':'⚠'} [${f.page}] ${f.check}: ${f.msg}</div>`).join(''):'<div class="jobline">no issues — structure is publication-clean</div>';
   }else{pst.textContent='not run yet';pfl.innerHTML='<div class="jobline">run Layout to generate QA flags</div>';}
+  const vq=BOOK.vision,vst=document.getElementById('vq-status'),vfl=document.getElementById('vq-flags');
+  if(vq&&vq.counts){
+    vst.innerHTML=(vq.counts.fail>0?`<span style="color:var(--blocked)">✗ ${vq.counts.fail} high</span>`:`<span style="color:var(--done)">✓ clean</span>`)+(vq.counts.warn?` <span style="color:var(--gold)">⚠ ${vq.counts.warn}</span>`:'');
+    const vi=(vq.flags||[]).filter(f=>f.level!=='pass');
+    vfl.innerHTML=vi.length?vi.map(f=>`<div class="jobline">${f.level==='fail'?'✗':'⚠'} [${f.page}] ${f.check.replace('vision:','')}: ${f.msg}</div>`).join(''):'<div class="jobline">no visual defects flagged</div>';
+  }else{vst.textContent='off';vfl.innerHTML='<div class="jobline">set VISION_QA=1 on the worker, then regenerate, to run pixel-level QA</div>';}
   await maybeRenderPreview();
 }
 async function maybeRenderPreview(){
