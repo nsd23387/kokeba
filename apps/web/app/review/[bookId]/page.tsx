@@ -59,6 +59,7 @@ export default function ReviewPage({ params }: { params: { bookId: string } }) {
     const r = await fetch(`${API}/api/books/${bookId}/gate1`, {
       method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload),
     }).then((x) => x.json());
+    if (r.blocked) { setResult(`⚠ Blocked — ${r.reason}`); return; }
     setGate1(r.book?.stages?.gate1 || (decision === "approve" ? "done" : "pending"));
     setResult(decision === "approve" ? "Gate 1 approved — advancing to compliance." : "Returned for changes — illustration & layout reopened.");
   }

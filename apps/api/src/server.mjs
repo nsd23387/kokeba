@@ -40,6 +40,13 @@ function enqueueStage(book, stageId, { scope = null, note = null } = {}) {
     db.save();
     return { gate: true, stage: stageId };
   }
+  // HARD BLOCK: publish-side stages cannot run while pre-flight QA has failures.
+  if ((stageId === "compliance" || stageId === "export") && preflightFail(book) > 0) {
+    book.stages[stageId] = STATUS.BLOCKED;
+    (book.blocks = book.blocks || {})[stageId] = `pre-flight QA has ${preflightFail(book)} failing check(s) — fix before ${stageId}`;
+    db.save();
+    return { blocked: true, reason: book.blocks[stageId] };
+  }
   const gate = canDispatch(db.getControls(), sd);
   if (!gate.ok) {
     book.stages[stageId] = STATUS.BLOCKED;
@@ -64,6 +71,7 @@ function persistFeedback(book, scope, note) {
     if (sc) { sc.feedback = sc.feedback || []; sc.feedback.push(note); fs.writeFileSync(sp, JSON.stringify(m, null, 2)); }
   } catch {}
 }
+const preflightFail = (b) => (b.preflight && b.preflight.counts ? b.preflight.counts.fail || 0 : 0);
 function advanceAfter(book, stageId) {           // autopilot auto-advance
   const nextId = nextStageId(stageId);
   if (!nextId) return;
@@ -134,6 +142,8 @@ const server = http.createServer(async (req, res) => {
     const bookId = p.split("/")[3]; const body = await readBody(req);
     const b = db.getBook(bookId); if (!b) return json(res, 404, { error: "no book" });
     b.gate1 = { ...body, at: Date.now() }; // { decision:'approve'|'return', corrections:{}, flags:{}, cultural_ok, notes }
+    if (body.decision === "approve" && preflightFail(b) > 0)
+      return json(res, 200, { blocked: true, reason: `pre-flight QA has ${preflightFail(b)} failing check(s) — fix before approving Gate 1` });
     if (body.decision === "approve") { b.stages.gate1 = STATUS.DONE; advanceAfter(b, "gate1"); db.addChat(bookId, "assistant", "Gate 1 approved — advancing to compliance."); }
     else { b.stages.gate1 = STATUS.PENDING; b.stages.illustration = STATUS.PENDING; b.stages.layout = STATUS.PENDING;
       db.addChat(bookId, "user", `Gate 1 returned: ${body.notes || "changes requested"}`); }
@@ -189,6 +199,7 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/approve$/)) {
     const bookId = p.split("/")[3]; const { stage: st } = await readBody(req);
     const b = db.getBook(bookId); if (!b) return json(res, 404, { error: "no book" });
+    if (preflightFail(b) > 0) return json(res, 200, { blocked: true, reason: `pre-flight QA has ${preflightFail(b)} failing check(s) — fix before approving ${st}` });
     b.stages[st] = STATUS.DONE; advanceAfter(b, st); db.save();
     return json(res, 200, { ok: true, book: b });
   }

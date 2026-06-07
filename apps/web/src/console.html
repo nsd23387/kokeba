@@ -184,7 +184,7 @@ async function regenFromModal(){
   refresh();
 }
 const run=(stage)=>api('/api/jobs','POST',{bookId:BOOK.id,stage}).then(refresh);
-const approve=(stage)=>api('/api/books/'+BOOK.id+'/approve','POST',{stage}).then(refresh);
+const approve=(stage)=>api('/api/books/'+BOOK.id+'/approve','POST',{stage}).then(r=>{if(r&&r.blocked)alert('Cannot approve — '+r.reason);refresh();});
 const setMode=(v)=>api('/api/controls','POST',{approval_mode:v}).then(refresh);
 const toggleKill=async()=>{const s=await api('/api/state');api('/api/controls','POST',{kill_switch:s.controls.kill_switch==='on'?'off':'on'}).then(refresh);};
 const resetBudget=()=>api('/api/controls','POST',{budget:{spent_today_usd:0,spent_month_usd:0}}).then(refresh);
