@@ -104,8 +104,9 @@ const ADAPTERS = {
       try { v = execFileSync("node", ["scripts/validate/validate-pdf.mjs", book.dir, "--json"], { cwd: REPO_ROOT }).toString(); }
       catch (e) { v = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1}}'; }
       try { await post(`/api/books/${job.bookId}/pdfcheck`, JSON.parse(v)); } catch {}
+      try { execFileSync("node", ["scripts/ebook/build-epub.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" }); } catch (e) { console.error("epub:", e.message); }
     }
-    return ["exported interior.pdf + cover.pdf", "validated PDFs against KDP"];
+    return ["exported interior.pdf + cover.pdf", "validated PDFs against KDP", "built fixed-layout book.epub"];
   },
 };
 

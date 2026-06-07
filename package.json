@@ -18,6 +18,7 @@
     "provenance": "node scripts/provenance/build-provenance.mjs",
     "listing": "node scripts/metadata/build-listing.mjs",
     "validate:pdf": "node scripts/validate/validate-pdf.mjs",
+    "ebook": "node scripts/ebook/build-epub.mjs",
     "export:pdf": "node scripts/export/build-pdf.mjs",
     "api": "node apps/api/src/server.mjs",
     "worker": "node apps/worker/src/worker.mjs",

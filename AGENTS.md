@@ -28,6 +28,7 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
 - Export PDF: `node scripts/export/build-pdf.mjs <book-dir>` (headless Chromium → `interior.pdf` single pages + `cover.pdf` wrap w/ computed spine + `book.pdf` proof; needs `npm i -D puppeteer`).
 - Listing (SEO+GEO): `node scripts/metadata/build-listing.mjs <book-dir>` (title, 7 keywords, categories, age; SEO search terms + GEO entities/FAQ/AI-summary + diaspora market targeting → `listing-metadata.json`. Worker runs it in compliance.)
 - Validate PDFs: `node scripts/validate/validate-pdf.mjs <book-dir>` (interior/cover MediaBox dimensions vs trim+bleed, page count, fonts-embedded. Worker runs it after export; exit 1 on FAIL.)
+- Ebook (Kindle): `node scripts/ebook/build-epub.mjs <book-dir>` (fixed-layout EPUB3 with per-page alt-text + accessibility metadata → `book.epub`; packaged with `zip`. Worker runs it in export.)
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
 
 ## Hard rules (do not violate)
