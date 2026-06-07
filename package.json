@@ -13,6 +13,8 @@
     "render": "node scripts/layout/build-book.mjs",
     "preflight": "node scripts/preflight/check-book.mjs",
     "vision": "node scripts/preflight/vision-check.mjs",
+    "compliance": "node scripts/compliance/check-compliance.mjs",
+    "export:pdf": "node scripts/export/build-pdf.mjs",
     "api": "node apps/api/src/server.mjs",
     "worker": "node apps/worker/src/worker.mjs",
     "studio": "node apps/api/src/server.mjs & node apps/worker/src/worker.mjs"

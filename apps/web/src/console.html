@@ -166,6 +166,11 @@ async function refresh(){
     const vi=(vq.flags||[]).filter(f=>f.level!=='pass');
     vfl.innerHTML=vi.length?vi.map(f=>`<div class="jobline">${f.level==='fail'?'✗':'⚠'} [${f.page}] ${f.check.replace('vision:','')}: ${f.msg}</div>`).join(''):'<div class="jobline">no visual defects flagged</div>';
   }else{vst.textContent='off';vfl.innerHTML='<div class="jobline">set VISION_QA=1 on the worker, then regenerate, to run pixel-level QA</div>';}
+  const cm=BOOK.compliance,cst=document.getElementById('cmp-status'),cfl=document.getElementById('cmp-flags');
+  if(cm&&cm.counts){
+    cst.innerHTML=(cm.counts.fail>0?`<span style="color:var(--blocked)">✗ ${cm.counts.fail}</span>`:`<span style="color:var(--done)">✓ ready</span>`)+(cm.counts.todo?` <span style="color:var(--gold)">▢ ${cm.counts.todo} to do</span>`:'');
+    cfl.innerHTML=(cm.checks||[]).map(c=>`<div class="jobline">${c.status==='fail'?'✗':c.status==='todo'?'▢':c.status==='warn'?'⚠':'✓'} ${c.item}: ${c.note}</div>`).join('');
+  }else{cst.textContent='not run';cfl.innerHTML='<div class="jobline">run Compliance to check publish-readiness</div>';}
   await maybeRenderPreview();
 }
 async function maybeRenderPreview(){

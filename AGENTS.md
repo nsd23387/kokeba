@@ -19,7 +19,11 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
 - Render the book proof:     `node scripts/layout/build-book.mjs content/examples/ethiopia-0-3/eden-goes-to-the-zoo`
   (reads `layout.json` + `art/`; writes `proof.html` in the approved square template; open it and Print -> Save as PDF. Fidel embeds via Noto Sans Ethiopic.)
 - Pre-flight QA (before Gate 1): `node scripts/preflight/check-book.mjs content/examples/ethiopia-0-3/eden-goes-to-the-zoo`
-  (deterministic checks: predator moats, animal-ref consistency, refs/art present + square/non-blank, fidel present. Exit 1 on FAIL; the worker runs it after layout and stores results for the UI.)
+  (deterministic checks: predator moats, animal-ref consistency, refs/art present + square/non-blank, fidel present. Exit 1 on FAIL; the worker runs it after layout and stores results for the UI. FAIL hard-blocks Gate 1 + compliance + export.)
+- Vision QA (pixel-level, opt-in): `IMAGE_GEN_API_KEY=… VISION_MODEL=gpt-4o-mini node scripts/preflight/vision-check.mjs <book-dir>`
+  (sends each page + reference images to a vision model; flags consistency/floating/rendering/proximity/scariness. Advisory. Worker runs it when `VISION_QA=1`.)
+- Compliance: `node scripts/compliance/check-compliance.mjs <book-dir>` (CPSIA/COPPA/AI-disclosure/BISAC/reading-age + writes `kdp-metadata.json`).
+- Export PDF: `node scripts/export/build-pdf.mjs <book-dir>` (headless Chromium → `book.pdf`; needs `npm i -D puppeteer`, else open `proof.html` and Print → PDF).
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
 
 ## Hard rules (do not violate)
