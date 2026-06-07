@@ -7,82 +7,137 @@
     "eden": "art/eden_everyday_ref.png",
     "mama": "art/mama_everyday_ref.png"
   },
-  "shared_block": "Soft, warm children's storybook illustration — gentle painterly shading, subtle texture, rounded friendly shapes, cozy warm lighting. Palette: cream/white, sage-green, gold, navy accents. Ages 0-3: NO text or letters in the image, square composition, soft uncluttered background, ONE clear subject. IDENTITY + everyday outfits EXACTLY as in the attached reference sheet(s): Eden (toddler, warm brown skin, dark-brown curly hair + small gold star clip, yellow everyday play dress, baby proportions) and, where attached, Mama (warm brown skin, dark curly hair, cream V-neck top + sage-green trousers). Keep faces, hair, star clip, and the everyday clothes identical to the references — do NOT switch to formal white habesha. Setting reads as the ETHIOPIAN highlands (Addis Ababa ~2,355 m): temperate, clear blue sky, soft warm light, reddish-brown soil with green grass; trees are tall slender eucalyptus, flat-topped acacia, and a spreading warka shade tree; a few yellow adey-abeba daisies. Cultural rule: inclusive of all Ethiopian kids — neutral geometric patterns only, no faith-specific symbols on everyday wear. No snow/pine, no hot flat safari, no Western zoo buildings. TEXT-SAFE ZONE: keep the BOTTOM ~18% of the image a CALM, simple area (ground / path / water / grass / sky) with NO faces, feet, hands, or key subjects — the vocabulary word sits in a band there, so nothing important may be in the lower strip; keep characters and the main action in the upper/middle of the frame.",
+  "shared_block": "Soft, warm children's storybook illustration — gentle painterly shading, subtle texture, rounded friendly shapes, cozy warm lighting. Palette: cream/white, sage-green, gold, navy accents. Ages 0-3: NO text or letters in the image, square composition, soft uncluttered background, ONE clear subject. IDENTITY + everyday outfits EXACTLY as in the attached reference sheet(s): Eden (toddler, warm brown skin, dark-brown curly hair + small gold star clip, yellow everyday play dress, baby proportions) and, where attached, Mama (warm brown skin, dark curly hair, cream V-neck top + sage-green trousers). Keep faces, hair, star clip, and the everyday clothes identical to the references — do NOT switch to formal white habesha. Setting reads as the ETHIOPIAN highlands (Addis Ababa ~2,355 m): temperate, clear blue sky, soft warm light, reddish-brown soil with green grass; trees are tall slender eucalyptus, flat-topped acacia, and a spreading warka shade tree; a few yellow adey-abeba daisies. Cultural rule: inclusive of all Ethiopian kids — neutral geometric patterns only, no faith-specific symbols on everyday wear. No snow/pine, no hot flat safari, no Western zoo buildings. ZOO IDENTITY (keep the zoo consistent across ALL pages — it is ONE place): there is ONE entrance only — a warm stone-pillar-and-timber ARCH GATE bearing a SINGLE carved lion-head emblem as the zoo's mark; use this exact same gate on every entrance page (no second emblem, no different gate). EVERY enclosure uses the SAME barrier design — a low rounded natural-wood rail set on a low stone curb — so all pages match; predator enclosures (lion, leopard, hippo) additionally have a clearly visible WATER MOAT behind that rail. RENDER QUALITY (publication): finish every surface cleanly — NO blank, warped or melting fences, NO disappearing rails or posts, NO large flat empty sand/ground patches; add gentle natural ground texture (grass tufts, a few pebbles, soft path) but keep the bottom ~18% calm. TEXT-SAFE ZONE: keep the BOTTOM ~18% of the image a CALM, simple area (ground / path / water / grass / sky) with NO faces, feet, hands, or key subjects — the vocabulary word sits in a band there, so nothing important may be in the lower strip; keep characters and the main action in the upper/middle of the frame.",
   "scenes": [
     {
       "id": "cover",
       "file": "cover.png",
-      "refs": ["eden", "mama"],
-      "extra_ref_files": ["s03.png", "s06.png", "s04.png"],
-      "feedback": ["All animals must look EXACTLY like their approved single-animal pages attached as references — the friendly dark-maned lion (s03), giraffe (s06), elephant (s04); do not invent different-looking animals.", "All animals are INSIDE the zoo behind the entrance gate; include a zoo entrance marker/emblem."],
-      "prompt": "COVER (hero composition, polished): warm golden inviting light at an ETHIOPIAN-highland ZOO. Eden (hero) and Mama stand IN FRONT OF the zoo's ENTRANCE GATE, FACING THE VIEWER with bright 'we're here!' joy (we clearly see their happy faces; NOT their backs, NOT walking away). ALL the animals are INSIDE the zoo, BEHIND the gate and fence — the black-maned lion, a giraffe and an elephant are each in their enclosures visible behind/through the gate, clearly GATED IN, NOT loose out in the open beside the family. A welcoming ZOO ENTRANCE ARCH over the gate carries a friendly animal emblem (a simple lion-head / paw silhouette) marking it as a zoo. TITLE-SAFE COMPOSITION (critical): the entire TOP THIRD must be EMPTY, calm SKY — no heads, faces, arch-top, tree-tops or animals there; keep Eden, Mama and all faces in the LOWER TWO-THIRDS so the title sits in clear sky covering no one. Premium picture-book feel, crisp detail. Render NO readable text or letters anywhere (use the emblem, not words)."
+      "refs": [
+        "eden",
+        "mama"
+      ],
+      "extra_ref_files": [
+        "s03.png",
+        "s06.png",
+        "s04.png"
+      ],
+      "feedback": [
+        "All animals must look EXACTLY like their approved single-animal pages attached as references — the friendly dark-maned lion (s03), giraffe (s06), elephant (s04); do not invent different-looking animals.",
+        "All animals are INSIDE the zoo behind the entrance gate; include a zoo entrance marker/emblem.",
+        "regenerate cover"
+      ],
+      "prompt": "COVER (hero composition, polished): warm golden inviting light at an ETHIOPIAN-highland ZOO. Eden (hero) and Mama stand IN FRONT OF the zoo's ENTRANCE GATE, FACING THE VIEWER with bright 'we're here!' joy (we clearly see their happy faces; NOT their backs, NOT walking away). ALL the animals are INSIDE the zoo, BEHIND the gate and fence — the black-maned lion, a giraffe and an elephant are each in their enclosures visible behind/through the gate, clearly GATED IN, NOT loose out in the open beside the family. Behind/above them is the zoo's ONE entrance — the stone-pillar-and-timber ARCH GATE bearing a SINGLE carved lion-head emblem (the zoo's mark; exactly the same gate used on page 2, no second emblem). TITLE-SAFE COMPOSITION (critical): the entire TOP THIRD must be EMPTY, calm SKY — no heads, faces, arch-top, tree-tops or animals there; keep Eden, Mama and all faces in the LOWER TWO-THIRDS so the title sits in clear sky covering no one. Premium picture-book feel, crisp detail. Render NO readable text or letters anywhere (use the emblem, not words)."
     },
     {
       "id": "s01",
       "file": "s01.png",
-      "refs": ["eden"],
+      "refs": [
+        "eden"
+      ],
       "prompt": "Scene: Eden waking in a cozy little bed at home, stretching with a sleepy happy smile; soft golden morning light through a window. This is HOME — no zoo. Mama is not in this scene."
     },
     {
       "id": "s02",
       "file": "s02.png",
-      "refs": ["eden", "mama"],
-      "prompt": "Scene: Eden holding Mama's hand, walking happily toward the Ethiopian-highland zoo entrance gate, pointing ahead with excitement. Eucalyptus and acacia around the path, blue sky. Mama warm and secondary."
+      "refs": [
+        "eden",
+        "mama"
+      ],
+      "prompt": "Scene: Eden holding Mama's hand, walking happily toward the zoo's ONE entrance — the stone-pillar-and-timber ARCH GATE with the SINGLE carved lion-head emblem (exactly the same gate as the cover; no thatched hut, no different emblem), pointing ahead with excitement. Eucalyptus and acacia around the path, blue sky. Mama warm and secondary."
     },
     {
       "id": "s03",
       "file": "s03.png",
-      "refs": ["eden", "mama"],
+      "refs": [
+        "eden",
+        "mama"
+      ],
       "prompt": "ZOO SCENE (lion / Anbessa): a big, CUDDLY, baby-friendly Ethiopian black-maned lion — soft fluffy DARK mane, soft ROUNDED friendly features. FRIENDLY FACE (important, this is for ages 0-3): a SOFT GENTLE SMILE (slightly upturned closed mouth), big warm rounded eyes, ears up — sweet, calm, approachable, almost cuddly. NO open roaring jaws, NO bared or sharp teeth, NO fangs, NO snarl, NO fierce stare (Eden is the one 'roaring', not the lion). BARRIER REALISM (must be obvious): the lion rests SET BACK on a raised rocky ledge across a CLEARLY VISIBLE WATER MOAT — a small river/channel of blue water runs in the gap between the visitor rail and the lion's ledge, so it is plainly impossible for the lion to reach Eden or cross. A sturdy wooden rail / low stone wall is on the visitor side too. Eden stands at the rail on the visitor side, cupping her hands to 'roar' back, delighted (hero, biggest and closest); Mama beside her, a hand on Eden's shoulder, smiling. Small blank wooden sign post by the rail."
     },
     {
       "id": "s04",
       "file": "s04.png",
-      "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (elephant / Zihon): a happy round elephant in its enclosure (dirt-and-grass habitat with a little pool) behind a low rounded rail, lifting its trunk to wave; Eden at the rail waving back with a big smile, Mama beside her waving too. Gentle animal — it may come nearer the rail."
+      "refs": [
+        "eden",
+        "mama"
+      ],
+      "prompt": "ZOO SCENE (elephant / Zihon): a happy round elephant standing WELL BACK inside its enclosure (dirt-and-grass habitat with a little pool), with a clear gap between it and the standard wood-rail-on-stone-curb fence — it does NOT loom over Eden — lifting its trunk to wave from a comfortable distance; Eden at the rail waving back with a big smile, Mama beside her waving too."
     },
     {
       "id": "s05",
       "file": "s05.png",
-      "refs": ["eden", "mama"],
+      "refs": [
+        "eden",
+        "mama"
+      ],
       "prompt": "ZOO SCENE (monkey / Zinjero): a playful monkey SET BACK INSIDE its leafy enclosure on the FAR side of a barrier (climbing-frame / branches behind a mesh or rail fence) — clearly separated, NOT on the visitor side, NOT next to or reaching toward Eden. Eden and Mama stand on the visitor side of the fence; Eden giggling with her hands up, 'chattering' along; Mama crouched beside her, laughing. There must be obvious separation (fence/mesh) between the monkey and the people — the monkey cannot touch them."
     },
     {
       "id": "s06",
       "file": "s06.png",
-      "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (giraffe / Qechne): a tall gentle giraffe in its enclosure bending its long neck down over a low rounded rail toward Eden, who looks up and stretches on tiptoes with a delighted smile; Mama beside her, gently steadying her, looking up too. Tall reaching animal — may come near the rail."
+      "refs": [
+        "eden",
+        "mama"
+      ],
+      "prompt": "ZOO SCENE (giraffe / Qechne): a tall gentle giraffe whose BODY stands WELL BACK inside its enclosure; only its long neck and head lower DOWN toward the standard wood-rail-on-stone-curb fence from a comfortable distance (the giraffe does NOT loom over Eden). Eden looks up and stretches on tiptoes with a delighted smile (both feet still on the ground); Mama beside her, gently steadying her, looking up too.",
+      "feedback": [
+        "Eden is floating and doesn't look authentic how her mother is holding her. Eden should be on the ground or her mom should be picking her up. The current image isn't realistic."
+      ]
     },
     {
       "id": "s07",
       "file": "s07.png",
-      "refs": ["eden", "mama"],
+      "refs": [
+        "eden",
+        "mama"
+      ],
       "prompt": "ZOO SCENE (camel / Gimel): a calm smiling one-humped camel in a sandy enclosure behind a low rounded rail; Eden stands at the rail with BOTH FEET FLAT ON THE GROUND, wiggling and giggling happily (she is firmly standing on the path, NOT jumping, NOT floating, feet clearly planted on the ground); Mama beside her, holding her hand and smiling."
     },
     {
       "id": "s08",
       "file": "s08.png",
-      "refs": ["eden", "mama"],
-      "prompt": "ZOO SCENE (hippo / Gumare): a round jolly hippo with a SOFT HAPPY mouth (gentle, friendly — no large or sharp teeth, not aggressive) splashing in its pool SET BACK inside the enclosure (a clear gap + a sturdy rail between the pool and the path), cheerful water droplets; Eden at the rail laughing and pretending to splash; Mama beside her, sharing the laugh."
+      "refs": [
+        "eden",
+        "mama"
+      ],
+      "prompt": "ZOO SCENE (hippo / Gumare): a round jolly hippo with a SOFT HAPPY mouth (gentle, friendly — no large or sharp teeth, not aggressive) splashing in its pool SET BACK inside the enclosure (a clear gap + a sturdy rail between the pool and the path), cheerful water droplets; Eden at the rail laughing and pretending to splash; Mama beside her, sharing the laugh.",
+      "feedback": [
+        "This image is unrealistc. Eden is spalshing water at the hippo. There should be more distance between the hippo and the child also the median fades away. This is unrealistic and not safe for the child Eden."
+      ]
     },
     {
       "id": "s09",
       "file": "s09.png",
-      "refs": ["eden", "mama"],
+      "refs": [
+        "eden",
+        "mama"
+      ],
       "prompt": "ZOO SCENE (leopard / Nebir): a gentle spotted leopard with a soft friendly face (calm, not fierce) tiptoeing softly SET BACK on the rocks deeper in its enclosure, across a CLEARLY VISIBLE WATER MOAT — a small channel of blue water in the gap between the visitor rail and the leopard's rocky ledge, so it's plainly impossible for it to reach Eden; a taller sturdy rail on the visitor side too. Eden at the barrier tiptoeing quietly, finger to her lips, eyes wide; Mama beside her, also tiptoeing playfully, finger to lips."
     },
     {
       "id": "s10",
       "file": "s10.png",
-      "refs": ["eden", "mama"],
-      "extra_ref_files": ["s03.png", "s04.png", "s06.png"],
-      "feedback": ["The lion, elephant and giraffe MUST look exactly like their approved single-animal pages attached as references (same friendly faces, the same dark-maned lion as s03) — keep them consistent with the inside pages."],
+      "refs": [
+        "eden",
+        "mama"
+      ],
+      "extra_ref_files": [
+        "s03.png",
+        "s04.png",
+        "s06.png"
+      ],
+      "feedback": [
+        "The lion, elephant and giraffe MUST look exactly like their approved single-animal pages attached as references (same friendly faces, the same dark-maned lion as s03) — keep them consistent with the inside pages."
+      ],
       "prompt": "ZOO SCENE (reflection): Eden walking down the zoo path holding Mama's hand, both waving goodbye; the lion, elephant and giraffe wave back warmly from BEHIND their enclosure fences in the soft background. ANIMAL CONSISTENCY: match each animal to its attached reference image exactly — same friendly faces, the same dark-maned lion as the inside pages; do not invent different-looking animals. Happy and content."
     },
     {
       "id": "s11",
       "file": "s11.png",
-      "refs": ["eden", "mama"],
+      "refs": [
+        "eden",
+        "mama"
+      ],
       "prompt": "Scene (final / bus): Eden sitting beside Mama on a cozy bus seat, looking up at her with a sleepy happy smile; through the window the zoo and a soft evening sky fade away, a few first stars twinkling. Tender, bedtime-warm. No enclosure — they're heading home."
     }
   ]
