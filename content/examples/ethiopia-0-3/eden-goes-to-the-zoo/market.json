@@ -33,5 +33,5 @@
     "Gulf states",
     "Israel"
   ],
-  "note": "Heuristic estimate. Plug a search-volume/competition API into liveSignals() for real numbers."
+  "note": "Heuristic estimate — set DATAFORSEO_LOGIN/PASSWORD in .env for live data."
 }

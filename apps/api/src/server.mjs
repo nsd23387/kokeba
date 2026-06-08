@@ -47,6 +47,13 @@ function enqueueStage(book, stageId, { scope = null, note = null } = {}) {
   let blockReason = null;
   if ((stageId === "compliance" || stageId === "export") && pf > 0) blockReason = `pre-flight QA has ${pf} failing check(s)`;
   if (stageId === "export" && cf > 0) blockReason = `compliance has ${cf} failing check(s) (e.g. DPI/KDP spec) — not upload-ready`;
+  // HARD BLOCK: don't invest in authoring/art when market opportunity is below threshold
+  // (unless explicitly overridden for this book). Threshold via MARKET_MIN_SCORE (default 50).
+  if (stageId === "author" && !book.market_override) {
+    const ms = book.market && typeof book.market.opportunity_score === "number" ? book.market.opportunity_score : null;
+    const min = Number(process.env.MARKET_MIN_SCORE || 50);
+    if (ms !== null && ms < min) blockReason = `market opportunity ${ms}/100 is below the ${min} threshold — "${book.market.verdict}". Override to proceed anyway.`;
+  }
   if (blockReason) {
     book.stages[stageId] = STATUS.BLOCKED;
     (book.blocks = book.blocks || {})[stageId] = `${blockReason} — fix before ${stageId}`;
@@ -222,6 +229,12 @@ const server = http.createServer(async (req, res) => {
   if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/market$/)) {
     const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
     b.market = { ...(await readBody(req)), at: Date.now() }; db.save(); return json(res, 200, { ok: true });
+  }
+  // override the market-score gate for this book (lets authoring proceed below threshold)
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/market\/override$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
+    const body = await readBody(req); b.market_override = body.override !== false; db.save();
+    return json(res, 200, { ok: true, market_override: b.market_override });
   }
 
   // compliance report (worker posts)

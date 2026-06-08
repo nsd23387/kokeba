@@ -251,9 +251,11 @@ async function refresh(){
   else{le.innerHTML='<div class="jobline">run Compliance to generate the SEO/GEO listing</div>';}
   const mk=BOOK.market,me=document.getElementById('market');
   if(mk){const col=mk.opportunity_score>=70?'#1a7f37':mk.opportunity_score>=50?'var(--gold)':'#b42318';
+    const blocked=BOOK.blocks&&BOOK.blocks.author;
     me.innerHTML=`<div class="jobline" style="color:${col};font-weight:600">Opportunity: ${mk.opportunity_score}/100 — ${mk.verdict}</div>
     <div class="jobline">demand ${mk.signals?mk.signals.demand:'—'} · competition ${mk.signals?mk.signals.competition:'—'} · trend ${mk.signals?mk.signals.trend:'—'} (${mk.signals?mk.signals.data_source:'—'})</div>
     ${(mk.reasons||[]).map(r=>`<div class="jobline">• ${r}</div>`).join('')}
+    ${blocked?`<div class="jobline" style="color:#b42318;font-weight:600;margin-top:6px">⛔ Authoring blocked: ${blocked}</div><button class="primary" style="margin-top:4px" onclick="marketOverride()">Override &amp; author anyway</button>`:(BOOK.market_override?'<div class="jobline" style="color:var(--gold)">⚠ gate overridden — authoring allowed below threshold</div>':'')}
     <div class="jobline">→ market.json in the book folder</div>`;}
   else{me.innerHTML='<div class="jobline">run Research to score market opportunity</div>';}
   const pv=BOOK.provenance,pe=document.getElementById('prov');
@@ -302,6 +304,7 @@ const approve=(stage)=>api('/api/books/'+BOOK.id+'/approve','POST',{stage}).then
 const setMode=(v)=>api('/api/controls','POST',{approval_mode:v}).then(refresh);
 const toggleKill=async()=>{const s=await api('/api/state');api('/api/controls','POST',{kill_switch:s.controls.kill_switch==='on'?'off':'on'}).then(refresh);};
 const resetBudget=()=>api('/api/controls','POST',{budget:{spent_today_usd:0,spent_month_usd:0}}).then(refresh);
+const marketOverride=()=>{if(confirm('Override the market-score gate and author this title anyway?'))api('/api/books/'+BOOK.id+'/market/override','POST',{override:true}).then(()=>run('author'));};
 async function send(){const i=document.getElementById('chatin');const t=i.value.trim();if(!t)return;i.value='';await api('/api/chat','POST',{bookId:BOOK.id,text:t});refresh();}
 refresh();setInterval(refresh,1500);
 </script></body></html>
