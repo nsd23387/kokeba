@@ -2,20 +2,20 @@
   "book_id": "ethiopia-0-3-eden-zoo",
   "title_en": "Eden Goes to the Zoo",
   "title_am": "ኤደን ወደ እንስሳት ማቆያ ሄደች",
-  "reading_age": "0-3",
+  "reading_age": "2-5",
   "bisac": [
     "JUVENILE FICTION / Animals",
     "JUVENILE FICTION / Concepts / Words"
   ],
   "trim": "8.5x8.5in",
-  "spreads": 14,
-  "interior_pages": 27,
-  "spine_in": 0.061,
+  "spreads": 15,
+  "interior_pages": 28,
+  "spine_in": 0.063,
   "language": [
     "en",
     "am"
   ],
-  "min_dpi_found": 117,
+  "min_dpi_found": 300,
   "required_px": 2625,
   "ai_content": {
     "text": true,

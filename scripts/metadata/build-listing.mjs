@@ -34,7 +34,7 @@ const langCode = (layout.languages || ["en", "am"]).find((l) => l !== "en") || "
 const heritage = LANG[langCode] || "heritage language";
 const child = (id.match(/-([a-z]+)-/) && layout.book_id) ? (title.split(" ")[0]) : "the child";
 const animals = (scenes.scenes || []).filter((s) => s.vocab).map((s) => s.vocab.en);
-const ageRange = "0-3";
+const ageRange = layout.age_range || "0-3";
 const gradeRange = "Preschool";
 
 // --- SEO ---
@@ -48,7 +48,7 @@ const keywords = [
   `diverse multicultural board book`,
   `zoo animals book for toddlers`,
 ].slice(0, 7);
-const search_terms = [primary, `teach kids ${heritage}`, `${country} heritage book for toddlers`, `${heritage} alphabet first words`, `bilingual picture book ages 0-3`];
+const search_terms = [primary, `teach kids ${heritage}`, `${country} heritage book for toddlers`, `${heritage} alphabet first words`, `bilingual picture book ages ${ageRange}`];
 const categories = [
   "Children's Books > Animals",
   "Children's Books > Early Learning > Words",

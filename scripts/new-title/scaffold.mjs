@@ -68,7 +68,7 @@ pages.push({ page: "end", image: null, english: "Kokeba — A story for every li
 
 fs.writeFileSync(path.join(bookDir, "layout.json"), JSON.stringify({
   book_id: bookId, trim: "8.5x8.5in", trim_shape: "square", bleed_in: 0.125, art_dir: "art",
-  script_font: "Noto Sans Ethiopic", languages: ["en", intake.language || "am"],
+  age_range: intake.age_range || "2-5", script_font: "Noto Sans Ethiopic", languages: ["en", intake.language || "am"],
   template: { status: "scaffolded" }, pages,
 }, null, 2));
 

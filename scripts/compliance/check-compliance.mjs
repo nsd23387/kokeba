@@ -41,7 +41,8 @@ const checks = [];
 const add = (status, item, note) => checks.push({ status, item, note }); // status: ok | todo | fail
 
 // --- child safety / product ---
-add("ok", "Audience", "Ages 0-3 (board/picture book) — children's product");
+const age = L.age_range || "0-3";
+add("ok", "Audience", `Ages ${age} (picture book) — children's product`);
 add("warn", "CPSIA", "Children's product: physical print run requires CPSIA testing (lead/phthalates) + tracking label. Print-on-demand via KDP is generally exempt, but verify for your edition.");
 add("ok", "COPPA", "No data collection in a printed book — N/A; applies only to any companion app/site.");
 
@@ -64,7 +65,7 @@ add(L.title || cover?.title_en ? "ok" : "fail", "Title", cover?.title_en || L.bo
 add(L.trim ? "ok" : "todo", "Trim size", L.trim || "set a KDP trim (e.g. 8.5x8.5in square)");
 add(haveArt.length === imgPages.length ? "ok" : "fail", "Interior art", `${haveArt.length}/${imgPages.length} page images present`);
 add(animalPages.every((p) => p.vocab.am) ? "ok" : "fail", "Heritage text (fidel)", `${animalPages.length} vocab words; fidel must be embedded in the export PDF`);
-add("ok", "Reading age", "0-3 (set in KDP)");
+add("ok", "Reading age", `${age} (set in KDP)`);
 add("ok", "BISAC", "JUVENILE FICTION / Animals (or / Concepts / Words) — set at upload");
 add("warn", "Originality", "Native-reviewer + originality sign-off happens at Gate 1 (not automatable here).");
 
@@ -82,7 +83,7 @@ add("warn", "Format", "KDP prints PAPERBACK + HARDCOVER (not board books). For a
 // kdp metadata artifact
 const kdp = {
   book_id: L.book_id, title_en: cover?.title_en, title_am: cover?.title_am,
-  reading_age: "0-3", bisac: ["JUVENILE FICTION / Animals", "JUVENILE FICTION / Concepts / Words"],
+  reading_age: age, bisac: ["JUVENILE FICTION / Animals", "JUVENILE FICTION / Concepts / Words"],
   trim: L.trim, spreads: L.pages.length, interior_pages: interiorPages, spine_in: Number(spineIn),
   language: ["en", "am"], min_dpi_found: isFinite(minDpi) ? minDpi : null, required_px: needPx,
   ai_content: { text: true, images: true, disclose_at_upload: true },

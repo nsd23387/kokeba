@@ -94,17 +94,28 @@ function aboutPage() {
     <div class="about">${nl2br(pub.about || "")}</div>
     ${pub.contact ? `<div class="fm-contact">${esc(pub.contact)}</div>` : ""}</div>`;
 }
+// Vocabulary recap page — auto-built from every page that teaches a word.
+function recapPage(p) {
+  const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+  const rows = L.pages.filter((x) => x.vocab).map((x) =>
+    `<tr><td class="r-en">${esc(cap(x.vocab.en))}</td><td class="r-tr">${esc(x.vocab.translit)}</td><td class="r-am">${esc(x.vocab.am)}</td></tr>`).join("");
+  return `<div class="single recap"><div class="star">&#9733;</div>
+    <div class="r-title">${esc(p.title || "Words We Learned Today")}</div>
+    <div class="r-sub">${esc(p.subtitle || "Let's say them together!")}</div>
+    <table class="r-table"><thead><tr><th>English</th><th>Pronunciation</th><th>Amharic</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
 
 const blocks = [];
 for (const p of L.pages) {
   if (p.page === "cover") { blocks.push(coverPage(p)); if (pub) { blocks.push(titlePage()); blocks.push(copyrightPage()); } }
   else if (p.page === "dedication") blocks.push(centeredPage(p, "ded"));
+  else if (p.page === "recap") blocks.push(recapPage(p));
   else if (p.page === "end") { if (pub && pub.about) blocks.push(aboutPage()); blocks.push(centeredPage(p, "end")); }
   else blocks.push(spread(p));
 }
 
 const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
-<title>${esc(L.book_id)} — proof</title>
+<title>${esc((L.pages.find((p) => p.page === "cover") || {}).title_en || L.book_id)}</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,1,500&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
 <style>
@@ -135,6 +146,14 @@ body{background:#EDE6D4;font-family:'Fraunces',Georgia,serif;color:var(--navy);p
 .cp{display:flex;align-items:center;justify-content:center;padding:10%}
 .cp-box{font-size:clamp(12px,1.5vw,15px);line-height:1.7;color:#4a4e66;text-align:center;max-width:88%}
 .cp-box .ai{margin-top:8px;color:#9A7D1E;font-style:italic}
+.recap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7%}
+.r-title{font-size:clamp(20px,2.8vw,30px);font-weight:500;color:#222B6D;text-align:center}
+.r-sub{color:#9A7D1E;font-style:italic;margin:4px 0 16px;font-size:clamp(13px,1.6vw,18px)}
+.r-table{border-collapse:collapse;width:92%}
+.r-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8A8676;font-weight:600;padding:4px 10px;border-bottom:1.5px solid #E7D7A6;text-align:left}
+.r-table td{padding:8px 10px;border-bottom:1px solid #F1EADB;font-size:clamp(14px,1.9vw,20px)}
+.r-en{color:#222B6D;font-weight:500}.r-tr{color:#9A7D1E;font-style:italic}
+.r-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;text-align:right;font-size:clamp(16px,2.3vw,26px)}
 .cover .cover-title{position:absolute;left:9%;right:9%;top:6%;text-align:center;background:rgba(255,253,247,.88);border:1px solid rgba(201,162,39,.55);border-radius:16px;padding:14px 18px 16px;box-shadow:0 6px 18px rgba(34,43,109,.12)}
 .ct-star{color:var(--gold);font-size:22px;line-height:1;margin-bottom:2px}
 .ct-en{color:var(--navy);font-weight:500;font-size:clamp(22px,3.6vw,40px);line-height:1.12}
@@ -160,6 +179,7 @@ if (process.argv.includes("--single")) {
   for (const p of L.pages) {
     if (p.page === "cover") { if (pub) { sheets.push(`<div class="sheet">${titlePage()}</div>`); sheets.push(`<div class="sheet">${copyrightPage()}</div>`); } continue; }
     if (p.page === "dedication") { sheets.push(`<div class="sheet">${centeredPage(p, "ded")}</div>`); continue; }
+    if (p.page === "recap") { sheets.push(`<div class="sheet">${recapPage(p)}</div>`); continue; }
     if (p.page === "end") { if (pub && pub.about) sheets.push(`<div class="sheet">${aboutPage()}</div>`); sheets.push(`<div class="sheet">${centeredPage(p, "end")}</div>`); continue; }
     sheets.push(`<div class="sheet">${textPage(p)}</div>`);   // left page (story)
     sheets.push(`<div class="sheet">${imagePage(p)}</div>`);  // right page (art + word)
@@ -186,6 +206,11 @@ if (process.argv.includes("--single")) {
 .fm-by{color:#6B6F86;font-style:italic}.fm-imprint{margin-top:16px;color:#C9A227;font-weight:500}
 .about{max-width:80%;line-height:1.6;font-size:20px}.fm-contact{margin-top:10px;color:#6B6F86;font-size:15px}
 .cp{display:flex;align-items:center;justify-content:center;padding:10%}.cp-box{font-size:16px;line-height:1.8;color:#4a4e66;text-align:center;max-width:88%}.cp-box .ai{margin-top:10px;color:#9A7D1E;font-style:italic}
+.recap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7%}
+.r-title{font-size:34px;font-weight:500;color:#222B6D;text-align:center}.r-sub{color:#9A7D1E;font-style:italic;margin:6px 0 18px;font-size:20px}
+.r-table{border-collapse:collapse;width:88%}.r-table th{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#8A8676;font-weight:600;padding:6px 12px;border-bottom:2px solid #E7D7A6;text-align:left}
+.r-table td{padding:11px 14px;border-bottom:1px solid #F1EADB;font-size:24px}.r-en{color:#222B6D;font-weight:500}.r-tr{color:#9A7D1E;font-style:italic}
+.r-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;text-align:right;font-size:30px}
 .pg{display:none}.ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b1a583}
 </style></head><body>${sheets.join("\n")}</body></html>`;
   fs.writeFileSync(path.resolve(bookDir, "proof-print.html"), printHtml);

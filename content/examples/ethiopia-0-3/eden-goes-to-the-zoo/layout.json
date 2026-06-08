@@ -2,6 +2,7 @@
   "book_id": "ethiopia-0-3-eden-zoo",
   "trim": "8.5x8.5in",
   "trim_shape": "square",
+  "age_range": "2-5",
   "bleed_in": 0.125,
   "art_dir": "art",
   "script_font": "Noto Sans Ethiopic",
@@ -23,12 +24,13 @@
     { "page": "3", "image": "s03.png", "english": "A lion stands strong and proud.\n\"ROAR!\" says Eden, big and loud.", "interaction": "Can you roar?", "vocab": { "am": "አንበሳ", "translit": "Anbessa", "en": "lion" } },
     { "page": "4", "image": "s04.png", "english": "An elephant stomps down the way.\nHis trunk waves high to say, \"Good day!\"", "interaction": "Can you wave?", "vocab": { "am": "ዝሆን", "translit": "Zihon", "en": "elephant" } },
     { "page": "5", "image": "s05.png", "english": "A monkey swings from tree to tree.\n\"Ee-ee-ee!\" chatters he.", "interaction": "Can you chatter too?", "vocab": { "am": "ዝንጀሮ", "translit": "Zinjero", "en": "monkey" } },
-    { "page": "6", "image": "s06.png", "english": "A giraffe stretches to the sky.\nIts long neck reaches way up high.", "interaction": "Can you stretch tall?", "vocab": { "am": "ቀጭኔ", "translit": "Qechne", "en": "giraffe" } },
+    { "page": "6", "image": "s06.png", "english": "A giraffe stretches to the sky.\nIts long neck reaches way up high.", "interaction": "Can you stretch tall?", "vocab": { "am": "ቀጭኔ", "translit": "Qechine", "en": "giraffe" } },
     { "page": "7", "image": "s07.png", "english": "A camel walks with bumpity bump.\nWiggle and giggle— look at that hump!", "interaction": "Can you bounce?", "vocab": { "am": "ግመል", "translit": "Gimel", "en": "camel" } },
     { "page": "8", "image": "s08.png", "english": "A hippo splashes in the pool.\nSplashing water is very cool!", "interaction": "Can you splash?", "vocab": { "am": "ጉማሬ", "translit": "Gumare", "en": "hippo" } },
     { "page": "9", "image": "s09.png", "english": "A leopard tiptoes soft and slow.\nWhere is it going? Nobody knows.", "interaction": "Can you tiptoe?", "vocab": { "am": "ነብር", "translit": "Nebir", "en": "leopard" } },
     { "page": "10", "image": "s10.png", "english": "We saw animals, big and small.\nEden's favorite? She loved them all!" },
     { "page": "11", "image": "s11.png", "english": "The bus rolls home. The sky turns blue.\nEden waves, \"Bye-bye, zoo!\"\nShe smiles at Mommy and starts to say,\n\"Can we come back another day?\"" },
+    { "page": "recap", "image": null, "title": "Amharic Words We Learned Today", "subtitle": "Let's say them together!" },
     { "page": "end", "image": null, "english": "Kokeba — A story for every little star." }
   ]
 }

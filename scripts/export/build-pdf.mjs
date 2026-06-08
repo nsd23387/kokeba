@@ -9,6 +9,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { execFileSync } from "node:child_process";
 
 const bookDir = process.argv[2];
@@ -32,6 +33,36 @@ const frontBack = pub ? 2 + (pub.about ? 1 : 0) : 0; // title + copyright (+ abo
 const interiorPages = storySpreads * 2 + otherInterior + frontBack;
 const spine = interiorPages * 0.002252;
 const cover = L.pages.find((p) => p.page === "cover");
+const artDir = L.art_dir || "art";
+let renderAsset = (src) => src;
+
+try {
+  const sharp = (await import("sharp")).default;
+  const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "kokeba-pdf-assets-"));
+  const converted = new Map();
+  for (const p of L.pages.filter((page) => page.image)) {
+    const rel = `${artDir}/${p.image}`;
+    const src = path.join(abs, artDir, p.image);
+    if (!fs.existsSync(src) || converted.has(rel)) continue;
+    const out = path.join(tmpDir, p.image.replace(/\.[^.]+$/, ".jpg"));
+    await sharp(src).jpeg({ quality: 88, mozjpeg: true }).toFile(out);
+    converted.set(rel, `file://${out}`);
+  }
+  renderAsset = (src) => converted.get(src) || src;
+  for (const file of ["proof-print.html", "proof.html"]) {
+    const htmlPath = path.join(abs, file);
+    if (!fs.existsSync(htmlPath)) continue;
+    let html = fs.readFileSync(htmlPath, "utf8");
+    for (const [src, out] of converted) html = html.replaceAll(src, out);
+    fs.writeFileSync(path.join(tmpDir, file), html);
+  }
+  console.log(`Prepared compressed PDF render assets (${converted.size} image(s), JPEG q88).`);
+  var printHtmlForPdf = path.join(tmpDir, "proof-print.html");
+  var proofHtmlForPdf = path.join(tmpDir, "proof.html");
+} catch {
+  var printHtmlForPdf = path.join(abs, "proof-print.html");
+  var proofHtmlForPdf = path.join(abs, "proof.html");
+}
 
 let puppeteer;
 try { puppeteer = (await import("puppeteer")).default; }
@@ -46,7 +77,7 @@ catch {
 // cover wrap html: [bleed | back trimW | spine | front trimW | bleed] x [bleed | trimH | bleed]
 const wrapW = (2 * bleed + 2 * trimW + spine).toFixed(3);
 const wrapH = (2 * bleed + trimH).toFixed(3);
-const coverImg = cover && fs.existsSync(path.join(abs, L.art_dir || "art", cover.image)) ? `${L.art_dir || "art"}/${cover.image}` : null;
+const coverImg = cover && fs.existsSync(path.join(abs, artDir, cover.image)) ? renderAsset(`${artDir}/${cover.image}`) : null;
 const wrapHtml = `<!DOCTYPE html><html><head><meta charset="utf-8">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Noto+Sans+Ethiopic:wght@700&display=swap" rel="stylesheet">
 <style>@page{size:${wrapW}${unit} ${wrapH}${unit};margin:0}*{margin:0;box-sizing:border-box}
@@ -75,8 +106,15 @@ async function render(file, out, w, h) {
   await pg.close();
 }
 const tb = (trimW + 2 * bleed).toFixed(3), hb = (trimH + 2 * bleed).toFixed(3);
-await render(path.join(abs, "proof-print.html"), path.join(abs, "interior.pdf"), tb, hb);
+await render(printHtmlForPdf, path.join(abs, "interior.pdf"), tb, hb);
 await render(wrapPath, path.join(abs, "cover.pdf"), wrapW, wrapH);
-await render(path.join(abs, "proof.html"), path.join(abs, "book.pdf"), tb, hb);
+await render(proofHtmlForPdf, path.join(abs, "book.pdf"), tb, hb);
 await browser.close();
 console.log(`Wrote interior.pdf (${interiorPages}pp ${tb}x${hb}${unit}), cover.pdf (wrap ${wrapW}x${wrapH}${unit}, spine ${spine.toFixed(3)}${unit}), book.pdf (proof).`);
+
+// titled, shareable copies (canonical names kept for the validator/pipeline)
+const safe = String(cover?.title_en || L.book_id).replace(/[\\/:*?"<>|]/g, "").trim();
+for (const [src, suf] of [["interior.pdf", " - interior.pdf"], ["cover.pdf", " - cover.pdf"], ["book.pdf", ".pdf"]]) {
+  try { fs.copyFileSync(path.join(abs, src), path.join(abs, safe + suf)); } catch {}
+}
+console.log(`Titled copies: "${safe} - interior.pdf", "${safe} - cover.pdf", "${safe}.pdf"`);
