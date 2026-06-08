@@ -230,6 +230,11 @@ const server = http.createServer(async (req, res) => {
     const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
     b.market = { ...(await readBody(req)), at: Date.now() }; db.save(); return json(res, 200, { ok: true });
   }
+  // next-book opportunity scout (worker posts during research stage)
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/opportunities$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
+    b.opportunities = { ...(await readBody(req)), at: Date.now() }; db.save(); return json(res, 200, { ok: true });
+  }
   // override the market-score gate for this book (lets authoring proceed below threshold)
   if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/market\/override$/)) {
     const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });

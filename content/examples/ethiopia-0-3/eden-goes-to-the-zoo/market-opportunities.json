@@ -1,0 +1,130 @@
+{
+  "mode": "theme",
+  "heritage": "Amharic",
+  "country": "ethiopia",
+  "location": "United States",
+  "generated_at": "2026-06-08T21:15:48.097Z",
+  "data_source": "live (DataForSEO · Amazon)",
+  "recommendations": [
+    {
+      "rank": 1,
+      "concept": "alphabet",
+      "theme": "Alphabet / fidel",
+      "proposed_title": "Amharic Alphabet Book",
+      "opportunity_score": 69,
+      "demand": 1608,
+      "competition": 335,
+      "competition_level": "low",
+      "demand_competition_ratio": 4.8,
+      "best_keyword": "amharic alphabet"
+    },
+    {
+      "rank": 2,
+      "concept": "numbers",
+      "theme": "Numbers / counting",
+      "proposed_title": "Amharic Numbers & Counting",
+      "opportunity_score": 60,
+      "demand": 112,
+      "competition": 165,
+      "competition_level": "very low",
+      "demand_competition_ratio": 0.7,
+      "best_keyword": "amharic numbers"
+    },
+    {
+      "rank": 3,
+      "concept": "greetings",
+      "theme": "Greetings",
+      "proposed_title": "Amharic Greetings Book",
+      "opportunity_score": 55,
+      "demand": 37,
+      "competition": 3,
+      "competition_level": "very low",
+      "demand_competition_ratio": 12.3,
+      "best_keyword": "amharic greetings"
+    },
+    {
+      "rank": 4,
+      "concept": "bilingual",
+      "theme": "Bilingual story",
+      "proposed_title": "Amharic–English Bilingual Story",
+      "opportunity_score": 50,
+      "demand": 935,
+      "competition": 47943,
+      "competition_level": "high",
+      "demand_competition_ratio": 0,
+      "best_keyword": "bilingual books for kids"
+    },
+    {
+      "rank": 5,
+      "concept": "colors",
+      "theme": "Colors",
+      "proposed_title": "Amharic Colors Book",
+      "opportunity_score": 32,
+      "demand": 0,
+      "competition": null,
+      "competition_level": "unknown",
+      "demand_competition_ratio": null,
+      "best_keyword": "amharic colors"
+    },
+    {
+      "rank": 6,
+      "concept": "first-words",
+      "theme": "First words",
+      "proposed_title": "Amharic First Words",
+      "opportunity_score": 32,
+      "demand": 0,
+      "competition": null,
+      "competition_level": "unknown",
+      "demand_competition_ratio": null,
+      "best_keyword": "amharic first words"
+    },
+    {
+      "rank": 7,
+      "concept": "animals",
+      "theme": "Animals",
+      "proposed_title": "Amharic Animals Book",
+      "opportunity_score": 32,
+      "demand": 0,
+      "competition": null,
+      "competition_level": "unknown",
+      "demand_competition_ratio": null,
+      "best_keyword": "amharic animals"
+    },
+    {
+      "rank": 8,
+      "concept": "food",
+      "theme": "Food & kitchen",
+      "proposed_title": "Amharic Food Words",
+      "opportunity_score": 32,
+      "demand": 0,
+      "competition": null,
+      "competition_level": "unknown",
+      "demand_competition_ratio": null,
+      "best_keyword": "amharic food words"
+    },
+    {
+      "rank": 9,
+      "concept": "family",
+      "theme": "Family",
+      "proposed_title": "Amharic Family Words",
+      "opportunity_score": 32,
+      "demand": 0,
+      "competition": null,
+      "competition_level": "unknown",
+      "demand_competition_ratio": null,
+      "best_keyword": "amharic family words"
+    },
+    {
+      "rank": 10,
+      "concept": "body",
+      "theme": "My body",
+      "proposed_title": "Amharic My Body Words",
+      "opportunity_score": 32,
+      "demand": 0,
+      "competition": null,
+      "competition_level": "unknown",
+      "demand_competition_ratio": null,
+      "best_keyword": "amharic body parts"
+    }
+  ]
+}

@@ -117,6 +117,10 @@ small.hint{color:var(--muted);font-size:11px}
       <div id="market" style="font-size:12px;color:var(--muted);max-height:185px;overflow:auto"></div>
     </div>
     <div class="card" style="margin-bottom:18px">
+      <h2>Next-book opportunities</h2>
+      <div id="opps" style="font-size:12px;color:var(--muted);max-height:200px;overflow:auto"></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
       <h2>Provenance &amp; credits</h2>
       <div id="prov" style="font-size:12px;color:var(--muted);max-height:175px;overflow:auto"></div>
     </div>
@@ -255,9 +259,15 @@ async function refresh(){
     me.innerHTML=`<div class="jobline" style="color:${col};font-weight:600">Opportunity: ${mk.opportunity_score}/100 — ${mk.verdict}</div>
     <div class="jobline">demand ${mk.signals?mk.signals.demand:'—'} · competition ${mk.signals?mk.signals.competition:'—'} · trend ${mk.signals?mk.signals.trend:'—'} (${mk.signals?mk.signals.data_source:'—'})</div>
     ${(mk.reasons||[]).map(r=>`<div class="jobline">• ${r}</div>`).join('')}
+    ${mk.best_keyword_pocket?`<div class="jobline" style="color:#1a7f37">★ best pocket: "${mk.best_keyword_pocket.keyword}" — ${mk.best_keyword_pocket.search_volume}/mo vs ${mk.best_keyword_pocket.competing_products} competitors (ratio ${mk.best_keyword_pocket.ratio})</div>`:''}
     ${blocked?`<div class="jobline" style="color:#b42318;font-weight:600;margin-top:6px">⛔ Authoring blocked: ${blocked}</div><button class="primary" style="margin-top:4px" onclick="marketOverride()">Override &amp; author anyway</button>`:(BOOK.market_override?'<div class="jobline" style="color:var(--gold)">⚠ gate overridden — authoring allowed below threshold</div>':'')}
     <div class="jobline">→ market.json in the book folder</div>`;}
   else{me.innerHTML='<div class="jobline">run Research to score market opportunity</div>';}
+  const op=BOOK.opportunities,oe=document.getElementById('opps');
+  if(op&&op.recommendations){oe.innerHTML=`<div class="jobline">${op.mode==='language'?'Which language next':'Which book next'} · ${op.data_source}</div>`+
+    op.recommendations.slice(0,6).map(r=>{const col=r.opportunity_score>=70?'#1a7f37':r.opportunity_score>=50?'var(--gold)':'var(--muted)';return `<div class="jobline"><b style="color:${col}">[${r.opportunity_score}]</b> ${r.proposed_title} — demand ${r.demand??'—'} · comp ${r.competition??'—'} (${r.competition_level})${r.demand_competition_ratio!=null?` · ratio ${r.demand_competition_ratio}`:''}</div>`;}).join('')+
+    `<div class="jobline">→ market-opportunities.json (set SCOUT=1 for live data)</div>`;}
+  else{oe.innerHTML='<div class="jobline">run Research with SCOUT=1 to rank next-book opportunities</div>';}
   const pv=BOOK.provenance,pe=document.getElementById('prov');
   if(pv){const c=pv.contributors||{},m=pv.models||{},qa=pv.qa||{};
     pe.innerHTML=`<div class="jobline">Models: ${m.illustration||'—'} · vision ${m.vision_qa||'—'} · upscale lanczos</div>

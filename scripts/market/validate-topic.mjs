@@ -79,7 +79,7 @@ async function liveSignals() {
     // Competition (optional — costs extra SERP credits): count competing Books-department
     // products on Amazon for the top keywords by volume. Enable with COMPETITION=1 or --competition.
     // Without it, hold competition at "low" (validated by manual SERP check — mostly word-lists).
-    let competitionLevel = "low", competitionPenalty = 15, competingAvg = null;
+    let competitionLevel = "low", competitionPenalty = 15, competingAvg = null, bestPocket = null;
     let competitionBasis = "heuristic (thin heritage-language KDP niche)";
     if (process.env.COMPETITION === "1" || process.argv.includes("--competition")) {
       try {
@@ -87,18 +87,21 @@ async function liveSignals() {
         const counts = [];
         for (const k of top) {
           const c = await amazonResultsCount(k.keyword, { location, department: "Books" });
-          if (c != null) { counts.push(c); k.competing_products = c; }
+          if (c != null) { counts.push(c); k.competing_products = c; k.ratio = Math.round((k.search_volume / Math.max(1, c)) * 10) / 10; }
         }
         if (counts.length) {
           competingAvg = Math.round(counts.reduce((a, b) => a + b, 0) / counts.length);
           competitionLevel = competingAvg < 1000 ? "low" : competingAvg < 5000 ? "medium" : "high";
           competitionPenalty = competingAvg < 1000 ? 15 : competingAvg < 5000 ? 35 : 55;
           competitionBasis = `live Amazon Books SERP — avg ${competingAvg} competing products across top ${counts.length} keyword(s)`;
+          // best pocket = highest demand-to-competition ratio (the keyword worth building toward)
+          const pocket = top.filter((k) => k.ratio != null).sort((a, b) => b.ratio - a.ratio)[0];
+          if (pocket) bestPocket = { keyword: pocket.keyword, search_volume: pocket.search_volume, competing_products: pocket.competing_products, ratio: pocket.ratio };
         }
       } catch (e) { console.error(`competition lookup failed (${e.message}); using heuristic competition.`); }
     }
     const score = Math.max(0, Math.min(100, Math.round(demand * 0.6 + (100 - competitionPenalty) * 0.3 + 10)));
-    return { score, demand, competitionLevel, competingAvg, competitionBasis, avgDifficulty: null, totalVolume, withVolume, marketplace: "Amazon", location, perKeyword };
+    return { score, demand, competitionLevel, competingAvg, competitionBasis, bestPocket, avgDifficulty: null, totalVolume, withVolume, marketplace: "Amazon", location, perKeyword };
   } catch (e) {
     const cause = e.cause ? ` [cause: ${e.cause.code || e.cause.message || e.cause}]` : "";
     console.error(`live data failed (${e.message})${cause}; using heuristic.`);
@@ -124,6 +127,7 @@ const reasons = live
       live.competingAvg == null
         ? `Demand is live Amazon data; competition is a heuristic — run with COMPETITION=1 for live SERP counts.`
         : `Both demand and competition measured live on Amazon — a true demand-to-competition read.`,
+      live.bestPocket ? `Best keyword pocket: "${live.bestPocket.keyword}" — ${live.bestPocket.search_volume}/mo vs only ${live.bestPocket.competing_products} competitors (ratio ${live.bestPocket.ratio}). Worth leaning into / a future title.` : "",
     ].filter(Boolean)
   : [
       `${heritage} has ~${speakers}M speakers and a ~${diaspora}M diaspora seeking heritage-language first books.`,
@@ -138,6 +142,7 @@ const market = {
   signals: { demand, competition: competitionLevel, trend: "rising", data_source: live ? "live (DataForSEO · Amazon)" : "heuristic", ...(live ? { marketplace: "Amazon", total_search_volume: live.totalVolume, keywords_with_volume: live.withVolume, location: live.location, competition_basis: live.competitionBasis, ...(live.competingAvg != null ? { competing_products_avg: live.competingAvg } : {}) } : {}) },
   reasons,
   keyword_metrics: live ? live.perKeyword : undefined,
+  best_keyword_pocket: live?.bestPocket || undefined,
   recommended_keywords: listing?.kdp_keyword_slots || probeKeywords,
   diaspora_markets: listing?.markets?.diaspora_targets || [],
   note: live ? `Demand = live Amazon search volume (DataForSEO Labs). Competition = ${live.competingAvg != null ? "live Amazon Books SERP product counts" : "heuristic (run with COMPETITION=1 for live SERP counts)"}.` : "Heuristic estimate — set DATAFORSEO_LOGIN/PASSWORD in .env for live data.",

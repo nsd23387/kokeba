@@ -63,6 +63,12 @@ const ADAPTERS = {
       try { mk = execFileSync("node", ["scripts/market/validate-topic.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env }).toString(); }
       catch (e) { mk = e.stdout ? e.stdout.toString() : "{}"; }
       try { const m = JSON.parse(mk); await post(`/api/books/${job.bookId}/market`, m); verdict = `opportunity ${m.opportunity_score}/100 — ${m.verdict}`; } catch {}
+      if (process.env.SCOUT === "1") {
+        let sc;
+        try { sc = execFileSync("node", ["scripts/market/scout-opportunities.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 8 * 1024 * 1024 }).toString(); }
+        catch (e) { sc = e.stdout ? e.stdout.toString() : "{}"; }
+        try { await post(`/api/books/${job.bookId}/opportunities`, JSON.parse(sc)); } catch {}
+      }
     }
     return ["fetched country + age data", "compiled author context", verdict || "market validation skipped"].filter(Boolean);
   },
