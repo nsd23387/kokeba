@@ -7,4 +7,5 @@ build/
 content/**           # generated books — keep examples only
 !content/examples/**
 *.log
+.DS_Store
 apps/api/.data/

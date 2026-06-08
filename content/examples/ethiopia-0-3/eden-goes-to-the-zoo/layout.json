@@ -17,7 +17,7 @@
   "_note": "Bridge artifact for the layout stage. Each page = the right-page illustration (from scenes.json) + the left-page English + (animal pages) one Amharic vocab word. Render via scripts/layout/build-book.mjs (proof.html -> print-ready PDF, fidel embedded), or autofill the Canva template. Same field set either way.",
   "pages": [
     { "page": "cover", "image": "cover.png", "title_en": "Eden Goes to the Zoo", "title_am": "ኤደን ወደ እንስሳት ማቆያ ሄደች" },
-    { "page": "dedication", "image": null, "english": "For our little star ★" },
+    { "page": "dedication", "image": null, "english": "For our little star" },
     { "page": "1", "image": "s01.png", "english": "Good morning, Eden, sleepyhead.\nTime to wake and leave your bed." },
     { "page": "2", "image": "s02.png", "english": "Shoes on feet, bow in hair.\nOff to the zoo— we're almost there!" },
     { "page": "3", "image": "s03.png", "english": "A lion stands strong and proud.\n\"ROAR!\" says Eden, big and loud.", "interaction": "Can you roar?", "vocab": { "am": "አንበሳ", "translit": "Anbessa", "en": "lion" } },
@@ -29,6 +29,6 @@
     { "page": "9", "image": "s09.png", "english": "A leopard tiptoes soft and slow.\nWhere is it going? Nobody knows.", "interaction": "Can you tiptoe?", "vocab": { "am": "ነብር", "translit": "Nebir", "en": "leopard" } },
     { "page": "10", "image": "s10.png", "english": "We saw animals, big and small.\nEden's favorite? She loved them all!" },
     { "page": "11", "image": "s11.png", "english": "The bus rolls home. The sky turns blue.\nEden waves, \"Bye-bye, zoo!\"\nShe smiles at Mommy and starts to say,\n\"Can we come back another day?\"" },
-    { "page": "end", "image": null, "english": "Kokeba ★ — A story for every little star." }
+    { "page": "end", "image": null, "english": "Kokeba — A story for every little star." }
   ]
 }

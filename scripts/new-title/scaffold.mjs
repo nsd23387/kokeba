@@ -53,7 +53,7 @@ fs.writeFileSync(path.join(bookDir, "manuscript.md"),
 // --- layout.json ---
 const pages = [
   { page: "cover", image: "cover.png", title_en: intake.title_en, title_am: intake.title_am || "" },
-  { page: "dedication", image: null, english: `For our little star ★` },
+  { page: "dedication", image: null, english: `For our little star` },
   { page: "1", image: "s01.png", english: `Good morning, ${child}, sleepyhead.\nTime to wake and leave your bed.` },
   { page: "2", image: "s02.png", english: `Shoes on feet, off we go.\nTo the ${setting}— let's say hello!` },
 ];
@@ -64,7 +64,7 @@ animals.forEach((a, i) => {
 const refl = 3 + animals.length, final = refl + 1;
 pages.push({ page: String(refl), image: `s${String(refl).padStart(2, "0")}.png`, english: `We saw animals, big and small.\n${child}'s favorite? Loved them all!` });
 pages.push({ page: String(final), image: `s${String(final).padStart(2, "0")}.png`, english: `The trip rolls home. The sky turns blue.\n${child} waves, "Bye-bye, ${setting}!"` });
-pages.push({ page: "end", image: null, english: "Kokeba ★ — A story for every little star." });
+pages.push({ page: "end", image: null, english: "Kokeba — A story for every little star." });
 
 fs.writeFileSync(path.join(bookDir, "layout.json"), JSON.stringify({
   book_id: bookId, trim: "8.5x8.5in", trim_shape: "square", bleed_in: 0.125, art_dir: "art",
@@ -96,7 +96,7 @@ fs.writeFileSync(path.join(bookDir, "scenes.json"), JSON.stringify({
 fs.writeFileSync(path.join(bookDir, "publishing.json"), JSON.stringify({
   author: intake.author || "", imprint: "Kokeba", copyright_year: new Date().getFullYear(), copyright_holder: intake.author || "",
   edition: "First edition", isbn: "", rights: "All rights reserved.",
-  dedication: "For our little star ★", about: `Kokeba makes warm, inclusive first books carrying a child's heritage language.`,
+  dedication: "For our little star", about: `Kokeba makes warm, inclusive first books carrying a child's heritage language.`,
   ai_notice: "The illustrations and text in this book were created with the assistance of AI.",
   reviewer_name: intake.reviewer_name || "", language_note: `Told in English with ${heritage} vocabulary and transliteration.`, contact: "",
 }, null, 2));
