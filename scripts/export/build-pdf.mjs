@@ -26,7 +26,10 @@ const bleed = Number(L.bleed_in || 0.125);
 // spine = interior page count x paper thickness (white)
 const storySpreads = L.pages.filter((p) => /^\d+$/.test(p.page) && p.image).length;
 const otherInterior = L.pages.filter((p) => p.page !== "cover" && !/^\d+$/.test(p.page)).length;
-const interiorPages = storySpreads * 2 + otherInterior;
+const pubExists = fs.existsSync(path.join(abs, "publishing.json"));
+const pub = pubExists ? JSON.parse(fs.readFileSync(path.join(abs, "publishing.json"), "utf8")) : null;
+const frontBack = pub ? 2 + (pub.about ? 1 : 0) : 0; // title + copyright (+ about) — must match the rendered interior
+const interiorPages = storySpreads * 2 + otherInterior + frontBack;
 const spine = interiorPages * 0.002252;
 const cover = L.pages.find((p) => p.page === "cover");
 
