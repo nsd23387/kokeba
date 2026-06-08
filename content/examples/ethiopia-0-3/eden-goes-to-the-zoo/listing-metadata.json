@@ -52,6 +52,60 @@
       "bilingual picture book ages 2-5"
     ]
   },
+  "kdp_keyword_slots": [
+    "amharic book for toddlers",
+    "amharic for kids ages 2 5",
+    "ethiopia heritage childrens book",
+    "bilingual amharic english",
+    "learn amharic for children",
+    "ethiopia animals toddler book",
+    "read aloud amharic story"
+  ],
+  "keyword_validation": [
+    {
+      "phrase": "amharic book for toddlers",
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "phrase": "amharic for kids ages 2 5",
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "phrase": "ethiopia heritage childrens book",
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "phrase": "bilingual amharic english",
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "phrase": "learn amharic for children",
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "phrase": "ethiopia animals toddler book",
+      "status": "accepted",
+      "issues": []
+    },
+    {
+      "phrase": "read aloud amharic story",
+      "status": "accepted",
+      "issues": []
+    }
+  ],
+  "category_cementing": [
+    "multicultural childrens books",
+    "bilingual books for kids",
+    "ethiopia books for children",
+    "african picture books",
+    "diverse early readers",
+    "heritage language toddlers"
+  ],
   "geo": {
     "summary_for_ai": "Eden Goes to the Zoo is a bilingual English–Amharic picture book for children ages 2-5, from the Kokeba imprint. It teaches a few Amharic heritage words through a friendly  story and is aimed at Ethiopia families and the diaspora who want to share their heritage language with toddlers.",
     "entities": [

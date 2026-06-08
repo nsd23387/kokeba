@@ -29,6 +29,8 @@ Country-agnostic AI-agent platform that produces children's books. Built/run wit
 - Listing (SEO+GEO): `node scripts/metadata/build-listing.mjs <book-dir>` (title, 7 keywords, categories, age; SEO search terms + GEO entities/FAQ/AI-summary + diaspora market targeting → `listing-metadata.json`. Worker runs it in compliance.)
 - Validate PDFs: `node scripts/validate/validate-pdf.mjs <book-dir>` (interior/cover MediaBox dimensions vs trim+bleed, page count, fonts-embedded. Worker runs it after export; exit 1 on FAIL.)
 - Ebook (Kindle): `node scripts/ebook/build-epub.mjs <book-dir>` (fixed-layout EPUB3 with per-page alt-text + accessibility metadata → `book.epub`; packaged with `zip`. Worker runs it in export.)
+- Market validation: `node scripts/market/validate-topic.mjs <book-dir>` (demand-vs-competition opportunity score 0–100 + go/no-go verdict for a heritage-language title → `market.json`; deterministic heuristic now, real-data hook in `liveSignals()`. Worker runs it in the **research** stage so weak topics surface before you invest in art.)
+- Narration (read-aloud): `node scripts/audio/build-narration.mjs <book-dir>` (OpenAI TTS per-page mp3s + concatenated `audiobook.mp3` via ffmpeg; vocab lines spoken as "In <heritage>, <word> is <translit>." Use `--dry-run` to preview text. Opt-in in the worker via `NARRATION=1` during the layout stage; needs `IMAGE_GEN_API_KEY`, `TTS_MODEL`/`TTS_VOICE` optional.)
 - Push to GitHub: `bash ../push-to-github.sh` (remote: git@github.com:nsd23387/kokeba.git)
 
 ## Hard rules (do not violate)

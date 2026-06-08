@@ -113,6 +113,10 @@ small.hint{color:var(--muted);font-size:11px}
       <div id="cmp-flags" style="font-size:12px;color:var(--muted);max-height:150px;overflow:auto"></div>
     </div>
     <div class="card" style="margin-bottom:18px">
+      <h2>Market — opportunity score</h2>
+      <div id="market" style="font-size:12px;color:var(--muted);max-height:185px;overflow:auto"></div>
+    </div>
+    <div class="card" style="margin-bottom:18px">
       <h2>Provenance &amp; credits</h2>
       <div id="prov" style="font-size:12px;color:var(--muted);max-height:175px;overflow:auto"></div>
     </div>
@@ -245,6 +249,13 @@ async function refresh(){
     <div class="jobline">Markets: ${(lg.markets&&lg.markets.primary_marketplaces||[]).join(', ')} · diaspora ${(lg.markets&&lg.markets.diaspora_targets||[]).join(', ')}</div>
     <div class="jobline">→ listing-metadata.json in the book folder</div>`;}
   else{le.innerHTML='<div class="jobline">run Compliance to generate the SEO/GEO listing</div>';}
+  const mk=BOOK.market,me=document.getElementById('market');
+  if(mk){const col=mk.opportunity_score>=70?'#1a7f37':mk.opportunity_score>=50?'var(--gold)':'#b42318';
+    me.innerHTML=`<div class="jobline" style="color:${col};font-weight:600">Opportunity: ${mk.opportunity_score}/100 — ${mk.verdict}</div>
+    <div class="jobline">demand ${mk.signals?mk.signals.demand:'—'} · competition ${mk.signals?mk.signals.competition:'—'} · trend ${mk.signals?mk.signals.trend:'—'} (${mk.signals?mk.signals.data_source:'—'})</div>
+    ${(mk.reasons||[]).map(r=>`<div class="jobline">• ${r}</div>`).join('')}
+    <div class="jobline">→ market.json in the book folder</div>`;}
+  else{me.innerHTML='<div class="jobline">run Research to score market opportunity</div>';}
   const pv=BOOK.provenance,pe=document.getElementById('prov');
   if(pv){const c=pv.contributors||{},m=pv.models||{},qa=pv.qa||{};
     pe.innerHTML=`<div class="jobline">Models: ${m.illustration||'—'} · vision ${m.vision_qa||'—'} · upscale lanczos</div>

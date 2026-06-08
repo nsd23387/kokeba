@@ -55,7 +55,17 @@ async function runVisionQA(bookId, dir) {
 //   execFileSync("node", ["scripts/illustrate/generate-scenes.mjs", bookDir, "--only", job.scope, "--force"], {stdio:"inherit"});
 //   execFileSync("node", ["scripts/layout/build-book.mjs", bookDir]);
 const ADAPTERS = {
-  research:     async () => ["fetched country + age data", "compiled author context"],
+  research:     async (job) => {
+    const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
+    let verdict = "";
+    if (book?.dir) {
+      let mk;
+      try { mk = execFileSync("node", ["scripts/market/validate-topic.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env }).toString(); }
+      catch (e) { mk = e.stdout ? e.stdout.toString() : "{}"; }
+      try { const m = JSON.parse(mk); await post(`/api/books/${job.bookId}/market`, m); verdict = `opportunity ${m.opportunity_score}/100 — ${m.verdict}`; } catch {}
+    }
+    return ["fetched country + age data", "compiled author context", verdict || "market validation skipped"].filter(Boolean);
+  },
   author:       async () => ["composed manuscript", "AABB couplets, vocab not forced into rhyme"],
   character:    async () => ["locked Eden + Mama reference sheets (formal + everyday)"],
   illustration: async (job) => MOCK
@@ -75,6 +85,7 @@ const ADAPTERS = {
       execFileSync("node", ["scripts/layout/build-book.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
       await runPreflight(job.bookId, book.dir);
       await runVisionQA(job.bookId, book.dir);
+      if (process.env.NARRATION === "1") { try { execFileSync("node", ["scripts/audio/build-narration.mjs", book.dir], { cwd: REPO_ROOT, env: process.env, stdio: "inherit" }); } catch (e) { console.error("narration:", e.message); } }
     }
     return ["placed art + English + embedded fidel", "rebuilt proof.html", "ran pre-flight + vision QA"];
   },

@@ -83,6 +83,39 @@ const markets = {
   localized_search_terms: { [country]: [primary, `${heritage} book for children`], "diaspora": [`teach my child ${heritage}`, `${heritage} book for grandchildren`] },
 };
 
+// --- Amazon 7-slot backend keyword optimization (A10 + Rufus semantic, rule-validated) ---
+const lc = (s) => String(s).toLowerCase();
+const TITLE_WORDS = new Set(lc(`${title} ${heritage} ${country}`).split(/\W+/).filter(Boolean)); // Amazon already indexes title/subtitle words
+const PROHIBITED = ["best", "bestselling", "best-selling", "free", "sale", "cheap", "amazon", "kindle", "bestseller", "number one"]; // Amazon-banned: subjective/time-sensitive/platform terms (not generic words like "book")
+const TRADEMARKS = ["disney", "pixar", "sesame street", "dr seuss", "dr. seuss", "peppa", "bluey", "marvel", "cocomelon", "paw patrol"];
+const ageDigits = ageRange.replace(/[^\d]+/g, " ").trim(); // "2 5"
+const cementing = [`multicultural childrens books`, `bilingual books for kids`, `${lc(country)} books for children`, `african picture books`, `diverse early readers`, `heritage language toddlers`];
+const longtail = [`${lc(heritage)} book for toddlers`, `${lc(heritage)} for kids ages ${ageDigits}`, `${lc(country)} heritage childrens book`, `bilingual ${lc(heritage)} english`, `learn ${lc(heritage)} for children`, `${lc(country)} animals toddler book`, `read aloud ${lc(heritage)} story`];
+function keywordIssues(ph) {
+  const out = [];
+  if (ph.length > 50) out.push("over 50 chars");
+  if (/["']/.test(ph)) out.push("has quotes");
+  if (PROHIBITED.some((w) => new RegExp(`\\b${w}\\b`).test(ph))) out.push("prohibited/subjective term");
+  if (TRADEMARKS.some((w) => ph.includes(w))) out.push("possible trademark");
+  return out;
+}
+const kwValidation = [];
+const usedWords = new Set();
+const slots = [];
+for (const raw of [...longtail, ...cementing]) {
+  if (slots.length >= 7) break;
+  const ph = lc(raw).replace(/["']/g, "").replace(/\s+/g, " ").trim();
+  const issues = keywordIssues(ph);
+  // drop phrases whose words are ALL already in the title (Amazon indexes those for free)
+  const words = ph.split(" ").filter((w) => !TITLE_WORDS.has(w));
+  if (issues.length) { kwValidation.push({ phrase: ph, status: "rejected", issues }); continue; }
+  if (!words.length) { kwValidation.push({ phrase: ph, status: "skipped", issues: ["all words already in title/subtitle"] }); continue; }
+  if (slots.includes(ph)) continue;
+  slots.push(ph.slice(0, 50));
+  words.forEach((w) => usedWords.add(w));
+  kwValidation.push({ phrase: ph.slice(0, 50), status: "accepted", issues: [] });
+}
+
 const listing = {
   book_id: scenes.book_id || layout.book_id, title,
   subtitle: `A first-words ${heritage} & English story for ages ${ageRange}`,
@@ -91,6 +124,9 @@ const listing = {
   description_html, keywords, search_terms, categories,
   bisac: ["JUVENILE FICTION / Animals", "JUVENILE FICTION / Concepts / Words", "JUVENILE FICTION / People & Places / Africa"],
   seo: { primary_keyword: primary, secondary_keywords: keywords.slice(1), long_tail: search_terms },
+  kdp_keyword_slots: slots,            // paste these into KDP's 7 backend keyword fields
+  keyword_validation: kwValidation,    // A10/Rufus + Amazon-rule checks
+  category_cementing: cementing,       // phrases that unlock extra browse categories
   geo, markets,
 };
 

@@ -218,6 +218,12 @@ const server = http.createServer(async (req, res) => {
     b.pdfcheck = { ...(await readBody(req)), at: Date.now() }; db.save(); return json(res, 200, { ok: true });
   }
 
+  // market validation / opportunity score (worker posts during research stage)
+  if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/market$/)) {
+    const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });
+    b.market = { ...(await readBody(req)), at: Date.now() }; db.save(); return json(res, 200, { ok: true });
+  }
+
   // compliance report (worker posts)
   if (req.method === "POST" && p.match(/^\/api\/books\/[^/]+\/compliance$/)) {
     const b = db.getBook(p.split("/")[3]); if (!b) return json(res, 404, { error: "no book" });

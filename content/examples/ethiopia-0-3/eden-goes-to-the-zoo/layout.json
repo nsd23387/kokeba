@@ -3,6 +3,7 @@
   "trim": "8.5x8.5in",
   "trim_shape": "square",
   "age_range": "2-5",
+  "languages": ["en", "am"],
   "bleed_in": 0.125,
   "art_dir": "art",
   "script_font": "Noto Sans Ethiopic",

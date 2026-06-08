@@ -1,0 +1,37 @@
+{
+  "book_id": "ethiopia-0-3-eden-zoo",
+  "heritage": "Amharic",
+  "age_range": "2-5",
+  "opportunity_score": 74,
+  "verdict": "STRONG — proceed",
+  "signals": {
+    "demand": 64,
+    "competition": "low",
+    "trend": "rising",
+    "data_source": "heuristic"
+  },
+  "reasons": [
+    "Amharic has ~35M speakers and a ~3M diaspora seeking heritage-language first books.",
+    "Heritage-language children's books are a thin, under-served niche on KDP — low competition.",
+    "Multicultural / bilingual early-reader category is trending upward.",
+    "Primary keyword: \"Amharic children's book\"; 7 validated backend slots ready."
+  ],
+  "recommended_keywords": [
+    "amharic book for toddlers",
+    "amharic for kids ages 2 5",
+    "ethiopia heritage childrens book",
+    "bilingual amharic english",
+    "learn amharic for children",
+    "ethiopia animals toddler book",
+    "read aloud amharic story"
+  ],
+  "diaspora_markets": [
+    "United States",
+    "Canada",
+    "United Kingdom",
+    "Germany",
+    "Gulf states",
+    "Israel"
+  ],
+  "note": "Heuristic estimate. Plug a search-volume/competition API into liveSignals() for real numbers."
+}
