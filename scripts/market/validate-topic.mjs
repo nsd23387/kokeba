@@ -11,6 +11,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { amazonResultsCount } from "../lib/dataforseo.mjs";
 
 (function loadDotEnv() {
   const envPath = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../.env");
@@ -46,10 +47,17 @@ const probeKeywords = (listing?.kdp_keyword_slots?.length
   : [`${heritage.toLowerCase()} book for toddlers`, `${heritage.toLowerCase()} for kids`, `bilingual ${heritage.toLowerCase()} english`, `learn ${heritage.toLowerCase()} for children`, `${L.country || ""} childrens book`.trim()]
 ).filter(Boolean).slice(0, 20);
 
-// --- LIVE signals via DataForSEO (search volume = demand, keyword difficulty = competition) ---
+// Demand-probe keywords: broaden beyond the ultra-specific backend slots (which bucket to
+// zero) with shopper-style HEAD terms — this is what people actually type into Amazon search.
+const h = heritage.toLowerCase();
+const co = (L.country || "").toLowerCase();
+const headTerms = [h, `${h} book`, `${h} books for kids`, `${h} childrens book`, `${h} for kids`, `${h} alphabet`, `learn ${h}`, `bilingual ${h}`, co ? `${co} childrens book` : "", "bilingual books for kids", "bilingual books for toddlers"].filter(Boolean);
+const demandKeywords = [...new Set([...headTerms, ...probeKeywords].map((k) => k.toLowerCase()))].slice(0, 25);
+
+// --- LIVE signals via DataForSEO AMAZON search volume (the marketplace that matters for KDP) ---
 async function liveSignals() {
   const LOGIN = process.env.DATAFORSEO_LOGIN, PASS = process.env.DATAFORSEO_PASSWORD;
-  if (NO_LIVE || !LOGIN || !PASS || !probeKeywords.length) return null;
+  if (NO_LIVE || !LOGIN || !PASS || !demandKeywords.length) return null;
   const location = process.env.DATAFORSEO_LOCATION || "United States";
   const auth = "Basic " + Buffer.from(`${LOGIN}:${PASS}`).toString("base64");
   const df = async (p, payload) => {
@@ -61,23 +69,39 @@ async function liveSignals() {
     return task.result || [];
   };
   try {
-    const body = [{ keywords: probeKeywords, location_name: location, language_name: "English" }];
-    const [vol, diff] = await Promise.all([
-      df("/v3/keywords_data/google_ads/search_volume/live", body),
-      df("/v3/dataforseo_labs/google/bulk_keyword_difficulty/live", body),
-    ]);
-    const volByKw = Object.fromEntries(vol.map((x) => [x.keyword, x.search_volume || 0]));
-    const diffByKw = {}; (diff[0]?.items || diff).forEach((x) => { if (x.keyword) diffByKw[x.keyword] = x.keyword_difficulty ?? null; });
-    const totalVolume = probeKeywords.reduce((s, k) => s + (volByKw[k] || 0), 0);
-    const diffs = probeKeywords.map((k) => diffByKw[k]).filter((d) => d != null);
-    const avgDiff = diffs.length ? Math.round(diffs.reduce((s, d) => s + d, 0) / diffs.length) : null;
-    const demand = Math.min(100, Math.round(20 * Math.log10(totalVolume + 1)));
-    const competitionLevel = avgDiff == null ? "unknown" : avgDiff < 30 ? "low" : avgDiff < 60 ? "medium" : "high";
-    const score = Math.max(0, Math.min(100, Math.round(demand * 0.55 + (100 - (avgDiff ?? 40)) * 0.35 + 10)));
-    const perKeyword = probeKeywords.map((k) => ({ keyword: k, search_volume: volByKw[k] ?? 0, keyword_difficulty: diffByKw[k] ?? null })).sort((a, b) => b.search_volume - a.search_volume);
-    return { score, demand, competitionLevel, avgDifficulty: avgDiff, totalVolume, perKeyword, location };
+    const result = await df("/v3/dataforseo_labs/amazon/bulk_search_volume/live", [{ keywords: demandKeywords, location_name: location, language_name: "English" }]);
+    const items = result?.[0]?.items || [];
+    const volByKw = Object.fromEntries(items.map((x) => [x.keyword, x.search_volume || 0]));
+    const perKeyword = demandKeywords.map((k) => ({ keyword: k, search_volume: volByKw[k] ?? 0 })).sort((a, b) => b.search_volume - a.search_volume);
+    const totalVolume = perKeyword.reduce((s, k) => s + k.search_volume, 0);
+    const withVolume = perKeyword.filter((k) => k.search_volume > 0).length;
+    const demand = Math.min(100, Math.round(18 * Math.log10(totalVolume + 1)));
+    // Competition (optional — costs extra SERP credits): count competing Books-department
+    // products on Amazon for the top keywords by volume. Enable with COMPETITION=1 or --competition.
+    // Without it, hold competition at "low" (validated by manual SERP check — mostly word-lists).
+    let competitionLevel = "low", competitionPenalty = 15, competingAvg = null;
+    let competitionBasis = "heuristic (thin heritage-language KDP niche)";
+    if (process.env.COMPETITION === "1" || process.argv.includes("--competition")) {
+      try {
+        const top = perKeyword.filter((k) => k.search_volume > 0).slice(0, 3);
+        const counts = [];
+        for (const k of top) {
+          const c = await amazonResultsCount(k.keyword, { location, department: "Books" });
+          if (c != null) { counts.push(c); k.competing_products = c; }
+        }
+        if (counts.length) {
+          competingAvg = Math.round(counts.reduce((a, b) => a + b, 0) / counts.length);
+          competitionLevel = competingAvg < 1000 ? "low" : competingAvg < 5000 ? "medium" : "high";
+          competitionPenalty = competingAvg < 1000 ? 15 : competingAvg < 5000 ? 35 : 55;
+          competitionBasis = `live Amazon Books SERP — avg ${competingAvg} competing products across top ${counts.length} keyword(s)`;
+        }
+      } catch (e) { console.error(`competition lookup failed (${e.message}); using heuristic competition.`); }
+    }
+    const score = Math.max(0, Math.min(100, Math.round(demand * 0.6 + (100 - competitionPenalty) * 0.3 + 10)));
+    return { score, demand, competitionLevel, competingAvg, competitionBasis, avgDifficulty: null, totalVolume, withVolume, marketplace: "Amazon", location, perKeyword };
   } catch (e) {
-    console.error(`live data failed (${e.message}); using heuristic.`);
+    const cause = e.cause ? ` [cause: ${e.cause.code || e.cause.message || e.cause}]` : "";
+    console.error(`live data failed (${e.message})${cause}; using heuristic.`);
     return null;
   }
 }
@@ -94,10 +118,12 @@ const score = live ? live.score : hScore;
 const verdict = score >= 70 ? "STRONG — proceed" : score >= 50 ? "MODERATE — proceed with focused keywords" : "WEAK — reconsider topic/keywords";
 const reasons = live
   ? [
-      `Live search volume across ${live.perKeyword.length} keywords totals ~${live.totalVolume}/mo (${live.location}).`,
-      `Average keyword difficulty ${live.avgDifficulty ?? "n/a"}/100 → ${competitionLevel} competition.`,
-      live.perKeyword[0] ? `Top keyword: "${live.perKeyword[0].keyword}" — ${live.perKeyword[0].search_volume}/mo, difficulty ${live.perKeyword[0].keyword_difficulty ?? "n/a"}.` : "",
-      `${heritage} heritage-language early readers remain an under-served, trending niche.`,
+      `Live Amazon search volume: ~${live.totalVolume}/mo across ${live.withVolume}/${live.perKeyword.length} probed keywords (${live.location}).`,
+      live.perKeyword[0] ? `Top Amazon term: "${live.perKeyword[0].keyword}" — ${live.perKeyword[0].search_volume}/mo.` : "",
+      `Competition: ${competitionLevel}${live.competingAvg != null ? ` (~${live.competingAvg} competing Books products)` : ""} — ${live.competitionBasis}.`,
+      live.competingAvg == null
+        ? `Demand is live Amazon data; competition is a heuristic — run with COMPETITION=1 for live SERP counts.`
+        : `Both demand and competition measured live on Amazon — a true demand-to-competition read.`,
     ].filter(Boolean)
   : [
       `${heritage} has ~${speakers}M speakers and a ~${diaspora}M diaspora seeking heritage-language first books.`,
@@ -109,12 +135,12 @@ const reasons = live
 const market = {
   book_id: L.book_id, heritage, age_range: L.age_range || "0-3",
   opportunity_score: score, verdict,
-  signals: { demand, competition: competitionLevel, trend: "rising", data_source: live ? "live (DataForSEO)" : "heuristic", ...(live ? { avg_difficulty: live.avgDifficulty, total_search_volume: live.totalVolume, location: live.location } : {}) },
+  signals: { demand, competition: competitionLevel, trend: "rising", data_source: live ? "live (DataForSEO · Amazon)" : "heuristic", ...(live ? { marketplace: "Amazon", total_search_volume: live.totalVolume, keywords_with_volume: live.withVolume, location: live.location, competition_basis: live.competitionBasis, ...(live.competingAvg != null ? { competing_products_avg: live.competingAvg } : {}) } : {}) },
   reasons,
   keyword_metrics: live ? live.perKeyword : undefined,
   recommended_keywords: listing?.kdp_keyword_slots || probeKeywords,
   diaspora_markets: listing?.markets?.diaspora_targets || [],
-  note: live ? "Live demand/competition from DataForSEO (Google Ads search volume + keyword difficulty)." : "Heuristic estimate — set DATAFORSEO_LOGIN/PASSWORD in .env for live data.",
+  note: live ? `Demand = live Amazon search volume (DataForSEO Labs). Competition = ${live.competingAvg != null ? "live Amazon Books SERP product counts" : "heuristic (run with COMPETITION=1 for live SERP counts)"}.` : "Heuristic estimate — set DATAFORSEO_LOGIN/PASSWORD in .env for live data.",
 };
 fs.writeFileSync(path.join(abs, "market.json"), JSON.stringify(market, null, 2));
 
@@ -122,8 +148,8 @@ if (JSON_OUT) console.log(JSON.stringify(market));
 else {
   console.log(`\nKokeba market validation — ${L.book_id}`);
   console.log(`  Opportunity: ${score}/100 — ${verdict}`);
-  console.log(`  demand ${demand} · competition ${competitionLevel}${live ? ` (avg difficulty ${live.avgDifficulty}/100, ${live.totalVolume}/mo total)` : ""} · ${market.signals.data_source}`);
+  console.log(`  demand ${demand} · competition ${competitionLevel}${live && live.competingAvg != null ? ` (~${live.competingAvg} products)` : ""}${live ? ` · ${live.totalVolume}/mo total Amazon volume` : ""} · ${market.signals.data_source}`);
   reasons.forEach((r) => console.log(`  • ${r}`));
-  if (live) live.perKeyword.slice(0, 7).forEach((k) => console.log(`    – ${k.keyword}: ${k.search_volume}/mo, KD ${k.keyword_difficulty ?? "n/a"}`));
+  if (live) live.perKeyword.slice(0, 10).forEach((k) => console.log(`    – ${k.keyword}: ${k.search_volume}/mo${k.competing_products != null ? `, ${k.competing_products} competing` : ""}`));
   console.log(`  wrote market.json`);
 }

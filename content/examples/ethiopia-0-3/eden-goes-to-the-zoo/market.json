@@ -2,28 +2,83 @@
   "book_id": "ethiopia-0-3-eden-zoo",
   "heritage": "Amharic",
   "age_range": "2-5",
-  "opportunity_score": 74,
+  "opportunity_score": 73,
   "verdict": "STRONG — proceed",
   "signals": {
-    "demand": 64,
-    "competition": "low",
+    "demand": 73,
+    "competition": "medium",
     "trend": "rising",
-    "data_source": "heuristic"
+    "data_source": "live (DataForSEO · Amazon)",
+    "marketplace": "Amazon",
+    "total_search_volume": 10993,
+    "keywords_with_volume": 8,
+    "location": "United States",
+    "competition_basis": "live Amazon Books SERP — avg 2144 competing products across top 3 keyword(s)",
+    "competing_products_avg": 2144
   },
   "reasons": [
-    "Amharic has ~35M speakers and a ~3M diaspora seeking heritage-language first books.",
-    "Heritage-language children's books are a thin, under-served niche on KDP — low competition.",
-    "Multicultural / bilingual early-reader category is trending upward.",
-    "Primary keyword: \"Amharic children's book\"; 7 validated backend slots ready."
+    "Live Amazon search volume: ~10993/mo across 8/11 probed keywords (United States).",
+    "Top Amazon term: \"amharic\" — 7330/mo.",
+    "Competition: medium (~2144 competing Books products) — live Amazon Books SERP — avg 2144 competing products across top 3 keyword(s).",
+    "Both demand and competition measured live on Amazon — a true demand-to-competition read."
+  ],
+  "keyword_metrics": [
+    {
+      "keyword": "amharic",
+      "search_volume": 7330,
+      "competing_products": 4651
+    },
+    {
+      "keyword": "amharic alphabet",
+      "search_volume": 1608,
+      "competing_products": 186
+    },
+    {
+      "keyword": "learn amharic",
+      "search_volume": 972,
+      "competing_products": 1596
+    },
+    {
+      "keyword": "bilingual books for kids",
+      "search_volume": 935
+    },
+    {
+      "keyword": "amharic book",
+      "search_volume": 37
+    },
+    {
+      "keyword": "amharic books for kids",
+      "search_volume": 37
+    },
+    {
+      "keyword": "bilingual books for toddlers",
+      "search_volume": 37
+    },
+    {
+      "keyword": "multicultural childrens books",
+      "search_volume": 37
+    },
+    {
+      "keyword": "amharic childrens book",
+      "search_volume": 0
+    },
+    {
+      "keyword": "amharic for kids",
+      "search_volume": 0
+    },
+    {
+      "keyword": "bilingual amharic",
+      "search_volume": 0
+    }
   ],
   "recommended_keywords": [
-    "amharic book for toddlers",
-    "amharic for kids ages 2 5",
-    "ethiopia heritage childrens book",
-    "bilingual amharic english",
-    "learn amharic for children",
-    "ethiopia animals toddler book",
-    "read aloud amharic story"
+    "amharic alphabet",
+    "learn amharic",
+    "bilingual books for kids",
+    "amharic books for kids",
+    "amharic book",
+    "bilingual books for toddlers",
+    "multicultural childrens books"
   ],
   "diaspora_markets": [
     "United States",
@@ -33,5 +88,5 @@
     "Gulf states",
     "Israel"
   ],
-  "note": "Heuristic estimate — set DATAFORSEO_LOGIN/PASSWORD in .env for live data."
+  "note": "Demand = live Amazon search volume (DataForSEO Labs). Competition = live Amazon Books SERP product counts."
 }

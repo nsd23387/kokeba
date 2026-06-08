@@ -53,48 +53,122 @@
     ]
   },
   "kdp_keyword_slots": [
-    "amharic book for toddlers",
-    "amharic for kids ages 2 5",
-    "ethiopia heritage childrens book",
-    "bilingual amharic english",
-    "learn amharic for children",
-    "ethiopia animals toddler book",
-    "read aloud amharic story"
+    "amharic alphabet",
+    "learn amharic",
+    "bilingual books for kids",
+    "amharic books for kids",
+    "amharic book",
+    "bilingual books for toddlers",
+    "multicultural childrens books"
   ],
+  "keyword_ranking": "live Amazon search volume (DataForSEO)",
   "keyword_validation": [
     {
-      "phrase": "amharic book for toddlers",
+      "phrase": "amharic alphabet",
       "status": "accepted",
+      "volume": 1608,
+      "issues": []
+    },
+    {
+      "phrase": "learn amharic",
+      "status": "accepted",
+      "volume": 972,
+      "issues": []
+    },
+    {
+      "phrase": "bilingual books for kids",
+      "status": "accepted",
+      "volume": 935,
+      "issues": []
+    },
+    {
+      "phrase": "amharic books for kids",
+      "status": "accepted",
+      "volume": 37,
+      "issues": []
+    },
+    {
+      "phrase": "amharic book",
+      "status": "accepted",
+      "volume": 37,
+      "issues": []
+    },
+    {
+      "phrase": "bilingual books for toddlers",
+      "status": "accepted",
+      "volume": 37,
+      "issues": []
+    },
+    {
+      "phrase": "multicultural childrens books",
+      "status": "accepted",
+      "volume": 37,
+      "issues": []
+    },
+    {
+      "phrase": "amharic book for toddlers",
+      "status": "not_selected",
+      "volume": 0,
       "issues": []
     },
     {
       "phrase": "amharic for kids ages 2 5",
-      "status": "accepted",
+      "status": "not_selected",
+      "volume": 0,
       "issues": []
     },
     {
       "phrase": "ethiopia heritage childrens book",
-      "status": "accepted",
+      "status": "not_selected",
+      "volume": 0,
       "issues": []
     },
     {
       "phrase": "bilingual amharic english",
-      "status": "accepted",
+      "status": "not_selected",
+      "volume": 0,
       "issues": []
     },
     {
       "phrase": "learn amharic for children",
-      "status": "accepted",
+      "status": "not_selected",
+      "volume": 0,
       "issues": []
     },
     {
       "phrase": "ethiopia animals toddler book",
-      "status": "accepted",
+      "status": "not_selected",
+      "volume": 0,
       "issues": []
     },
     {
       "phrase": "read aloud amharic story",
-      "status": "accepted",
+      "status": "not_selected",
+      "volume": 0,
+      "issues": []
+    },
+    {
+      "phrase": "ethiopia books for children",
+      "status": "not_selected",
+      "volume": 0,
+      "issues": []
+    },
+    {
+      "phrase": "african picture books",
+      "status": "not_selected",
+      "volume": 37,
+      "issues": []
+    },
+    {
+      "phrase": "diverse early readers",
+      "status": "not_selected",
+      "volume": 0,
+      "issues": []
+    },
+    {
+      "phrase": "heritage language toddlers",
+      "status": "not_selected",
+      "volume": 0,
       "issues": []
     }
   ],

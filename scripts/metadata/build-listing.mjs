@@ -12,6 +12,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { hasCreds, amazonSearchVolume } from "../lib/dataforseo.mjs";
 
 const bookDir = process.argv[2];
 const JSON_OUT = process.argv.includes("--json");
@@ -91,6 +92,9 @@ const TRADEMARKS = ["disney", "pixar", "sesame street", "dr seuss", "dr. seuss",
 const ageDigits = ageRange.replace(/[^\d]+/g, " ").trim(); // "2 5"
 const cementing = [`multicultural childrens books`, `bilingual books for kids`, `${lc(country)} books for children`, `african picture books`, `diverse early readers`, `heritage language toddlers`];
 const longtail = [`${lc(heritage)} book for toddlers`, `${lc(heritage)} for kids ages ${ageDigits}`, `${lc(country)} heritage childrens book`, `bilingual ${lc(heritage)} english`, `learn ${lc(heritage)} for children`, `${lc(country)} animals toddler book`, `read aloud ${lc(heritage)} story`];
+// Shopper-style HEAD terms — these carry the real Amazon search volume (a phrase like
+// "learn amharic for children" buckets to ~0, but "learn amharic" / "amharic alphabet" don't).
+const headTerms = [`learn ${lc(heritage)}`, `${lc(heritage)} alphabet`, `${lc(heritage)} books for kids`, `${lc(heritage)} book`, `bilingual books for toddlers`, `bilingual books for kids`];
 function keywordIssues(ph) {
   const out = [];
   if (ph.length > 50) out.push("over 50 chars");
@@ -99,21 +103,44 @@ function keywordIssues(ph) {
   if (TRADEMARKS.some((w) => ph.includes(w))) out.push("possible trademark");
   return out;
 }
+const norm = (s) => lc(s).replace(/["']/g, "").replace(/\s+/g, " ").trim();
+// candidate pool: head terms first (real volume), then long-tail, then category-cementing
+const candidates = [...new Set([...headTerms, ...longtail, ...cementing].map(norm))];
+
+// #1 — rank candidates by LIVE Amazon search volume (falls back to templated order if no creds)
+let volumes = {};
+if (hasCreds()) {
+  try { volumes = await amazonSearchVolume(candidates, { location: process.env.DATAFORSEO_LOCATION || "United States" }); }
+  catch (e) { console.error(`keyword volume lookup failed (${e.message}); using templated order.`); }
+}
+const haveVolume = Object.keys(volumes).length > 0;
+
 const kwValidation = [];
-const usedWords = new Set();
-const slots = [];
-for (const raw of [...longtail, ...cementing]) {
-  if (slots.length >= 7) break;
-  const ph = lc(raw).replace(/["']/g, "").replace(/\s+/g, " ").trim();
+const evaluated = candidates.map((ph, idx) => {
   const issues = keywordIssues(ph);
-  // drop phrases whose words are ALL already in the title (Amazon indexes those for free)
-  const words = ph.split(" ").filter((w) => !TITLE_WORDS.has(w));
-  if (issues.length) { kwValidation.push({ phrase: ph, status: "rejected", issues }); continue; }
-  if (!words.length) { kwValidation.push({ phrase: ph, status: "skipped", issues: ["all words already in title/subtitle"] }); continue; }
-  if (slots.includes(ph)) continue;
-  slots.push(ph.slice(0, 50));
-  words.forEach((w) => usedWords.add(w));
-  kwValidation.push({ phrase: ph.slice(0, 50), status: "accepted", issues: [] });
+  const words = ph.split(" ").filter((w) => !TITLE_WORDS.has(w)); // Amazon indexes title words for free
+  const volume = volumes[ph] ?? null;
+  return { ph, idx, issues, words, volume };
+});
+// valid = passes Amazon rules AND adds at least one word not already in the title
+const valid = evaluated.filter((e) => !e.issues.length && e.words.length);
+// rank: by live volume desc when we have it, else keep templated priority order
+valid.sort((a, b) => (haveVolume ? (b.volume || 0) - (a.volume || 0) : 0) || a.idx - b.idx);
+
+const slots = [];
+const seen = new Set();
+for (const e of valid) {
+  if (slots.length >= 7) break;
+  if (seen.has(e.ph)) continue;
+  seen.add(e.ph); slots.push(e.ph.slice(0, 50));
+  kwValidation.push({ phrase: e.ph.slice(0, 50), status: "accepted", volume: e.volume, issues: [] });
+}
+// record the rejects/skips for transparency
+for (const e of evaluated) {
+  if (seen.has(e.ph)) continue;
+  if (e.issues.length) kwValidation.push({ phrase: e.ph, status: "rejected", volume: e.volume, issues: e.issues });
+  else if (!e.words.length) kwValidation.push({ phrase: e.ph, status: "skipped", volume: e.volume, issues: ["all words already in title/subtitle"] });
+  else kwValidation.push({ phrase: e.ph, status: "not_selected", volume: e.volume, issues: [] });
 }
 
 const listing = {
@@ -125,7 +152,8 @@ const listing = {
   bisac: ["JUVENILE FICTION / Animals", "JUVENILE FICTION / Concepts / Words", "JUVENILE FICTION / People & Places / Africa"],
   seo: { primary_keyword: primary, secondary_keywords: keywords.slice(1), long_tail: search_terms },
   kdp_keyword_slots: slots,            // paste these into KDP's 7 backend keyword fields
-  keyword_validation: kwValidation,    // A10/Rufus + Amazon-rule checks
+  keyword_ranking: haveVolume ? "live Amazon search volume (DataForSEO)" : "templated priority (no live data)",
+  keyword_validation: kwValidation,    // A10/Rufus + Amazon-rule checks, with live volume per phrase
   category_cementing: cementing,       // phrases that unlock extra browse categories
   geo, markets,
 };
@@ -135,7 +163,8 @@ if (JSON_OUT) console.log(JSON.stringify(listing));
 else {
   console.log(`\nListing metadata — ${listing.book_id}`);
   console.log(`  primary keyword: ${primary}`);
-  console.log(`  keywords (7): ${keywords.join(" · ")}`);
+  console.log(`  KDP slots (ranked by ${haveVolume ? "live Amazon volume" : "templated order"}):`);
+  slots.forEach((s) => { const v = volumes[s]; console.log(`    • ${s}${v != null ? ` — ${v}/mo` : ""}`); });
   console.log(`  categories: ${categories.join(" | ")}`);
   console.log(`  GEO entities: ${geo.entities.slice(0, 6).join(", ")} …`);
   console.log(`  markets: ${markets.primary_marketplaces.join(", ")} | diaspora: ${markets.diaspora_targets.join(", ")}`);
