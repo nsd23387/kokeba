@@ -148,7 +148,7 @@ body{background:#EDE6D4;font-family:'Lora',Georgia,serif;color:var(--navy);paddi
 .pg{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:#B8AC8B;font-size:13px}
 .R img,.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b1a583;background:#F1EADB;font-style:italic;font-size:14px}
-.band{position:absolute;left:0;right:0;bottom:0;background:rgba(255,253,247,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:9px 0 11px}
+.band{position:absolute;left:0;right:0;bottom:0;background:rgba(255,253,247,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:9px 0 30px}
 .word{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:var(--navy);font-size:clamp(22px,3.4vw,38px);line-height:1}
 .translit{color:var(--gold);font-style:italic;font-size:clamp(12px,1.4vw,17px)}
 .gloss{color:#8A8676;font-size:clamp(11px,1.2vw,15px)}
@@ -218,7 +218,7 @@ if (process.argv.includes("--single")) {
 .rhyme{font-size:30px;line-height:1.5;font-weight:500}
 .prompt{margin-top:24px;display:inline-block;border:1.5px solid #C9A227;color:#9A7D1E;background:#FBF3DA;font-style:italic;font-size:22px;padding:8px 20px;border-radius:22px}
 .R img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.band{position:absolute;left:0;right:0;bottom:0;background:rgba(255,253,247,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:14px 0 18px}
+.band{position:absolute;left:0;right:0;bottom:0;background:rgba(255,253,247,.95);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:14px 0 0.5in}
 .word{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;font-size:48px;line-height:1}
 .translit{color:#C9A227;font-style:italic;font-size:24px}.gloss{color:#8A8676;font-size:20px}
 .centered{font-size:30px;font-weight:500;text-align:center;line-height:1.5}.single{display:flex;align-items:center;justify-content:center;padding:9%}

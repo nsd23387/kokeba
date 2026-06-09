@@ -1,0 +1,14 @@
+{
+  "book_id": "ethiopia-0-3-eden-zoo",
+  "trim": "8.5x8.5in",
+  "bleed": 0.125,
+  "safe_from_edge_in": 0.375,
+  "pages": 28,
+  "counts": {
+    "fail": 0,
+    "warn": 0,
+    "pass": 28
+  },
+  "ok": true,
+  "flags": []
+}

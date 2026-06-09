@@ -116,12 +116,21 @@ const ADAPTERS = {
   export:       async (job) => {
     const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
     if (book?.dir) {
+      // Proof Reader gate — block export if any text would be clipped at the trim/safe line.
+      let pr;
+      try { pr = execFileSync("node", ["scripts/proofread/check-proof.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 8 * 1024 * 1024 }).toString(); }
+      catch (e) { pr = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1}}'; }
+      let prRep; try { prRep = JSON.parse(pr); } catch { prRep = { ok: false, counts: { fail: -1 } }; }
+      try { await post(`/api/books/${job.bookId}/proof`, prRep); } catch {}
+      if (prRep.counts && prRep.counts.fail !== 0) {
+        return [`BLOCKED: Proof Reader found ${prRep.counts.fail} text element(s) inside the trim/safe margin — fix layout, then re-export`];
+      }
       execFileSync("node", ["scripts/export/build-pdf.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
       let v;
       try { v = execFileSync("node", ["scripts/validate/validate-pdf.mjs", book.dir, "--json"], { cwd: REPO_ROOT }).toString(); }
       catch (e) { v = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1}}'; }
       try { await post(`/api/books/${job.bookId}/pdfcheck`, JSON.parse(v)); } catch {}
-      try { execFileSync("node", ["scripts/ebook/build-epub.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" }); } catch (e) { console.error("epub:", e.message); }
+      try { execFileSync("node", ["scripts/ebook/build-epub-fxl.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" }); } catch (e) { console.error("epub:", e.message); }
     }
     return ["exported interior.pdf + cover.pdf", "validated PDFs against KDP", "built fixed-layout book.epub"];
   },
