@@ -1,9 +1,9 @@
 {
   "_note": "Publishing / front-and-back matter. Editable in the platform (Console -> Publishing info) or here. The renderer builds the title page, copyright page (with the AI-assistance notice), and the about/colophon from these fields.",
-  "author": "",
-  "imprint": "Kokeba",
+  "author": "Kokeba Publishing",
+  "imprint": "Kokeba Publishing",
   "copyright_year": 2026,
-  "copyright_holder": "",
+  "copyright_holder": "Kokeba Publishing",
   "edition": "First edition",
   "isbn": "",
   "rights": "All rights reserved. No part of this book may be reproduced without permission.",

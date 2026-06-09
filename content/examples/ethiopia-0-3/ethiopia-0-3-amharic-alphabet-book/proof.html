@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
+<title>Amharic Alphabet Book</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,1,500&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#222B6D;--gold:#C9A227;--page:#FFFDF7;--sage:#A7B59A;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#EDE6D4;font-family:'Fraunces',Georgia,serif;color:var(--navy);padding:32px;display:flex;flex-direction:column;align-items:center;gap:26px}
+.spread{display:flex;align-items:stretch;gap:10px;background:#C9BFA6;padding:10px;border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.16);width:100%;max-width:1060px}
+.single{position:relative;overflow:hidden;background:var(--page);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.16);width:100%;max-width:560px;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9%}
+.page{background:var(--page);border-radius:8px;width:50%;aspect-ratio:1/1;position:relative;overflow:hidden}
+.spine{width:2px;align-self:stretch;background:repeating-linear-gradient(#d8cba8,#d8cba8 4px,transparent 4px,transparent 10px)}
+.L{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9%;text-align:center}
+.star{color:var(--gold);font-size:30px;margin-bottom:16px}
+.rhyme{font-size:clamp(16px,2.2vw,25px);line-height:1.5;font-weight:500}
+.prompt{margin-top:22px;display:inline-block;border:1.5px solid var(--gold);color:#9A7D1E;background:#FBF3DA;font-style:italic;font-size:clamp(13px,1.5vw,18px);padding:7px 18px;border-radius:22px}
+.pg{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:#B8AC8B;font-size:13px}
+.R img,.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#b1a583;background:#F1EADB;font-style:italic;font-size:14px}
+.band{position:absolute;left:0;right:0;bottom:0;background:rgba(255,253,247,.93);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:9px 0 11px}
+.word{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:var(--navy);font-size:clamp(22px,3.4vw,38px);line-height:1}
+.translit{color:var(--gold);font-style:italic;font-size:clamp(12px,1.4vw,17px)}
+.gloss{color:#8A8676;font-size:clamp(11px,1.2vw,15px)}
+.centered{font-size:clamp(18px,2.4vw,26px);font-weight:500;text-align:center;line-height:1.5}
+.letter-L{gap:2px}
+.fidel-big{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:var(--navy);font-size:clamp(96px,17vw,190px);line-height:1}
+.fidel-sound{color:var(--gold);font-style:italic;font-size:clamp(20px,3vw,34px);margin-top:8px}
+.fidel-for{color:#8A8676;font-size:clamp(13px,1.6vw,18px);margin-top:14px}
+.fm{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9%;gap:8px}
+.fm-title{font-size:clamp(22px,3.2vw,34px);font-weight:500;color:#222B6D}
+.fm-title-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#9A7D1E;font-size:clamp(16px,2.2vw,24px)}
+.fm-by{color:#6B6F86;font-style:italic;margin-top:6px}.fm-imprint{margin-top:14px;color:#C9A227;font-weight:500}
+.about{max-width:80%;line-height:1.6;font-size:clamp(14px,1.7vw,18px)}.fm-contact{margin-top:10px;color:#6B6F86;font-size:13px}
+.cp{display:flex;align-items:center;justify-content:center;padding:10%}
+.cp-box{font-size:clamp(12px,1.5vw,15px);line-height:1.7;color:#4a4e66;text-align:center;max-width:88%}
+.cp-box .ai{margin-top:8px;color:#9A7D1E;font-style:italic}
+.recap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:7%}
+.r-title{font-size:clamp(20px,2.8vw,30px);font-weight:500;color:#222B6D;text-align:center}
+.r-sub{color:#9A7D1E;font-style:italic;margin:4px 0 16px;font-size:clamp(13px,1.6vw,18px)}
+.r-table{border-collapse:collapse;width:92%}
+.r-table th{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#8A8676;font-weight:600;padding:4px 10px;border-bottom:1.5px solid #E7D7A6;text-align:left}
+.r-table td{padding:8px 10px;border-bottom:1px solid #F1EADB;font-size:clamp(14px,1.9vw,20px)}
+.r-en{color:#222B6D;font-weight:500}.r-tr{color:#9A7D1E;font-style:italic}
+.r-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;text-align:right;font-size:clamp(16px,2.3vw,26px)}
+.cover .cover-title{position:absolute;left:9%;right:9%;top:6%;text-align:center;background:rgba(255,253,247,.88);border:1px solid rgba(201,162,39,.55);border-radius:16px;padding:14px 18px 16px;box-shadow:0 6px 18px rgba(34,43,109,.12)}
+.ct-star{color:var(--gold);font-size:22px;line-height:1;margin-bottom:2px}
+.ct-en{color:var(--navy);font-weight:500;font-size:clamp(22px,3.6vw,40px);line-height:1.12}
+.ct-rule{height:2px;width:46px;background:var(--gold);margin:9px auto}
+.ct-am{font-family:'Noto Sans Ethiopic',serif;color:#9A7D1E;font-weight:700;font-size:clamp(16px,2.4vw,26px)}
+@media print{
+  body{background:#fff;padding:0;gap:0}
+  .spread,.single{box-shadow:none;border-radius:0;background:#fff;max-width:none;page-break-after:always}
+  .spread{padding:0;gap:0}
+}
+</style></head><body>
+<div class="single cover"><div class="ph">missing: cover.png</div>
+    <div class="cover-title"><div class="ct-star">&#9733;</div>
+      <div class="ct-en">Amharic Alphabet Book</div>
+      <div class="ct-rule"></div>
+      <div class="ct-am"></div></div></div>
+<div class="single fm"><div class="star">&#9733;</div>
+    <div class="fm-title">Amharic Alphabet Book</div>
+    
+    
+    <div class="fm-imprint">Kokeba</div></div>
+<div class="single cp"><div class="cp-box">
+    <p>&copy; 2026 Kokeba. All rights reserved.</p>
+    <p>First edition</p>
+    
+    <p>Kokeba</p>
+    <p class="ai">The illustrations and text in this book were created with the assistance of AI.</p>
+    <p>An introduction to the Amharic fidel, with one word per letter.</p>
+  </div></div>
+<div class="single intro"><div class="star">&#9733;</div>
+    <div class="centered">Let's learn the Amharic fidel!<br>One letter at a time.</div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ሀ</div>
+    <div class="fidel-sound">ha</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ለ</div>
+    <div class="fidel-sound">la</div>
+    <div class="fidel-for">is for nut</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L02.png</div><div class="band"><div class="word">ለውዝ</div>
+    <div class="translit">Lewz</div><div class="gloss">nut</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ሐ</div>
+    <div class="fidel-sound">ḥa</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">መ</div>
+    <div class="fidel-sound">ma</div>
+    <div class="fidel-for">is for car</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L04.png</div><div class="band"><div class="word">መኪና</div>
+    <div class="translit">Mekina</div><div class="gloss">car</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ሠ</div>
+    <div class="fidel-sound">śa</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ረ</div>
+    <div class="fidel-sound">ra</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ሰ</div>
+    <div class="fidel-sound">sa</div>
+    <div class="fidel-for">is for sky</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L07.png</div><div class="band"><div class="word">ሰማይ</div>
+    <div class="translit">Semay</div><div class="gloss">sky</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ሸ</div>
+    <div class="fidel-sound">sha</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ቀ</div>
+    <div class="fidel-sound">qa</div>
+    <div class="fidel-for">is for giraffe</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L09.png</div><div class="band"><div class="word">ቀጭኔ</div>
+    <div class="translit">Qechine</div><div class="gloss">giraffe</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">በ</div>
+    <div class="fidel-sound">ba</div>
+    <div class="fidel-for">is for door</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L10.png</div><div class="band"><div class="word">በር</div>
+    <div class="translit">Ber</div><div class="gloss">door</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ተ</div>
+    <div class="fidel-sound">ta</div>
+    <div class="fidel-for">is for mountain</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L11.png</div><div class="band"><div class="word">ተራራ</div>
+    <div class="translit">Terara</div><div class="gloss">mountain</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ቸ</div>
+    <div class="fidel-sound">cha</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ኀ</div>
+    <div class="fidel-sound">ḫa</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ነ</div>
+    <div class="fidel-sound">na</div>
+    <div class="fidel-for">is for leopard</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L14.png</div><div class="band"><div class="word">ነብር</div>
+    <div class="translit">Nebir</div><div class="gloss">leopard</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ኘ</div>
+    <div class="fidel-sound">ña</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">አ</div>
+    <div class="fidel-sound">a</div>
+    <div class="fidel-for">is for lion</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L16.png</div><div class="band"><div class="word">አንበሳ</div>
+    <div class="translit">Anbessa</div><div class="gloss">lion</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ከ</div>
+    <div class="fidel-sound">ka</div>
+    <div class="fidel-for">is for drum</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L17.png</div><div class="band"><div class="word">ከበሮ</div>
+    <div class="translit">Kebero</div><div class="gloss">drum</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ኸ</div>
+    <div class="fidel-sound">kha</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ወ</div>
+    <div class="fidel-sound">wa</div>
+    <div class="fidel-for">is for chair</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L19.png</div><div class="band"><div class="word">ወንበር</div>
+    <div class="translit">Wember</div><div class="gloss">chair</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ዐ</div>
+    <div class="fidel-sound">ʿa</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ዘ</div>
+    <div class="fidel-sound">za</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ዠ</div>
+    <div class="fidel-sound">zha</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">የ</div>
+    <div class="fidel-sound">ya</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ደ</div>
+    <div class="fidel-sound">da</div>
+    <div class="fidel-for">is for cloud</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L24.png</div><div class="band"><div class="word">ደመና</div>
+    <div class="translit">Demena</div><div class="gloss">cloud</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ጀ</div>
+    <div class="fidel-sound">ja</div>
+    <div class="fidel-for">is for boat</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L25.png</div><div class="band"><div class="word">ጀልባ</div>
+    <div class="translit">Jelba</div><div class="gloss">boat</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ገ</div>
+    <div class="fidel-sound">ga</div>
+    <div class="fidel-for">is for farmer</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L26.png</div><div class="band"><div class="word">ገበሬ</div>
+    <div class="translit">Gebere</div><div class="gloss">farmer</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ጠ</div>
+    <div class="fidel-sound">ṭa</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ጨ</div>
+    <div class="fidel-sound">ch'a</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ጰ</div>
+    <div class="fidel-sound">p'a</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ጸ</div>
+    <div class="fidel-sound">ṣa</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ፀ</div>
+    <div class="fidel-sound">ṣ'a</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ፈ</div>
+    <div class="fidel-sound">fa</div>
+    <div class="fidel-for">is for horse</div></div><div class="spine"></div><div class="page R"><div class="ph">missing: L32.png</div><div class="band"><div class="word">ፈረስ</div>
+    <div class="translit">Feres</div><div class="gloss">horse</div></div></div></div>
+<div class="spread"><div class="page L letter-L"><div class="fidel-big">ፐ</div>
+    <div class="fidel-sound">pa</div>
+    </div><div class="spine"></div><div class="page R"><div class="ph">no image</div></div></div>
+<div class="single fm"><div class="star">&#9733;</div>
+    <div class="about">Kokeba makes warm, inclusive first books carrying a child's heritage language.</div>
+    </div>
+<div class="single end"><div class="star">&#9733;</div>
+    <div class="centered">Kokeba — A story for every little star.</div></div>
+</body></html>

@@ -1,0 +1,100 @@
+{
+  "book_id": "ethiopia-0-3-amharic-alphabet-book",
+  "model_hint": "gpt-image",
+  "size": "1024x1024",
+  "art_dir": "art",
+  "refs": {},
+  "shared_block": "Soft, warm children's storybook illustration — gentle painterly shading, rounded friendly shapes, cozy warm lighting. Ages 0-3: NO text in the image, square composition, soft uncluttered background, ONE clear subject, centered. Setting/objects read as ethiopia. FRIENDLY: any creature has a soft gentle smile, warm eyes, never scary. RENDER QUALITY: finish every surface; no melting or blank areas. TEXT-SAFE ZONE: keep the bottom ~18% calm (no key subject) for the word band.",
+  "scenes": [
+    {
+      "id": "cover",
+      "file": "cover.png",
+      "refs": [],
+      "prompt": "Scene: a bright, inviting cover for a Amharic alphabet book — a cheerful arrangement of a few fidel letters and friendly objects; warm ethiopia palette. Keep the top third clear for the title; no readable text in the art."
+    },
+    {
+      "id": "L02",
+      "file": "L02.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ለ / la → nut / Lewz): a small pile of nuts/almonds. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L04",
+      "file": "L04.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (መ / ma → car / Mekina): a friendly little car. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L07",
+      "file": "L07.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ሰ / sa → sky / Semay): a soft blue sky with gentle clouds. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L09",
+      "file": "L09.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ቀ / qa → giraffe / Qechine): a tall gentle giraffe. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L10",
+      "file": "L10.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (በ / ba → door / Ber): a friendly wooden door. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L11",
+      "file": "L11.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ተ / ta → mountain / Terara): a rounded green mountain. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L14",
+      "file": "L14.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ነ / na → leopard / Nebir): a gentle spotted leopard. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L16",
+      "file": "L16.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (አ / a → lion / Anbessa): a cuddly friendly lion with a soft mane. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L17",
+      "file": "L17.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ከ / ka → drum / Kebero): a traditional hand drum. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L19",
+      "file": "L19.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ወ / wa → chair / Wember): a small friendly chair. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L24",
+      "file": "L24.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ደ / da → cloud / Demena): a soft fluffy cloud. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L25",
+      "file": "L25.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ጀ / ja → boat / Jelba): a little boat on calm water. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L26",
+      "file": "L26.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ገ / ga → farmer / Gebere): a smiling farmer. Single clear subject, centered, soft background."
+    },
+    {
+      "id": "L32",
+      "file": "L32.png",
+      "refs": [],
+      "prompt": "ALPHABET PAGE (ፈ / fa → horse / Feres): a friendly horse. Single clear subject, centered, soft background."
+    }
+  ]
+}

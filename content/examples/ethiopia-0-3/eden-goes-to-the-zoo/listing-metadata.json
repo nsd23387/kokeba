@@ -2,19 +2,19 @@
   "book_id": "ethiopia-0-3-eden-zoo",
   "title": "Eden Goes to the Zoo",
   "subtitle": "A first-words Amharic & English story for ages 2-5",
-  "author": null,
-  "imprint": "Kokeba",
+  "author": "Kokeba Publishing",
+  "imprint": "Kokeba Publishing",
   "audience": "Ages 2-5 · Preschool",
   "age_range": "2-5",
   "grade_range": "Preschool",
-  "description_html": "<p><b>Eden Goes to the Zoo</b> is a warm, inclusive board book for ages 2-5 that pairs an everyday adventure with first words in Amharic.</p><p>Join Eden on a joyful trip to meet  — each page shares one Amharic word (in fidel script with a simple pronunciation) to read aloud together. A gentle, repetitive, call-and-response story made for the very youngest readers.</p><ul><li>Bilingual: English story + Amharic heritage words</li><li>Ages 2-5, designed for read-aloud</li><li>Celebrates Ethiopia heritage, inclusive of all families</li></ul>",
+  "description_html": "<p><b>Eden Goes to the Zoo</b> is a warm, inclusive picture book for ages 2-5 that pairs an everyday adventure with first words in Amharic.</p><p>Join Eden on a joyful trip to meet lion, elephant, monkey, giraffe, camel, hippo — each page shares one Amharic word (in fidel script with a simple pronunciation) to read aloud together. A gentle, repetitive, call-and-response story made for the very youngest readers.</p><ul><li>Bilingual: English story + Amharic heritage words</li><li>Ages 2-5, designed for read-aloud</li><li>Celebrates Ethiopia heritage, inclusive of all families</li></ul>",
   "keywords": [
     "Amharic for kids",
     "bilingual Amharic English book",
     "Ethiopia children's book",
     "African animals toddler book",
     "first words Amharic",
-    "diverse multicultural board book",
+    "diverse multicultural picture book",
     "zoo animals book for toddlers"
   ],
   "search_terms": [
@@ -41,7 +41,7 @@
       "Ethiopia children's book",
       "African animals toddler book",
       "first words Amharic",
-      "diverse multicultural board book",
+      "diverse multicultural picture book",
       "zoo animals book for toddlers"
     ],
     "long_tail": [
@@ -181,7 +181,7 @@
     "heritage language toddlers"
   ],
   "geo": {
-    "summary_for_ai": "Eden Goes to the Zoo is a bilingual English–Amharic picture book for children ages 2-5, from the Kokeba imprint. It teaches a few Amharic heritage words through a friendly  story and is aimed at Ethiopia families and the diaspora who want to share their heritage language with toddlers.",
+    "summary_for_ai": "Eden Goes to the Zoo is a bilingual English–Amharic picture book for children ages 2-5, from the Kokeba imprint. It teaches a few Amharic heritage words (lion, elephant, monkey, giraffe, camel, hippo) through a friendly zoo-animal story and is aimed at Ethiopia families and the diaspora who want to share their heritage language with toddlers.",
     "entities": [
       "Kokeba",
       "Eden Goes to the Zoo",
@@ -189,7 +189,12 @@
       "Amharic",
       "Ethiopia",
       "bilingual children's book",
-      "board book"
+      "picture book",
+      "lion",
+      "elephant",
+      "monkey",
+      "giraffe",
+      "camel"
     ],
     "attributes": {
       "language": [

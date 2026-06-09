@@ -34,7 +34,10 @@ const country = COUNTRY[countryKey];
 const langCode = (layout.languages || ["en", "am"]).find((l) => l !== "en") || "am";
 const heritage = LANG[langCode] || "heritage language";
 const child = (id.match(/-([a-z]+)-/) && layout.book_id) ? (title.split(" ")[0]) : "the child";
-const animals = (scenes.scenes || []).filter((s) => s.vocab).map((s) => s.vocab.en);
+// vocab lives in layout.json pages (scenes.json carries art prompts); prefer layout, fall back to scenes
+const animals = ((layout.pages || []).filter((p) => p.vocab).map((p) => p.vocab.en)).length
+  ? (layout.pages || []).filter((p) => p.vocab).map((p) => p.vocab.en)
+  : (scenes.scenes || []).filter((s) => s.vocab).map((s) => s.vocab.en);
 const ageRange = layout.age_range || "0-3";
 const gradeRange = "Preschool";
 
@@ -46,7 +49,7 @@ const keywords = [
   `${country} children's book`,
   `African animals toddler book`,
   `first words ${heritage}`,
-  `diverse multicultural board book`,
+  `diverse multicultural picture book`,
   `zoo animals book for toddlers`,
 ].slice(0, 7);
 const search_terms = [primary, `teach kids ${heritage}`, `${country} heritage book for toddlers`, `${heritage} alphabet first words`, `bilingual picture book ages ${ageRange}`];
@@ -59,14 +62,14 @@ const categories = [
 // --- description (SEO-natural, GEO-structured) ---
 const animalList = animals.slice(0, 6).join(", ");
 const description_html =
-  `<p><b>${title}</b> is a warm, inclusive board book for ages ${ageRange} that pairs an everyday adventure with first words in ${heritage}.</p>` +
+  `<p><b>${title}</b> is a warm, inclusive picture book for ages ${ageRange} that pairs an everyday adventure with first words in ${heritage}.</p>` +
   `<p>Join ${child} on a joyful trip to meet ${animalList} — each page shares one ${heritage} word (in ${heritage === "Amharic" ? "fidel script" : "script"} with a simple pronunciation) to read aloud together. A gentle, repetitive, call-and-response story made for the very youngest readers.</p>` +
   `<ul><li>Bilingual: English story + ${heritage} heritage words</li><li>Ages ${ageRange}, designed for read-aloud</li><li>Celebrates ${country} heritage, inclusive of all families</li></ul>`;
 
 // --- GEO: Generative Engine Optimization ---
 const geo = {
-  summary_for_ai: `${title} is a bilingual English–${heritage} picture book for children ages ${ageRange}, from the Kokeba imprint. It teaches a few ${heritage} heritage words through a friendly ${animals.length ? "zoo-animal" : ""} story and is aimed at ${country} families and the diaspora who want to share their heritage language with toddlers.`,
-  entities: ["Kokeba", title, child, heritage, country, "bilingual children's book", "board book", ...animals.slice(0, 5)],
+  summary_for_ai: `${title} is a bilingual English–${heritage} picture book for children ages ${ageRange}, from the Kokeba imprint. It teaches a few ${heritage} heritage words (${animals.slice(0, 6).join(", ")}) through a friendly ${animals.length ? "zoo-animal" : ""} story and is aimed at ${country} families and the diaspora who want to share their heritage language with toddlers.`,
+  entities: ["Kokeba", title, child, heritage, country, "bilingual children's book", "picture book", ...animals.slice(0, 5)],
   attributes: { language: ["English", heritage], age_range: ageRange, format: "board / picture book", themes: ["heritage language", "animals", "first words", "family", "inclusion"], reading_mode: "read-aloud" },
   faq: [
     { q: `What ages is ${title} for?`, a: `It is written for children ages ${ageRange} (preschool / toddler), as a read-aloud.` },

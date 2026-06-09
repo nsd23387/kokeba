@@ -1,0 +1,323 @@
+{
+  "book_id": "ethiopia-0-3-amharic-alphabet-book",
+  "trim": "8.5x8.5in",
+  "trim_shape": "square",
+  "bleed_in": 0.125,
+  "art_dir": "art",
+  "age_range": "2-5",
+  "script_font": "Noto Sans Ethiopic",
+  "languages": [
+    "en",
+    "am"
+  ],
+  "concept": "alphabet",
+  "template": {
+    "status": "scaffolded",
+    "type": "alphabet"
+  },
+  "pages": [
+    {
+      "page": "cover",
+      "image": "cover.png",
+      "title_en": "Amharic Alphabet Book",
+      "title_am": ""
+    },
+    {
+      "page": "intro",
+      "image": null,
+      "english": "Let's learn the Amharic fidel!\nOne letter at a time."
+    },
+    {
+      "page": "L01",
+      "fidel": "ሀ",
+      "sound": "ha",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L02",
+      "fidel": "ለ",
+      "sound": "la",
+      "image": "L02.png",
+      "example": {
+        "am": "ለውዝ",
+        "translit": "Lewz",
+        "en": "nut"
+      }
+    },
+    {
+      "page": "L03",
+      "fidel": "ሐ",
+      "sound": "ḥa",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L04",
+      "fidel": "መ",
+      "sound": "ma",
+      "image": "L04.png",
+      "example": {
+        "am": "መኪና",
+        "translit": "Mekina",
+        "en": "car"
+      }
+    },
+    {
+      "page": "L05",
+      "fidel": "ሠ",
+      "sound": "śa",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L06",
+      "fidel": "ረ",
+      "sound": "ra",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L07",
+      "fidel": "ሰ",
+      "sound": "sa",
+      "image": "L07.png",
+      "example": {
+        "am": "ሰማይ",
+        "translit": "Semay",
+        "en": "sky"
+      }
+    },
+    {
+      "page": "L08",
+      "fidel": "ሸ",
+      "sound": "sha",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L09",
+      "fidel": "ቀ",
+      "sound": "qa",
+      "image": "L09.png",
+      "example": {
+        "am": "ቀጭኔ",
+        "translit": "Qechine",
+        "en": "giraffe"
+      }
+    },
+    {
+      "page": "L10",
+      "fidel": "በ",
+      "sound": "ba",
+      "image": "L10.png",
+      "example": {
+        "am": "በር",
+        "translit": "Ber",
+        "en": "door"
+      }
+    },
+    {
+      "page": "L11",
+      "fidel": "ተ",
+      "sound": "ta",
+      "image": "L11.png",
+      "example": {
+        "am": "ተራራ",
+        "translit": "Terara",
+        "en": "mountain"
+      }
+    },
+    {
+      "page": "L12",
+      "fidel": "ቸ",
+      "sound": "cha",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L13",
+      "fidel": "ኀ",
+      "sound": "ḫa",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L14",
+      "fidel": "ነ",
+      "sound": "na",
+      "image": "L14.png",
+      "example": {
+        "am": "ነብር",
+        "translit": "Nebir",
+        "en": "leopard"
+      }
+    },
+    {
+      "page": "L15",
+      "fidel": "ኘ",
+      "sound": "ña",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L16",
+      "fidel": "አ",
+      "sound": "a",
+      "image": "L16.png",
+      "example": {
+        "am": "አንበሳ",
+        "translit": "Anbessa",
+        "en": "lion"
+      }
+    },
+    {
+      "page": "L17",
+      "fidel": "ከ",
+      "sound": "ka",
+      "image": "L17.png",
+      "example": {
+        "am": "ከበሮ",
+        "translit": "Kebero",
+        "en": "drum"
+      }
+    },
+    {
+      "page": "L18",
+      "fidel": "ኸ",
+      "sound": "kha",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L19",
+      "fidel": "ወ",
+      "sound": "wa",
+      "image": "L19.png",
+      "example": {
+        "am": "ወንበር",
+        "translit": "Wember",
+        "en": "chair"
+      }
+    },
+    {
+      "page": "L20",
+      "fidel": "ዐ",
+      "sound": "ʿa",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L21",
+      "fidel": "ዘ",
+      "sound": "za",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L22",
+      "fidel": "ዠ",
+      "sound": "zha",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L23",
+      "fidel": "የ",
+      "sound": "ya",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L24",
+      "fidel": "ደ",
+      "sound": "da",
+      "image": "L24.png",
+      "example": {
+        "am": "ደመና",
+        "translit": "Demena",
+        "en": "cloud"
+      }
+    },
+    {
+      "page": "L25",
+      "fidel": "ጀ",
+      "sound": "ja",
+      "image": "L25.png",
+      "example": {
+        "am": "ጀልባ",
+        "translit": "Jelba",
+        "en": "boat"
+      }
+    },
+    {
+      "page": "L26",
+      "fidel": "ገ",
+      "sound": "ga",
+      "image": "L26.png",
+      "example": {
+        "am": "ገበሬ",
+        "translit": "Gebere",
+        "en": "farmer"
+      }
+    },
+    {
+      "page": "L27",
+      "fidel": "ጠ",
+      "sound": "ṭa",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L28",
+      "fidel": "ጨ",
+      "sound": "ch'a",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L29",
+      "fidel": "ጰ",
+      "sound": "p'a",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L30",
+      "fidel": "ጸ",
+      "sound": "ṣa",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L31",
+      "fidel": "ፀ",
+      "sound": "ṣ'a",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "L32",
+      "fidel": "ፈ",
+      "sound": "fa",
+      "image": "L32.png",
+      "example": {
+        "am": "ፈረስ",
+        "translit": "Feres",
+        "en": "horse"
+      }
+    },
+    {
+      "page": "L33",
+      "fidel": "ፐ",
+      "sound": "pa",
+      "image": null,
+      "example": null
+    },
+    {
+      "page": "end",
+      "image": null,
+      "english": "Kokeba — A story for every little star."
+    }
+  ]
+}

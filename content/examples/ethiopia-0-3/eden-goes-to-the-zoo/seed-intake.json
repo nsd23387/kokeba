@@ -11,15 +11,16 @@
   "theme": "Alphabet / fidel",
   "target_keyword": "amharic alphabet",
   "market_rationale": {
-    "opportunity_score": 69,
+    "opportunity_score": 73,
     "demand": 1608,
-    "competition": 349,
-    "competition_level": "low",
-    "demand_competition_ratio": 4.6,
+    "competition": 185,
+    "competition_level": "very low",
+    "demand_competition_ratio": 8.7,
     "data_source": "live (DataForSEO · Amazon)"
   },
-  "scaffold_ready": false,
-  "next_step": "Concept \"alphabet\" needs a alphabet-specific page template (not yet in the engine) — brief captured for the author/illustrator.",
+  "scaffold_ready": true,
+  "scaffold_kind": "alphabet",
+  "next_step": "node scripts/new-title/scaffold-alphabet.mjs seed-intake.json content/<group>  (uses content/packs/alphabet/am.json — have a native reviewer complete the example words first)",
   "author": "",
   "reviewer_name": ""
 }
