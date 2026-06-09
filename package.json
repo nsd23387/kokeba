@@ -23,6 +23,7 @@
     "validate:topic": "node scripts/market/validate-topic.mjs",
     "scout": "node scripts/market/scout-opportunities.mjs",
     "scaffold:alphabet": "node scripts/new-title/scaffold-alphabet.mjs",
+    "site": "node scripts/site/build-site.mjs",
     "finalize": "node scripts/finalize.mjs",
     "export:pdf": "node scripts/export/build-pdf.mjs",
     "api": "node apps/api/src/server.mjs",

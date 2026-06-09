@@ -240,7 +240,7 @@ a{color:var(--navy)}.muted{color:#7d7a6c}.small{font-size:13px}.stars{color:var(
 @media(max-width:640px){.hero .wrap,.book-grid{flex-direction:column}.book-cover{flex-basis:auto;max-width:320px}}`;
 
 // ---- build -------------------------------------------------------------------
-fs.rmSync(OUT, { recursive: true, force: true });
+try { fs.rmSync(OUT, { recursive: true, force: true }); } catch (e) { console.warn(`note: could not fully clean ${path.relative(ROOT, OUT)} (${e.code}); building over existing files.`); }
 fs.mkdirSync(OUT, { recursive: true });
 
 const books = findBooks(path.join(ROOT, "content")).map(loadBook).sort((a, b) => a.order - b.order);
