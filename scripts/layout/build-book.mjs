@@ -75,7 +75,7 @@ function titlePage() {
     <div class="fm-title">${esc(c.title_en || L.book_id)}</div>
     ${c.title_am ? `<div class="fm-title-am">${esc(c.title_am)}</div>` : ""}
     ${pub.author ? `<div class="fm-by">by ${esc(pub.author)}</div>` : ""}
-    <div class="fm-imprint">${esc(pub.imprint || "")}</div></div>`;
+    ${pub.imprint && pub.imprint !== pub.author ? `<div class="fm-imprint">${esc(pub.imprint)}</div>` : ""}</div>`;
 }
 function copyrightPage() {
   const holder = pub.copyright_holder || pub.author || pub.imprint || "the publisher";
