@@ -22,6 +22,7 @@
     "narrate": "node scripts/audio/build-narration.mjs",
     "validate:topic": "node scripts/market/validate-topic.mjs",
     "scout": "node scripts/market/scout-opportunities.mjs",
+    "scaffold:alphabet": "node scripts/new-title/scaffold-alphabet.mjs",
     "finalize": "node scripts/finalize.mjs",
     "export:pdf": "node scripts/export/build-pdf.mjs",
     "api": "node apps/api/src/server.mjs",

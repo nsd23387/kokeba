@@ -123,6 +123,43 @@ out.recommendations = out.recommendations.map((r, i) => ({
   competition_level: r.competition_level, demand_competition_ratio: r.ratio, best_keyword: r.best_keyword,
 }));
 
+// --seed [rank|concept] — turn the chosen recommendation into a pipeline-ready intake brief
+if (has("--seed")) {
+  if (out.mode === "language") {
+    console.error("--seed works on a THEME scan (a concrete next book), not a language scan. Run without --languages.");
+  } else {
+    const pick = flag("--seed");
+    let rec;
+    if (!pick || pick.startsWith("--")) rec = out.recommendations[0];
+    else if (/^\d+$/.test(pick)) rec = out.recommendations[Number(pick) - 1];
+    else rec = out.recommendations.find((r) => r.concept === pick || r.theme.toLowerCase().includes(pick.toLowerCase())) || out.recommendations[0];
+
+    const langCode = { amharic: "am", swahili: "sw", hausa: "ha", yoruba: "yo", somali: "so", tigrinya: "ti", oromo: "om" }[(out.heritage || heritage).toLowerCase()] || "am";
+    const JOURNEY = new Set(["animals", "first-words", "bilingual"]); // the journey/zoo scaffold
+    const scaffolder = rec.concept === "alphabet" ? "alphabet" : (JOURNEY.has(rec.concept) ? "journey" : null);
+    const ready = scaffolder != null;
+    const slug = rec.proposed_title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const nextStep = scaffolder === "alphabet"
+      ? `node scripts/new-title/scaffold-alphabet.mjs seed-intake.json content/<group>  (uses content/packs/alphabet/${langCode}.json — have a native reviewer complete the example words first)`
+      : scaffolder === "journey"
+        ? `Fill child_name + animals:[{en,am,translit}], then: node scripts/new-title/scaffold.mjs seed-intake.json content/<group>`
+        : `Concept "${rec.concept}" needs a ${rec.concept}-specific page template (not yet in the engine) — brief captured for the author/illustrator.`;
+    const intake = {
+      book_id: `${(out.country || country || "country")}-0-3-${slug}`.toLowerCase().replace(/[^a-z0-9-]/g, ""),
+      title_en: rec.proposed_title, title_am: "",
+      country: out.country || country || "", language: langCode, age_range: "2-5",
+      child_name: "", setting: scaffolder === "journey" ? "zoo" : undefined, animals: [],
+      concept: rec.concept, theme: rec.theme, target_keyword: rec.best_keyword,
+      market_rationale: { opportunity_score: rec.opportunity_score, demand: rec.demand, competition: rec.competition, competition_level: rec.competition_level, demand_competition_ratio: rec.demand_competition_ratio, data_source: out.data_source },
+      scaffold_ready: ready, scaffold_kind: scaffolder, next_step: nextStep,
+      author: "", reviewer_name: "",
+    };
+    const seedDest = bookDir ? path.resolve(bookDir, "seed-intake.json") : path.resolve(process.cwd(), "seed-intake.json");
+    fs.writeFileSync(seedDest, JSON.stringify(intake, null, 2));
+    out.seeded = { proposed_title: rec.proposed_title, concept: rec.concept, scaffold_ready: ready, scaffold_kind: scaffolder, file: path.basename(seedDest) };
+  }
+}
+
 const dest = bookDir ? path.resolve(bookDir, "market-opportunities.json") : path.resolve(process.cwd(), "market-opportunities.json");
 fs.writeFileSync(dest, JSON.stringify(out, null, 2));
 
@@ -133,5 +170,6 @@ else {
     const bits = [`demand ${r.demand ?? "—"}`, `competition ${r.competition ?? "—"} (${r.competition_level})`, r.demand_competition_ratio != null ? `ratio ${r.demand_competition_ratio}` : ""].filter(Boolean).join(" · ");
     console.log(`  ${r.rank}. [${r.opportunity_score}] ${r.proposed_title}  —  ${bits}`);
   });
+  if (out.seeded) console.log(`  ★ seeded "${out.seeded.proposed_title}" → ${out.seeded.file}${out.seeded.scaffold_kind === "alphabet" ? " (alphabet scaffold-ready)" : out.seeded.scaffold_kind === "journey" ? " (scaffold-ready: add child + animals)" : ` (needs a ${out.seeded.concept} template)`}`);
   console.log(`  → wrote ${path.basename(dest)}`);
 }

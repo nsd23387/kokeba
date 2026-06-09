@@ -105,10 +105,25 @@ function recapPage(p) {
     <table class="r-table"><thead><tr><th>English</th><th>Pronunciation</th><th>Amharic</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
+// Alphabet/fidel letter page — left: big fidel + sound; right: example image + word band.
+function letterLeft(p) {
+  return `<div class="page L letter-L"><div class="fidel-big">${esc(p.fidel)}</div>
+    <div class="fidel-sound">${esc(p.sound || "")}</div>
+    ${p.example ? `<div class="fidel-for">is for ${esc(p.example.en)}</div>` : ""}</div>`;
+}
+function letterRight(p) {
+  const band = p.example ? `<div class="band"><div class="word">${esc(p.example.am)}</div>
+    <div class="translit">${esc(p.example.translit)}</div><div class="gloss">${esc(p.example.en)}</div></div>` : "";
+  return `<div class="page R">${imgTag(p.image, p.example ? p.example.en : p.fidel)}${band}</div>`;
+}
+function letterSpread(p) { return `<div class="spread">${letterLeft(p)}<div class="spine"></div>${letterRight(p)}</div>`; }
+
 const blocks = [];
 for (const p of L.pages) {
   if (p.page === "cover") { blocks.push(coverPage(p)); if (pub) { blocks.push(titlePage()); blocks.push(copyrightPage()); } }
   else if (p.page === "dedication") blocks.push(centeredPage(p, "ded"));
+  else if (p.page === "intro") blocks.push(centeredPage(p, "intro"));
+  else if (p.fidel) blocks.push(letterSpread(p));
   else if (p.page === "recap") blocks.push(recapPage(p));
   else if (p.page === "end") { if (pub && pub.about) blocks.push(aboutPage()); blocks.push(centeredPage(p, "end")); }
   else blocks.push(spread(p));
@@ -138,6 +153,10 @@ body{background:#EDE6D4;font-family:'Fraunces',Georgia,serif;color:var(--navy);p
 .translit{color:var(--gold);font-style:italic;font-size:clamp(12px,1.4vw,17px)}
 .gloss{color:#8A8676;font-size:clamp(11px,1.2vw,15px)}
 .centered{font-size:clamp(18px,2.4vw,26px);font-weight:500;text-align:center;line-height:1.5}
+.letter-L{gap:2px}
+.fidel-big{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:var(--navy);font-size:clamp(96px,17vw,190px);line-height:1}
+.fidel-sound{color:var(--gold);font-style:italic;font-size:clamp(20px,3vw,34px);margin-top:8px}
+.fidel-for{color:#8A8676;font-size:clamp(13px,1.6vw,18px);margin-top:14px}
 .fm{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9%;gap:8px}
 .fm-title{font-size:clamp(22px,3.2vw,34px);font-weight:500;color:#222B6D}
 .fm-title-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#9A7D1E;font-size:clamp(16px,2.2vw,24px)}
@@ -179,6 +198,8 @@ if (process.argv.includes("--single")) {
   for (const p of L.pages) {
     if (p.page === "cover") { if (pub) { sheets.push(`<div class="sheet">${titlePage()}</div>`); sheets.push(`<div class="sheet">${copyrightPage()}</div>`); } continue; }
     if (p.page === "dedication") { sheets.push(`<div class="sheet">${centeredPage(p, "ded")}</div>`); continue; }
+    if (p.page === "intro") { sheets.push(`<div class="sheet">${centeredPage(p, "intro")}</div>`); continue; }
+    if (p.fidel) { sheets.push(`<div class="sheet">${letterLeft(p)}</div>`); sheets.push(`<div class="sheet">${letterRight(p)}</div>`); continue; }
     if (p.page === "recap") { sheets.push(`<div class="sheet">${recapPage(p)}</div>`); continue; }
     if (p.page === "end") { if (pub && pub.about) sheets.push(`<div class="sheet">${aboutPage()}</div>`); sheets.push(`<div class="sheet">${centeredPage(p, "end")}</div>`); continue; }
     sheets.push(`<div class="sheet">${textPage(p)}</div>`);   // left page (story)
@@ -201,6 +222,10 @@ if (process.argv.includes("--single")) {
 .word{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;font-size:48px;line-height:1}
 .translit{color:#C9A227;font-style:italic;font-size:24px}.gloss{color:#8A8676;font-size:20px}
 .centered{font-size:30px;font-weight:500;text-align:center;line-height:1.5}.single{display:flex;align-items:center;justify-content:center;padding:9%}
+.letter-L{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9%}
+.fidel-big{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#222B6D;font-size:240px;line-height:1}
+.fidel-sound{color:#C9A227;font-style:italic;font-size:42px;margin-top:10px}
+.fidel-for{color:#8A8676;font-size:22px;margin-top:18px}
 .fm{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9%;gap:10px}
 .fm-title{font-size:38px;font-weight:500;color:#222B6D}.fm-title-am{font-family:'Noto Sans Ethiopic',serif;font-weight:700;color:#9A7D1E;font-size:26px}
 .fm-by{color:#6B6F86;font-style:italic}.fm-imprint{margin-top:16px;color:#C9A227;font-weight:500}

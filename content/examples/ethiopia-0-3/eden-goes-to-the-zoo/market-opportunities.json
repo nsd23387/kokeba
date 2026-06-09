@@ -3,7 +3,7 @@
   "heritage": "Amharic",
   "country": "ethiopia",
   "location": "United States",
-  "generated_at": "2026-06-08T21:15:48.097Z",
+  "generated_at": "2026-06-08T21:27:10.216Z",
   "data_source": "live (DataForSEO · Amazon)",
   "recommendations": [
     {
@@ -13,9 +13,9 @@
       "proposed_title": "Amharic Alphabet Book",
       "opportunity_score": 69,
       "demand": 1608,
-      "competition": 335,
+      "competition": 349,
       "competition_level": "low",
-      "demand_competition_ratio": 4.8,
+      "demand_competition_ratio": 4.6,
       "best_keyword": "amharic alphabet"
     },
     {
@@ -49,7 +49,7 @@
       "proposed_title": "Amharic–English Bilingual Story",
       "opportunity_score": 50,
       "demand": 935,
-      "competition": 47943,
+      "competition": 48142,
       "competition_level": "high",
       "demand_competition_ratio": 0,
       "best_keyword": "bilingual books for kids"
@@ -126,5 +126,11 @@
       "demand_competition_ratio": null,
       "best_keyword": "amharic body parts"
     }
-  ]
+  ],
+  "seeded": {
+    "proposed_title": "Amharic Alphabet Book",
+    "concept": "alphabet",
+    "scaffold_ready": false,
+    "file": "seed-intake.json"
+  }
 }
