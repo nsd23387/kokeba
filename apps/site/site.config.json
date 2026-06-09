@@ -12,7 +12,12 @@
   },
   "newsletter": {
     "action": "",
-    "note": "To make the form live, set newsletter.action to a Formspree/Mailchimp/Buttondown form endpoint. Empty = button shows a 'connect a provider' note."
+    "note": "Prefer the hubspot block below. Or set newsletter.action to a Formspree/Mailchimp endpoint. Empty + no HubSpot = button shows a 'connect a provider' note."
+  },
+  "hubspot": {
+    "portal_id": "246445754",
+    "newsletter_form_guid": "36ed9e83-6c39-48a0-bc6a-890fb439c96b",
+    "note": "Create a HubSpot form (Marketing > Forms), then paste its form GUID here. portal_id + form GUID are public values (safe in a static site). When both are set, the site posts signups straight into HubSpot."
   },
   "books": {
     "ethiopia-0-3-eden-zoo": { "status": "available", "amazon_url": "#REPLACE-WITH-AMAZON-URL", "featured": true, "order": 1 },

@@ -101,14 +101,18 @@ const footer = () => `<footer class="footer"><div class="stars">&#9733;</div>
 <p>${esc(B.name)} — ${esc(B.tagline)}.</p>
 <p class="muted">&copy; ${new Date().getFullYear()} ${esc(B.legal_name)}. Books created with AI assistance.</p></footer>`;
 
+const hs = cfg.hubspot || {};
+const hsReady = !!(hs.portal_id && hs.newsletter_form_guid);
 const newsletter = () => `<section class="newsletter" id="newsletter"><div class="wrap-narrow">
 <h2>Get the next story first</h2>
 <p>New Kokeba books, in your child's heritage language. No spam.</p>
-<form class="nl-form" ${cfg.newsletter.action ? `action="${esc(cfg.newsletter.action)}" method="POST"` : 'onsubmit="return false"'}>
+<form class="nl-form" id="nl-form" ${hsReady ? "" : cfg.newsletter.action ? `action="${esc(cfg.newsletter.action)}" method="POST"` : 'onsubmit="return false"'}>
 <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
 <button type="submit">Notify me</button>
 </form>
-${cfg.newsletter.action ? "" : '<p class="muted small">Newsletter not connected yet — set <code>newsletter.action</code> in site.config.json to a form provider.</p>'}
+<p class="muted small" id="nl-msg" style="display:none">Thanks — you're on the list! &#9733;</p>
+${hsReady ? "" : cfg.newsletter.action ? "" : '<p class="muted small">Newsletter not connected yet — add a HubSpot form GUID (or <code>newsletter.action</code>) in site.config.json.</p>'}
+${hsReady ? `<script>(function(){var f=document.getElementById('nl-form');if(!f||f.dataset.b)return;f.dataset.b=1;f.addEventListener('submit',function(e){e.preventDefault();var em=f.email.value;fetch('https://api.hsforms.com/submissions/v3/integration/submit/${hs.portal_id}/${hs.newsletter_form_guid}',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({fields:[{name:'email',value:em}],context:{pageUri:location.href,pageName:document.title}})}).then(function(r){return r.json()}).then(function(){f.style.display='none';var m=document.getElementById('nl-msg');if(m)m.style.display='block';}).catch(function(){alert('Something went wrong — please try again.');});});})();</script>` : ""}
 </div></section>`;
 
 function buyButton(b) {
