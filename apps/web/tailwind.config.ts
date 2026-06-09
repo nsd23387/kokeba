@@ -15,7 +15,7 @@ const config: Config = {
         muted: "#6B6F86",
       },
       fontFamily: {
-        story: ["Fraunces", "Georgia", "serif"],
+        story: ["Lora", "Georgia", "serif"],
         fidel: ["'Noto Sans Ethiopic'", "serif"],
       },
     },

@@ -79,15 +79,15 @@ const wrapW = (2 * bleed + 2 * trimW + spine).toFixed(3);
 const wrapH = (2 * bleed + trimH).toFixed(3);
 const coverImg = cover && fs.existsSync(path.join(abs, artDir, cover.image)) ? renderAsset(`${artDir}/${cover.image}`) : null;
 const wrapHtml = `<!DOCTYPE html><html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Noto+Sans+Ethiopic:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Noto+Sans+Ethiopic:wght@700&display=swap" rel="stylesheet">
 <style>@page{size:${wrapW}${unit} ${wrapH}${unit};margin:0}*{margin:0;box-sizing:border-box}
 .wrap{display:flex;width:${wrapW}${unit};height:${wrapH}${unit}}
-.back{width:${(bleed + trimW).toFixed(3)}${unit};height:100%;background:#FBF7EC;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8%;text-align:center;color:#222B6D;font-family:'Fraunces',serif}
+.back{width:${(bleed + trimW).toFixed(3)}${unit};height:100%;background:#FBF7EC;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8%;text-align:center;color:#222B6D;font-family:'Lora',serif}
 .spine{width:${spine.toFixed(3)}${unit};height:100%;background:#222B6D}
 .front{width:${(bleed + trimW).toFixed(3)}${unit};height:100%;position:relative;overflow:hidden;background:#FFFDF7}
 .front img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .title{position:absolute;left:8%;right:8%;top:6%;text-align:center;background:rgba(255,253,247,.9);border:1px solid rgba(201,162,39,.6);border-radius:14px;padding:10px}
-.t-en{color:#222B6D;font-family:'Fraunces',serif;font-weight:500;font-size:26px}.t-am{font-family:'Noto Sans Ethiopic',serif;color:#9A7D1E;font-weight:700;font-size:18px;margin-top:4px}
+.t-en{color:#222B6D;font-family:'Lora',serif;font-weight:500;font-size:26px}.t-am{font-family:'Noto Sans Ethiopic',serif;color:#9A7D1E;font-weight:700;font-size:18px;margin-top:4px}
 .star{color:#C9A227;font-size:20px}.blurb{font-size:13px;color:#6b6f86;margin-top:10px}
 </style></head><body><div class="wrap">
 <div class="back"><div class="star">★</div><div style="font-weight:500;font-size:18px;margin-top:6px">Kokeba</div><div class="blurb">A story for every little star.</div></div>

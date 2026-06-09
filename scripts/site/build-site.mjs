@@ -89,7 +89,7 @@ ${img ? `<meta property="og:image" content="${esc(img)}">` : ""}
 <meta name="twitter:description" content="${esc(description)}">
 ${img ? `<meta name="twitter:image" content="${esc(img)}">` : ""}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,0,600;9..144,1,500&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..600&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}`;
 }
@@ -202,7 +202,7 @@ ${newsletter()}`;
 // ---- CSS ---------------------------------------------------------------------
 const css = `:root{--navy:${B.palette.navy};--gold:${B.palette.gold};--page:${B.palette.page};--sage:${B.palette.sage};--cream:${B.palette.cream}}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Fraunces',Georgia,serif;color:var(--navy);background:var(--page);line-height:1.6}
+body{font-family:'Lora',Georgia,serif;color:var(--navy);background:var(--page);line-height:1.6}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}.wrap-narrow{max-width:720px;margin:0 auto;padding:0 24px}
 a{color:var(--navy)}.muted{color:#7d7a6c}.small{font-size:13px}.stars{color:var(--gold)}
 .nav{display:flex;align-items:center;justify-content:space-between;max-width:1080px;margin:0 auto;padding:18px 24px}

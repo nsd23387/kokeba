@@ -132,11 +132,11 @@ for (const p of L.pages) {
 const html = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <title>${esc((L.pages.find((p) => p.page === "cover") || {}).title_en || L.book_id)}</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,1,500&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..600&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
 <style>
 :root{--navy:#222B6D;--gold:#C9A227;--page:#FFFDF7;--sage:#A7B59A;}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#EDE6D4;font-family:'Fraunces',Georgia,serif;color:var(--navy);padding:32px;display:flex;flex-direction:column;align-items:center;gap:26px}
+body{background:#EDE6D4;font-family:'Lora',Georgia,serif;color:var(--navy);padding:32px;display:flex;flex-direction:column;align-items:center;gap:26px;font-feature-settings:"liga" 0,"dlig" 0,"clig" 0,"calt" 0}
 .spread{display:flex;align-items:stretch;gap:10px;background:#C9BFA6;padding:10px;border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.16);width:100%;max-width:1060px}
 .single{position:relative;overflow:hidden;background:var(--page);border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.16);width:100%;max-width:560px;aspect-ratio:1/1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9%}
 .page{background:var(--page);border-radius:8px;width:50%;aspect-ratio:1/1;position:relative;overflow:hidden}
@@ -207,10 +207,10 @@ if (process.argv.includes("--single")) {
   }
   const printHtml = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,400;9..144,0,500;9..144,1,500&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..600&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
 <style>
 @page{size:${W}in ${H}in;margin:0}
-*{box-sizing:border-box;margin:0}body{font-family:'Fraunces',Georgia,serif;color:#222B6D}
+*{box-sizing:border-box;margin:0}body{font-family:'Lora',Georgia,serif;color:#222B6D;font-feature-settings:"liga" 0,"dlig" 0,"clig" 0,"calt" 0}
 .sheet{width:${W}in;height:${H}in;page-break-after:always;overflow:hidden;position:relative;background:#FFFDF7}
 .sheet .page,.sheet .single{width:100%!important;height:100%!important;aspect-ratio:auto!important;border-radius:0!important;box-shadow:none!important}
 .L{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:9%;text-align:center}
