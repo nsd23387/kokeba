@@ -1,0 +1,22 @@
+{
+  "_note": "Kokeba marketing site config. The generator (scripts/site/build-site.mjs) reads every book under content/ and renders one landing page each. Set per-book status + amazon_url here; everything else comes from the book's own data.",
+  "brand": {
+    "name": "Kokeba",
+    "legal_name": "Kokeba Publishing",
+    "tagline": "A story for every little star",
+    "description": "Kokeba makes warm, inclusive first books that carry a child's heritage language. Each story pairs an everyday adventure with a few heritage-language words to read aloud together.",
+    "base_url": "https://kokeba.example.com",
+    "email": "hello@kokeba.example.com",
+    "palette": { "navy": "#222B6D", "gold": "#C9A227", "page": "#FFFDF7", "sage": "#A7B59A", "cream": "#EDE6D4" },
+    "social": { "instagram": "", "tiktok": "", "facebook": "" }
+  },
+  "newsletter": {
+    "action": "",
+    "note": "To make the form live, set newsletter.action to a Formspree/Mailchimp/Buttondown form endpoint. Empty = button shows a 'connect a provider' note."
+  },
+  "books": {
+    "ethiopia-0-3-eden-zoo": { "status": "available", "amazon_url": "#REPLACE-WITH-AMAZON-URL", "featured": true, "order": 1 },
+    "ethiopia-0-3-amharic-alphabet-book": { "status": "coming_soon", "order": 2 },
+    "kenya-0-3-zuri-safari-park": { "status": "in_production", "order": 3 }
+  }
+}
