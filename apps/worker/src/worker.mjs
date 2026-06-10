@@ -116,14 +116,17 @@ const ADAPTERS = {
   export:       async (job) => {
     const book = await get(`/api/books/${job.bookId}`).then((r) => r.book);
     if (book?.dir) {
-      // Proof Reader gate — block export if any text would be clipped at the trim/safe line.
-      let pr;
-      try { pr = execFileSync("node", ["scripts/proofread/check-proof.mjs", book.dir, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 8 * 1024 * 1024 }).toString(); }
-      catch (e) { pr = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1}}'; }
-      let prRep; try { prRep = JSON.parse(pr); } catch { prRep = { ok: false, counts: { fail: -1 } }; }
-      try { await post(`/api/books/${job.bookId}/proof`, prRep); } catch {}
-      if (prRep.counts && prRep.counts.fail !== 0) {
-        return [`BLOCKED: Proof Reader found ${prRep.counts.fail} text element(s) inside the trim/safe margin — fix layout, then re-export`];
+      // Proof Reader gate #1 (pre-export, LAYOUT) — block if any text would be clipped at the trim/safe line.
+      const runProof = (mode) => {
+        let pr;
+        try { pr = execFileSync("node", ["scripts/proofread/check-proof.mjs", book.dir, mode, "--json"], { cwd: REPO_ROOT, env: process.env, maxBuffer: 8 * 1024 * 1024 }).toString(); }
+        catch (e) { pr = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1}}'; }
+        try { return JSON.parse(pr); } catch { return { ok: false, counts: { fail: -1 } }; }
+      };
+      const layout = runProof("--layout-only");
+      try { await post(`/api/books/${job.bookId}/proof`, layout); } catch {}
+      if (layout.counts && layout.counts.fail !== 0) {
+        return [`BLOCKED: Proof Reader found ${layout.counts.fail} text element(s) inside the trim/safe margin — fix layout, then re-export`];
       }
       execFileSync("node", ["scripts/export/build-pdf.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" });
       let v;
@@ -131,8 +134,15 @@ const ADAPTERS = {
       catch (e) { v = e.stdout ? e.stdout.toString() : '{"ok":false,"counts":{"fail":-1}}'; }
       try { await post(`/api/books/${job.bookId}/pdfcheck`, JSON.parse(v)); } catch {}
       try { execFileSync("node", ["scripts/ebook/build-epub-fxl.mjs", book.dir], { cwd: REPO_ROOT, stdio: "inherit" }); } catch (e) { console.error("epub:", e.message); }
+      // Proof Reader gate #2 (post-export, DELIVERABLES) — block if the shipped EPUB/cover lost their text
+      // (image-only eBook, or a cover built from the bare illustration without the title).
+      const deliv = runProof("--deliverables-only");
+      try { await post(`/api/books/${job.bookId}/proof`, deliv); } catch {}
+      if (deliv.counts && deliv.counts.fail !== 0) {
+        return [`BLOCKED: Proof Reader found ${deliv.counts.fail} deliverable defect(s) — the shipped EPUB or cover is missing its text (image-only / titleless cover). See proof-report.json; rebuild and re-export.`];
+      }
     }
-    return ["exported interior.pdf + cover.pdf", "validated PDFs against KDP", "built fixed-layout book.epub"];
+    return ["exported interior.pdf + cover.pdf", "validated PDFs against KDP", "built fixed-layout book.epub", "Proof Reader: layout + deliverables clean"];
   },
 };
 

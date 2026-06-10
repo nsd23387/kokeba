@@ -18,7 +18,8 @@ import { randomUUID } from "node:crypto";
 const bookDir = process.argv[2];
 if (!bookDir) { console.error("Usage: node scripts/ebook/build-epub-fxl.mjs <book-dir> [--dpi 200] [--cover <jpg>]"); process.exit(2); }
 const abs = path.resolve(bookDir);
-const dpi = (() => { const i = process.argv.indexOf("--dpi"); return i >= 0 ? parseInt(process.argv[i + 1], 10) : 200; })();
+const dpi = (() => { const i = process.argv.indexOf("--dpi"); return i >= 0 ? parseInt(process.argv[i + 1], 10) : 300; })();
+const quality = (() => { const i = process.argv.indexOf("--quality"); return i >= 0 ? parseInt(process.argv[i + 1], 10) : 92; })();
 const coverArg = (() => { const i = process.argv.indexOf("--cover"); return i >= 0 ? process.argv[i + 1] : null; })();
 
 const L = JSON.parse(fs.readFileSync(path.join(abs, "layout.json"), "utf8"));
@@ -66,7 +67,7 @@ fs.mkdirSync(path.join(root, "META-INF"), { recursive: true });
 
 const stem = path.join(IMG, "pg");
 execFileSync("pdftoppm", [
-  "-jpeg", "-jpegopt", "quality=86,progressive=y",
+  "-jpeg", "-jpegopt", `quality=${quality},progressive=y`,
   "-r", String(dpi),
   "-x", String(cropX), "-y", String(cropY), "-W", String(cropW), "-H", String(cropH),
   interior, stem,
@@ -77,10 +78,37 @@ let pageFiles = fs.readdirSync(IMG).filter((f) => /^pg-?\d+\.jpg$/.test(f))
   .sort((a, b) => (parseInt(a.match(/\d+/)[0], 10) - parseInt(b.match(/\d+/)[0], 10)));
 if (!pageFiles.length) { console.error("pdftoppm produced no pages"); process.exit(1); }
 
-// --- optional cover as page 0 ---
-const coverSrc = coverArg
-  ? path.resolve(coverArg)
-  : (fs.existsSync(path.join(abs, `${title} - kindle-cover.jpg`)) ? path.join(abs, `${title} - kindle-cover.jpg`) : null);
+// --- cover as page 0 ---
+// Derive the eBook/marketing cover from the COMPOSED cover.pdf's FRONT panel (which carries the
+// title text), NOT from the bare art — at high resolution so the title is crisp. This mirrors how
+// the interior pages come from interior.pdf, and guarantees a titled, hi-res cover every build.
+const coverDpi = (() => { const i = process.argv.indexOf("--cover-dpi"); return i >= 0 ? parseInt(process.argv[i + 1], 10) : 400; })();
+const kindleCoverPath = path.join(abs, `${title} - kindle-cover.jpg`);
+
+function deriveCoverFromWrap() {
+  const coverPdf = path.join(abs, "cover.pdf");
+  if (!fs.existsSync(coverPdf)) return null;
+  let info = ""; try { info = execFileSync("pdfinfo", [coverPdf]).toString(); } catch { return null; }
+  const ps = info.match(/Page size:\s+([\d.]+)\s+x\s+([\d.]+)/); if (!ps) return null;
+  const totalWin = +ps[1] / 72;                                   // full wrap width in inches
+  const spineIn = (L.spine_in != null) ? L.spine_in : Math.max(0, totalWin - 2 * bleed - 2 * trimW);
+  const frontXin = bleed + trimW + spineIn;                       // left edge of the front trim
+  const stem = path.join(os.tmpdir(), `kkcover-${randomUUID()}`);
+  execFileSync("pdftoppm", [
+    "-jpeg", "-jpegopt", "quality=95,progressive=y", "-r", String(coverDpi),
+    "-x", String(Math.round(frontXin * coverDpi)), "-y", String(Math.round(bleed * coverDpi)),
+    "-W", String(Math.round(trimW * coverDpi)), "-H", String(Math.round(trimH * coverDpi)),
+    coverPdf, stem,
+  ], { stdio: "ignore" });
+  const produced = fs.readdirSync(os.tmpdir()).filter((f) => f.startsWith(path.basename(stem)) && /\.jpg$/.test(f)).map((f) => path.join(os.tmpdir(), f))[0];
+  if (!produced) return null;
+  fs.copyFileSync(produced, kindleCoverPath); // refresh the standalone marketing cover (overwrite-in-place)
+  fs.rmSync(produced, { force: true });
+  return kindleCoverPath;
+}
+
+const coverSrc = coverArg ? path.resolve(coverArg)
+  : (deriveCoverFromWrap() || (fs.existsSync(kindleCoverPath) ? kindleCoverPath : null));
 let coverImg = null;
 if (coverSrc && fs.existsSync(coverSrc)) { coverImg = "cover.jpg"; fs.copyFileSync(coverSrc, path.join(IMG, coverImg)); }
 

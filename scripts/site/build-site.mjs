@@ -17,6 +17,7 @@ const OUT = (() => { const i = process.argv.indexOf("--out"); return path.resolv
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "apps/site/site.config.json"), "utf8"));
 const B = cfg.brand;
 const BASE = B.base_url.replace(/\/$/, "");
+const CLARITY_ID = (cfg.analytics && cfg.analytics.clarity_id) || "";
 
 const HERITAGE = { am: "Amharic", sw: "Swahili", ha: "Hausa", yo: "Yoruba", so: "Somali", ti: "Tigrinya", om: "Oromo" };
 const COUNTRY = { ethiopia: "Ethiopia", kenya: "Kenya", nigeria: "Nigeria", ghana: "Ghana", somalia: "Somalia" };
@@ -69,7 +70,7 @@ function loadBook(dir) {
 }
 
 // ---- shared chrome -----------------------------------------------------------
-const STATUS_LABEL = { available: "Available now", coming_soon: "Coming soon", in_production: "In production" };
+const STATUS_LABEL = { available: "Available now", launching: "Launching soon", coming_soon: "Coming soon", in_production: "In production" };
 
 function head({ title, description, canonical, image, jsonld }) {
   const img = image ? `${BASE}${image}` : "";
@@ -91,6 +92,7 @@ ${img ? `<meta name="twitter:image" content="${esc(img)}">` : ""}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..600&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
+${CLARITY_ID ? `<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>` : ""}
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}`;
 }
 
@@ -224,7 +226,7 @@ a{color:var(--navy)}.muted{color:#7d7a6c}.small{font-size:13px}.stars{color:var(
 .cover-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--sage),var(--cream));color:var(--navy);font-weight:600;font-size:20px}
 .card-body{padding:14px 16px 18px}.card-body h3{font-size:19px;font-weight:600;margin:6px 0 2px}
 .badge{display:inline-block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:3px 10px;border-radius:20px}
-.badge-available{background:#E8F3EA;color:#1a7f37}.badge-coming_soon{background:#FBF3DA;color:#9A7D1E}.badge-in_production{background:#EDEBF5;color:#4a4e66}
+.badge-available{background:#E8F3EA;color:#1a7f37}.badge-launching{background:#FCEDD8;color:#B26B00}.badge-coming_soon{background:#FBF3DA;color:#9A7D1E}.badge-in_production{background:#EDEBF5;color:#4a4e66}
 .book-hero{background:var(--cream);padding:48px 0}.book-grid{display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start}
 .book-cover{flex:0 0 360px;max-width:380px}.book-cover img{width:100%;border-radius:14px;box-shadow:0 20px 50px rgba(34,43,109,.22)}
 .book-cover .cover-ph{aspect-ratio:1/1;border-radius:14px}

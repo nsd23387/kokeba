@@ -3,11 +3,12 @@
   "trim": "8.5x8.5in",
   "bleed": 0.125,
   "safe_from_edge_in": 0.375,
-  "pages": 28,
+  "mode": "deliverables",
+  "pages": 0,
   "counts": {
     "fail": 0,
     "warn": 0,
-    "pass": 28
+    "pass": 0
   },
   "ok": true,
   "flags": []
