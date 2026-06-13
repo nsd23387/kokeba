@@ -3,13 +3,20 @@
   "trim": "8.5x8.5in",
   "bleed": 0.125,
   "safe_from_edge_in": 0.375,
-  "mode": "deliverables",
-  "pages": 0,
+  "mode": "both",
+  "pages": 28,
   "counts": {
     "fail": 0,
-    "warn": 0,
-    "pass": 0
+    "warn": 1,
+    "pass": 28
   },
   "ok": true,
-  "flags": []
+  "flags": [
+    {
+      "layer": "deliverable",
+      "artifact": "Eden Goes to the Zoo - kindle-cover.jpg",
+      "level": "warn",
+      "issue": "could not OCR cover to verify the title text (tesseract unavailable)."
+    }
+  ]
 }

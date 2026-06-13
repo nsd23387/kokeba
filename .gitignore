@@ -9,4 +9,5 @@ content/**           # generated books — keep examples only
 *.log
 .DS_Store
 apps/api/.data/
+graphify-out/
 ebook-build/

@@ -24,7 +24,7 @@
     "note": "Create a HubSpot form (Marketing > Forms), then paste its form GUID here. portal_id + form GUID are public values (safe in a static site). When both are set, the site posts signups straight into HubSpot."
   },
   "books": {
-    "ethiopia-0-3-eden-zoo": { "status": "launching", "amazon_url": "#REPLACE-WITH-AMAZON-URL", "featured": true, "order": 1, "_note": "In KDP review (submitted 2026-06-10, live within ~72h). When live: set status to 'available' + amazon_url to https://www.amazon.com/dp/<ASIN>, then rebuild + push." },
+    "ethiopia-0-3-eden-zoo": { "status": "available", "amazon_url": "https://www.amazon.com/dp/B0H56P7CMV", "featured": true, "order": 1, "_note": "LIVE on Amazon as of 2026-06-13 (ASIN B0H56P7CMV, ISBN 9798180870285). 30-day sales test started." },
     "ethiopia-0-3-amharic-alphabet-book": { "status": "coming_soon", "order": 2 },
     "kenya-0-3-zuri-safari-park": { "status": "in_production", "order": 3 }
   }

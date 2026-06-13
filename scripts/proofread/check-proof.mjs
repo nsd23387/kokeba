@@ -102,6 +102,26 @@ async function layoutChecks() {
 // ---------------------------------------------------------------------------
 function pdfPageCount(p) { try { return +(execFileSync("pdfinfo", [p]).toString().match(/Pages:\s+(\d+)/)?.[1] || 0); } catch { return 0; } }
 
+// Which physical edges of a rendered page are a solid WHITE strip (a bleed gap)? Parses a binary
+// P6 PPM. White gap = the PDF page's blank paper (255,255,255); the book's own backgrounds are cream
+// (#FFFDF7 → blue 247), so a true gap is distinguishable from intended background by the blue channel.
+function whiteEdges(buf) {
+  let p = 0;
+  const tok = () => { while (p < buf.length && buf[p] <= 0x20) p++; const s = p; while (p < buf.length && buf[p] > 0x20) p++; return buf.toString("ascii", s, p); };
+  if (tok() !== "P6") return [];
+  const W = +tok(), H = +tok(); tok(); p++; // skip maxval + single whitespace
+  const base = p;
+  const isWhite = (x, y) => { const i = base + (y * W + x) * 3; return buf[i] >= 250 && buf[i + 1] >= 250 && buf[i + 2] >= 252; };
+  const fracRow = (y) => { let c = 0, n = 0; for (let x = 0; x < W; x += Math.max(1, (W / 200) | 0)) { n++; if (isWhite(x, y)) c++; } return c / n; };
+  const fracCol = (x) => { let c = 0, n = 0; for (let y = 0; y < H; y += Math.max(1, (H / 200) | 0)) { n++; if (isWhite(x, y)) c++; } return c / n; };
+  const out = [];
+  if (fracRow(1) > 0.9) out.push("top");
+  if (fracRow(H - 2) > 0.9) out.push("bottom");
+  if (fracCol(1) > 0.9) out.push("left");
+  if (fracCol(W - 2) > 0.9) out.push("right");
+  return out;
+}
+
 // Pixel dimensions straight from the file header — no native image lib (sharp may be unavailable).
 function imgDims(buf) {
   if (buf[0] === 0x89 && buf[1] === 0x50) return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) }; // PNG
@@ -162,6 +182,32 @@ async function titleWordsFoundIn(imgPath, titleEn) {
 
 async function deliverableChecks() {
   const titleEn = coverP.title_en || L.book_id;
+
+  // --- interior bleed integrity: pages must include bleed AND fill it (art/background to every edge) ---
+  const interiorPdf = path.join(abs, "interior.pdf");
+  if (fs.existsSync(interiorPdf) && have("pdfinfo")) {
+    const info = execFileSync("pdfinfo", [interiorPdf]).toString();
+    const ps = info.match(/Page size:\s+([\d.]+)\s+x\s+([\d.]+)/);
+    const pdfWin = ps ? +ps[1] / 72 : 0, pdfHin = ps ? +ps[2] / 72 : 0;
+    if (pdfWin && (pdfWin < trimW + bleed - 0.01 || pdfHin < trimH + bleed - 0.01)) {
+      flags.push({ layer: "deliverable", artifact: "interior.pdf", level: "fail",
+        issue: `interior.pdf is ${pdfWin.toFixed(3)}×${pdfHin.toFixed(3)}in but a bled interior needs at least trim+bleed (${(trimW + bleed).toFixed(3)}×${(trimH + bleed).toFixed(3)}in) — no/insufficient bleed.` });
+    }
+    if (have("pdftoppm")) {
+      try {
+        const dir = fs.mkdtempSync(path.join(os.tmpdir(), "kkbleed-"));
+        execFileSync("pdftoppm", ["-r", "100", interiorPdf, path.join(dir, "pg")], { stdio: "ignore" }); // default output is PPM (P6)
+        const gaps = [];
+        for (const f of fs.readdirSync(dir).filter((f) => f.endsWith(".ppm")).sort((a, b) => (+a.match(/\d+/)[0]) - (+b.match(/\d+/)[0]))) {
+          const edges = whiteEdges(fs.readFileSync(path.join(dir, f)));
+          if (edges.length) gaps.push(`p${+f.match(/\d+/)[0]} (${edges.join("/")})`);
+        }
+        fs.rmSync(dir, { recursive: true, force: true });
+        if (gaps.length) flags.push({ layer: "deliverable", artifact: "interior.pdf", level: "fail",
+          issue: `${gaps.length} page(s) have a white strip at a physical edge — art/background doesn't bleed to the trim edge (KDP "insufficient bleed"). The interior must fill the full bleed page (trim + 2×bleed) so full-bleed art reaches every edge. Examples: ${gaps.slice(0, 8).join(", ")}.` });
+      } catch {}
+    }
+  }
 
   // --- EPUB ---
   const epub = path.join(abs, "book.epub");

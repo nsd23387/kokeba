@@ -193,7 +193,12 @@ fs.writeFileSync(out, html);
 // --- KDP single-page interior (each physical page on its own sheet, full-bleed) ---
 if (process.argv.includes("--single")) {
   const tmm = String(L.trim || "8.5x8.5in").match(/([\d.]+)x([\d.]+)/);
-  const W = tmm ? tmm[1] : "8.5", H = tmm ? tmm[2] : "8.5";
+  const trimWin = +(tmm ? tmm[1] : 8.5), trimHin = +(tmm ? tmm[2] : 8.5);
+  const bleedIn = L.bleed_in ?? 0.125;
+  // Size each sheet to the FULL bleed page (trim + bleed on every edge) so full-bleed art/background
+  // reaches all four physical edges. Must match the PDF paper size in build-pdf.mjs (trim + 2*bleed),
+  // otherwise content lands smaller than the page and KDP rejects it for white gaps / insufficient bleed.
+  const W = (trimWin + 2 * bleedIn).toFixed(3), H = (trimHin + 2 * bleedIn).toFixed(3);
   const sheets = [];
   for (const p of L.pages) {
     if (p.page === "cover") { if (pub) { sheets.push(`<div class="sheet">${titlePage()}</div>`); sheets.push(`<div class="sheet">${copyrightPage()}</div>`); } continue; }
