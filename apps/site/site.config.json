@@ -16,6 +16,7 @@
   },
   "analytics": {
     "clarity_id": "x4wgysymay",
+    "ga_id": "G-KCD4EZ981V",
     "note": "Microsoft Clarity project ID. Injected into every page's <head> by the generator. Public value (safe in a static site)."
   },
   "hubspot": {

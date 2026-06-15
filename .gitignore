@@ -1,5 +1,4 @@
 node_modules/
-.env
 .turbo/
 dist/
 build/
@@ -11,3 +10,4 @@ content/**           # generated books — keep examples only
 apps/api/.data/
 graphify-out/
 ebook-build/
+config.bat
