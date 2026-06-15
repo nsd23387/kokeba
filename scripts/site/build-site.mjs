@@ -18,6 +18,7 @@ const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, "apps/site/site.config.js
 const B = cfg.brand;
 const BASE = B.base_url.replace(/\/$/, "");
 const CLARITY_ID = (cfg.analytics && cfg.analytics.clarity_id) || "";
+const GA_ID = (cfg.analytics && cfg.analytics.ga_id) || "";
 
 const HERITAGE = { am: "Amharic", sw: "Swahili", ha: "Hausa", yo: "Yoruba", so: "Somali", ti: "Tigrinya", om: "Oromo" };
 const COUNTRY = { ethiopia: "Ethiopia", kenya: "Kenya", nigeria: "Nigeria", ghana: "Ghana", somalia: "Somalia" };
@@ -92,6 +93,8 @@ ${img ? `<meta name="twitter:image" content="${esc(img)}">` : ""}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..600;1,400..600&family=Noto+Sans+Ethiopic:wght@500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/styles.css">
+${GA_ID ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');</script>` : ""}
 ${CLARITY_ID ? `<script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>` : ""}
 ${jsonld ? `<script type="application/ld+json">${JSON.stringify(jsonld)}</script>` : ""}`;
 }

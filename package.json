@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@9.0.0",
   "scripts": {
-    "build": "turbo run build",
+    "build": "node init && turbo run build",
     "test": "turbo run test",
     "lint": "turbo run lint",
     "e2e": "turbo run e2e",
